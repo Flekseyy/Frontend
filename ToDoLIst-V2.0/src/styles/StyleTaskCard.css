@@ -1,0 +1,99 @@
+/* --- КОНТЕЙНЕР ДЛЯ ЗАДАЧ (ОБЛАСТЬ ПРОКРУТКИ) --- */
+.tasks-container {
+    position: absolute;
+    top: 100px;       /* Отступ от верхней панели */
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 700px;
+    max-width: 90%;
+    height: calc(100vh - 120px); /* Высота: весь экран минус отступы сверху/снизу */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    /* ВКЛЮЧАЕМ СКРОЛЛ ТОЛЬКО ЗДЕСЬ */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 15px; /* Место для скроллбара, чтобы он не наезжал на карточки */
+    z-index: 5;
+}
+
+/* --- СТИЛИЗАЦИЯ СКРОЛЛБАРА СПИСКА ЗАДАЧ --- */
+.tasks-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tasks-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.tasks-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.tasks-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+/* --- Карточка задачи — ЖЕСТКО ОГРАНИЧЕНА ПО ШИРИНЕ --- */
+/* --- КАРТОЧКА ЗАДАЧИ (РЕЗИНОВАЯ ВЫСОТА) --- */
+.task-card {
+    width: 100%; /* Занимает всю ширину контейнера (700px) */
+    /* height: auto; — по умолчанию, высота зависит от контента */
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: white;
+
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Заголовок — переносится нормально */
+.task-header h3 {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 19px;
+    font-weight: 600;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    width: 100%;
+}
+
+/* Описание — переносится нормально */
+.task-description {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    width: 100%;
+}
+
+/* Дата */
+.task-date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+    margin-top: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+}
