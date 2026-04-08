@@ -1,12 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // 1. Обратите внимание на '/client' в конце
-import App from './App';
+import ReactDOM from 'react-dom/client';
 
-// 2. Находим корневой элемент
-const rootElement = document.getElementById('root');
+import App from './App/App';
 
-// 3. Создаем корень и рендерим приложение
-const root = ReactDOM.createRoot(rootElement);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-    <App/>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );

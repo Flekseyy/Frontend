@@ -1,0 +1,186 @@
+.mode-menu {
+    margin: 0 ;
+    padding: 0 ;
+    min-height: 100vh ;
+    overflow: hidden ;
+    background-color: #222222 ;
+}
+
+
+.glass-panel {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+/* Верхняя панель */
+#rectangle-top-panel {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 500px;
+    height: 65px;
+
+    align-items: center;
+    display: flex;
+}
+#rectangle-top-panel h1{
+    margin-left: 10px;
+    font-size: 35px;
+    font-weight: 200;
+    font-family: 'Raleway', sans-serif;
+    color: rgba(255, 255, 255, 0.61);
+}
+#add-task-icon
+{
+    margin-left: auto;
+    margin-right: 10px;
+    width: 45px;
+    height: 45px;
+}
+
+
+/* Левая панель */
+#rectangle-left-panel {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 70px;
+    height: 500px;
+
+    padding-top: 10px;
+}
+
+
+
+.icon {
+    position: relative;
+    width: 52px;
+    height: 52px;
+
+    /* === УБИРАЕМ ВСЕ ФОНЫ И ПОДСВЕТКИ === */
+    background: transparent !important; /* Принудительно прозрачный фон */
+    border: none;
+    outline: none; /* Убирает синюю/черную обводку при клике */
+    -webkit-tap-highlight-color: transparent; /* Убирает подсветку на мобильных */
+
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Плавность только для движения, не для цвета */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* SVG рамка */
+.icon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Чтобы клик проходил сквозь рамку */
+    z-index: 1;
+}
+
+.icon-svg circle {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.2);       /* Цвет рамки */
+    stroke-width: 2;    /* Толщина линии */
+
+    stroke-dasharray: 120 400;
+    stroke-dashoffset: 120;
+
+    /* Плавный переход линии */
+    transition: stroke-dashoffset 1.3s, opacity 0s ease-out;
+}
+
+/* Картинка внутри */
+.icon img {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* --- Эффекты при наведении (HOVER) --- */
+
+.icon:hover {
+    /* Плавное подпрыгивание вверх */
+    transform: translateY(-5px);
+    /* Никакого background-color здесь нет, только движение */
+}
+
+.icon:hover .icon-svg circle {
+    transition: stroke-dashoffset 1.2s ease-in-out;
+    stroke-dashoffset: -280;
+    opacity: 1;
+    stroke: rgb(119, 119, 119);
+}
+
+.icon:hover img {
+    /* Легкое увеличение иконки внутри для живости */
+    transform: scale(1.1);
+}
+
+/* --- Текст подсказки (оставляем почти как было, проверяем z-index) --- */
+.icon-text {
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%) translateX(15px);
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    color: white;
+    font-size: 18px;
+    font-weight: 100;
+    text-shadow: 0 2px 4px rgb(51, 51, 51);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    visibility: hidden; /* Добавлено для корректного скрытия */
+}
+
+.icon:hover .icon-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+#profile-icon
+{
+    margin-top: 10px;
+}
+
+#team-icon
+{
+    margin-top: 50px;
+}
+#quests-icon
+{
+    margin-top: 20px;
+}
+#settings-icon
+{
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
