@@ -1,10 +1,9 @@
 // src/App.js
 import React, { useState } from 'react';
-import '../styles/StyleMainWindow.css';
-import '../styles/Authorization.css';
-import '../styles/Animations.css';
-
-import Login from '../components/Login';
+import '../styles/Windows/StyleMainWindow.css';
+import '../styles/Windows/StyleAuthorization.css';
+import '../styles/Animation/AnimatedBackground.css'
+import Login from '../components/AuthorizationComponents/Login';
 import MainMenu from '../components/MainMenu';
 
 function App() {

@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import '../styles/Animations.css';
+import '../../styles/Windows/StyleAuthorization.css';
+import Register from './Register';
+import '../../styles/Animation/AnimatedBackground.css';
 
-const Register = ({ onLogin, onBack }) => {
-  const [username, setUsername] = useState('');
+const Login = ({ onLogin }) => {
+  const [showRegister, setShowRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (password !== passwordConfirm) {
-      alert('Пароли не совпадают!');
-      return;
-    }
-
-    // TODO: Здесь запрос на бэкенд для регистрации
-    console.log('Register:', { username, email, password });
+    // TODO: Здесь запрос на бэкенд для авторизации
+    console.log('Login:', { email, password });
     onLogin();
   };
+
+  if (showRegister) {
+    return <Register onLogin={onLogin} onBack={() => setShowRegister(false)} />;
+  }
 
   return (
       <>
@@ -31,17 +30,7 @@ const Register = ({ onLogin, onBack }) => {
 
         <section>
           <form onSubmit={handleSubmit}>
-            <h1>Sign up</h1>
-            <div className="inputbox">
-              <ion-icon name="person-outline"></ion-icon>
-              <input
-                type="text"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <label>Username</label>
-            </div>
+            <h1>Sign in</h1>
             <div className="inputbox">
               <ion-icon name="mail-outline"></ion-icon>
               <input
@@ -62,17 +51,14 @@ const Register = ({ onLogin, onBack }) => {
               />
               <label>Password</label>
             </div>
-            <div className="inputbox">
-              <ion-icon name="lock-closed-outline"></ion-icon>
-              <input
-                type="password"
-                required
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-              />
-              <label>Repeat password</label>
+            <div className="forget">
+              <label>
+                <input type="checkbox" />
+                Remember me
+              </label>
+              <a href="#">Forgot password?</a>
             </div>
-            <button type="submit">Sign up</button>
+            <button type="submit">Sign in</button>
             <div className="divider">
               <span>or</span>
             </div>
@@ -83,13 +69,13 @@ const Register = ({ onLogin, onBack }) => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
               </svg>
-              Sign up with Google
+              Sign in with Google
             </button>
-            <div className="authorization">
+            <div className="register">
               <p>
-                Already have an account?{' '}
-                <a href="#" onClick={(e) => { e.preventDefault(); onBack(); }}>
-                  Sign in
+                Don't have an account?{' '}
+                <a href="#" onClick={(e) => { e.preventDefault(); setShowRegister(true); }}>
+                  Register
                 </a>
               </p>
             </div>
@@ -99,4 +85,4 @@ const Register = ({ onLogin, onBack }) => {
   );
 };
 
-export default Register;
+export default Login;
