@@ -1,0 +1,45 @@
+/* src/styles/CommonUI.css */
+
+/* === ОБЩАЯ КНОПКА ЗАКРЫТИЯ (КРЕСТИК) === */
+.common-close-btn {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+
+    width: 40px;
+    height: 40px;
+
+    /* Убираем фон и обводку */
+    background: transparent !important;
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100; /* Чтобы кнопка была поверх всего содержимого окна */
+
+    /* Плавность только для трансформации (подпрыгивания) */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.common-close-btn img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* Делаем иконку белой */
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+/* Эффект при наведении: ТОЛЬКО подпрыгивание */
+.common-close-btn:hover {
+    transform: translateY(-5px); /* Подпрыгивание вверх */
+    /* Никакого background-color, box-shadow или изменения цвета рамки! */
+}
+
+.common-close-btn:hover img {
+    opacity: 1; /* Иконка становится чуть ярче при наведении */
+}

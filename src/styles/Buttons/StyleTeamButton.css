@@ -1,0 +1,62 @@
+/* --- КНОПКА "СОЗДАТЬ КОМАНДУ" --- */
+
+.team-actions-container {
+    display: flex;             /* Включаем гибкую верстку */
+    justify-content: center;   /* Центрируем по горизонтали */
+    align-items: center;       /* Центрируем по вертикали (если нужно) */
+    width: 100%;               /* Занимаем всю ширину родительского блока */
+    margin-top: 20px;          /* Отступ сверху от заголовка */
+}
+.btn-create-team {
+    position: relative;
+    overflow: hidden;
+
+    /* Размеры отличаются от save/cancel, так как это одиночная большая кнопка */
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 15px;
+    width: 80%; /* Занимает большую часть ширины окна */
+    max-width: 300px;
+
+    z-index: 3;
+    background-color: transparent !important;
+    border: rgba(255, 255, 255, 0.2) solid 2px;
+
+    color: white;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+}
+
+/* 2. Цвет фона именно для этой кнопки (Синий) */
+.btn-create-team .btn-bg-slide {
+    background-color: #4a90e2; /* Синий цвет вместо зеленого */
+}
+
+/* 3. Изменение цвета рамки при наведении */
+.btn-create-team:hover {
+    border-color: #4a90e2;
+}
+
+/* 4. Дублирование анимации для гарантии работы внутри этого класса */
+/* Хотя классы .btn-text и .btn-icon общие, иногда браузеру нужно явное указание контекста */
+
+.btn-create-team:hover .btn-bg-slide {
+    transform: scaleX(1); /* Фон выезжает слева направо */
+}
+
+.btn-create-team:hover .btn-text {
+    transform: translateX(-150%); /* Текст улетает влево */
+    opacity: 0;
+}
+
+.btn-create-team:hover .btn-icon {
+    opacity: 1; /* Иконка появляется */
+    transform: translate(-50%, -50%) scale(1); /* Иконка увеличивается в центре */
+}

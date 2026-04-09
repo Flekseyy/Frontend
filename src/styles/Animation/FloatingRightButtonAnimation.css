@@ -1,0 +1,101 @@
+.btn-save, .btn-cancel {
+    position: relative;
+    overflow: hidden;
+
+
+    height: 45px;
+    padding: 0 20px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 120px;
+
+    /* Прозрачный фон и рамка */
+    z-index: 3;
+    background-color: transparent !important;
+    border: rgba(255, 255, 255, 0.2) solid 2px;
+
+
+    color: white;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Плавность для рамки */
+    transition: border-color 0.3s ease;
+}
+
+
+.btn-text {
+    position: relative;
+    z-index: 2; /* Поверх фона */
+    transition: transform 0.35s ease-in, opacity 0.35s ease-in;
+    opacity: 1;
+}
+
+
+.btn-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 24px;
+    height: 24px;
+    z-index: 2;
+    opacity: 0;
+    transition: all 0.35s ease-out;
+    filter: brightness(0) invert(1);
+}
+
+
+.btn-bg-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease-out;
+}
+
+
+.btn-save .btn-bg-slide {
+    background-color: #098765; /* Зеленый */
+}
+.btn-save:hover {
+    border-color: #098765; /* Рамка тоже становится зеленой */
+}
+
+.btn-cancel .btn-bg-slide {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.btn-cancel:hover {
+    border-color: rgba(0, 0, 0, 0.1); /* Рамка тоже становится серой */
+}
+
+
+.btn-save:hover .btn-bg-slide,
+.btn-cancel:hover .btn-bg-slide {
+    transform: scaleX(1);
+}
+
+.btn-save:hover .btn-text,
+.btn-cancel:hover .btn-text {
+    transform: translateX(-150%);
+    opacity: 0;
+}
+
+.btn-save:hover .btn-icon,
+.btn-cancel:hover .btn-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
