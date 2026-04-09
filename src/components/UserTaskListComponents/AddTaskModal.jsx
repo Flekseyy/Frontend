@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import '../../styles/Windows/StyleAddTaskWindow.css';
 import '../../styles/Buttons/StyleAddTaskButton.css';
+import '../../styles/CommonUI.css';
 
 export default function AddTaskModal({ isOpen, onClose, onSave }) {
     const [title, setTitle] = useState('');
@@ -32,6 +33,11 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
+
+                <button className="common-close-btn" onClick={onClose}>
+                    <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
+                </button>
+
                 <h2>Новая задача</h2>
                 <form onSubmit={handleSubmit}>
                     <input
@@ -98,12 +104,12 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
                     <div className="modal-buttons">
                         <button type="submit" className="btn-save">
                             <span className="btn-text">Сохранить</span>
-                            <img src="https://img.icons8.com/?size=100&id=1501&format=png" alt="Check" className="btn-icon" />
+                            <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
                         <button type="button" className="btn-cancel" onClick={onClose}>
                             <span className="btn-text">Отмена</span>
-                            <img src="https://img.icons8.com/?size=100&id=3062&format=png" alt="Cancel" className="btn-icon" />
+                            <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
                     </div>

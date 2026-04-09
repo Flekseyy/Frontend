@@ -1,0 +1,141 @@
+/* === ОКНО ЗАДАЧ КОМАНДЫ (БОЛЬШОЕ) === */
+
+.team-tasks-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Чуть темнее фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+.team-tasks-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    padding: 20px;
+    border-radius: 20px;
+
+    /* УВЕЛИЧИВАЕМ РАЗМЕРЫ ОКНА */
+    width: 95vw;       /* Почти на всю ширину экрана */
+    max-width: 1400px; /* Но не больше 1400px */
+    height: 90vh;      /* 90% высоты экрана */
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    position: relative;
+}
+
+.tasks-header {
+    text-align: center;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+}
+
+.tasks-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.team-name-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* === KANBAN BOARD === */
+
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    flex: 1; /* Занимает всё оставшееся место */
+    overflow-x: auto; /* Горизонтальный скролл если экран маленький */
+    padding-bottom: 10px;
+    min-height: 0; /* Важно для flex-контейнеров со скроллом */
+}
+
+.kanban-column {
+    flex: 1;
+    min-width: 300px; /* Минимальная ширина колонки */
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kanban-column:last-child {
+    border-right: none;
+}
+
+.column-header {
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.column-tasks {
+    flex: 1;
+    overflow-y: auto; /* Вертикальный скролл внутри колонки */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 5px;
+}
+
+/* Скроллбар для колонок */
+.column-tasks::-webkit-scrollbar { width: 6px; }
+.column-tasks::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+.column-tasks::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+
+/* Контейнер для кнопки внизу */
+.tasks-actions-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.btn-add-task-icon-only {
+    width: 60px;
+    height: 60px;
+    background: transparent !important;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.task-icon-img {
+    width: 48px;
+    height: 48px;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.btn-add-task-icon-only:hover {
+    transform: translateY(-8px);
+}
+
+.btn-add-task-icon-only:hover .task-icon-img {
+    opacity: 1;
+}

@@ -1,168 +1,160 @@
+/* Контейнер списка задач (если он у тебя отдельный) */
 .tasks-container {
     position: absolute;
-    top: 100px;
+    top: 110px; /* Чуть ниже верхней панели */
     left: 50%;
     transform: translateX(-50%);
     width: 1000px;
     max-width: 90%;
+    /* Высота: от верха (100px) до низа экрана с небольшим запасом (20px) */
     height: calc(100vh - 120px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px; /* Расстояние между карточками */
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 15px;
     z-index: 5;
+    padding-right: 5px; /* Место для скроллбара */
 }
 
-/* Скроллбар (без изменений) */
-.tasks-container::-webkit-scrollbar { width: 8px; }
-.tasks-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
-.tasks-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
-.tasks-container::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+/* Скроллбар */
+.tasks-container::-webkit-scrollbar { width: 6px; }
+.tasks-container::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 3px; }
+.tasks-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
 
+/* === САМА КАРТОЧКА ЗАДАЧИ === */
 .task-card {
     width: 100%;
-    padding: 25px;
+    /* УМЕНЬШАЕМ ОТСТУПЫ ВНУТРИ КАРТОЧКИ */
+    padding: 15px 20px; /* Было 25px */
     box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.1);
+
+    background-color: rgba(255, 255, 255, 0.08); /* Чуть прозрачнее */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Чуть меньше скругление */
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px; /* Меньше расстояние между элементами внутри */
     color: white;
-    position: relative; /* Важно для позиционирования */
+    position: relative;
+    transition: transform 0.2s, background 0.2s;
 }
 
+/* Заголовок и значок приоритета */
 .task-header {
     display: flex;
-    justify-content: space-between; /* Разносит заголовок и значок по краям */
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center; /* Центрируем по вертикали */
     width: 100%;
 }
 
 .task-header h3 {
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 19px;
+    font-size: 16px; /* Оптимальный размер */
     font-weight: 600;
     word-wrap: break-word;
-    max-width: 90%; /* Чтобы текст не наезжал на значок */
+    line-height: 1.2;
 }
 
-/* --- НОВЫЙ СТИЛЬ: Значок важности --- */
 .priority-badge {
-    width: 24px;
-    height: 24px;
+    width: 12px; /* Маленький кружок */
+    height: 12px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: bold;
-    font-size: 16px;
-    color: black; /* Черный восклицательный знак для контраста */
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    flex-shrink: 0; /* Чтобы значок не сжимался */
+    flex-shrink: 0;
+    box-shadow: 0 0 8px currentColor; /* Свечение цветом фона */
 }
 
+/* Описание задачи */
 .task-description {
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.4;
     word-wrap: break-word;
     white-space: pre-wrap;
+    /* Если описание длинное, можно ограничить высоту, но пока оставим так */
 }
 
+/* Футер: Даты слева, Кнопки справа */
 .task-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    /* УБИРАЕМ ВСЕ ЛИШНИЕ ОТСТУПЫ */
-    margin-top: 0;
-    margin-bottom: 0; /* Важно: убираем нижний отступ */
-    padding: 0;       /* Убираем внутренние отступы */
-
-    flex-wrap: wrap;
-    gap: 8px;         /* Минимальный зазор между датой и кнопками */
-
-    /* Гарантируем, что высота определяется только содержимым */
-    height: auto;
-    min-height: 24px; /* Минимальная высота только для иконок (24px) */
+    margin-top: 5px; /* Небольшой отступ от описания */
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Тонкая линия разделитель */
 }
 
-/* Контейнер с датами - делаем максимально компактным */
-.task-dates {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px;
 
-    /* Убираем всю лишнюю высоту строки */
-    line-height: 1;
-    margin: 0;
-    padding: 0;
+.task-date-label {
+    opacity: 0.7;
 }
 
-/* Контейнер с кнопками - тоже компактный */
+.date-separator {
+    opacity: 0.3;
+}
+
+/* Блок с кнопками */
 .task-actions {
     display: flex;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-
-    /* Фиксируем высоту под размер иконок */
-    height: 24px;
+    gap: 8px;
     align-items: center;
 }
 
-/* Кнопки - убираем все отступы */
+/* Кнопки редактирования и удаления */
 .icon-btn {
-    background: transparent;
+    /* УБИРАЕМ ЛЮБОЙ ФОН И СТЕКЛО */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+
     border: none;
     cursor: pointer;
-    padding: 0;           /* Было 5px, стало 0 */
+    padding: 5px;       /* Небольшая область клика */
     margin: 0;
-    border-radius: 5px;
+    border-radius: 8px; /* Скругление углов (визуально, так как фона нет) */
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Плавность только для движения */
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    /* Фиксируем размер кнопки под иконку */
-    width: 24px;
-    height: 24px;
+    opacity: 0.7;       /* Чуть тусклые в покое */
 }
 
+/* При наведении: ТОЛЬКО ПОДПРЫГИВАНИЕ */
 .icon-btn:hover {
-    transform: scale(1.2);
-    background: transparent;
+    transform: translateY(-3px);
+    opacity: 1;
 }
 
+/* Иконки внутри кнопок */
 .icon-btn img {
-    width: 24px;
-    height: 24px;
-    filter: brightness(0) invert(1);
+    width: 20px;   /* Размер иконок */
+    height: 20px;
+    filter: brightness(0) invert(1); /* Делаем их белыми */
     display: block;
-    margin: 0;
-    padding: 0;
+
+    /* Убираем любую анимацию у самой картинки */
+    transition: none;
 }
 
-/* Стили для текста дат - тоже компактные */
 .task-dates span,
 .task-date-label,
 .date-value,
 .date-separator,
 .task-deadline {
     font-family: 'JetBrains Mono', monospace !important;
-    font-size: 13px !important;
+    font-size: 11px !important;
     font-weight: 400 !important;
     color: rgba(255, 255, 255, 0.6) !important;
     letter-spacing: 0.5px;

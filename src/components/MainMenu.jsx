@@ -12,7 +12,7 @@ import AddTaskModal from './UserTaskListComponents/AddTaskModal';
 import DeleteTaskModal from './UserTaskListComponents/DeleteTaskModal'; // Путь исправлен (было ../components/...)
 import EditTaskModal from './UserTaskListComponents/EditTaskModal';   // Путь исправлен (было ../components/...)
 import TaskCard from './UserTaskListComponents/TaskCard';
-import TeamModal from '../components/TeamComponents/TeamModal';
+import TeamStartWindow from './TeamComponents/TeamStartWindow';
 
 function MainMenu() {
     const [tasks, setTasks] = useState([]);
@@ -132,7 +132,7 @@ function MainMenu() {
             )}
 
             {/* <--- ДОБАВИЛИ МОДАЛКУ КОМАНДЫ */}
-            <TeamModal isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
+            <TeamStartWindow isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
 
         </>
     );

@@ -1,0 +1,132 @@
+/* src/styles/Windows/CommandWindow/StyleTeamProfile.css */
+
+.team-profile-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.team-profile-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    padding: 40px;
+    border-radius: 20px;
+    width: 600px;
+    max-width: 90%;
+    min-height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.team-header-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    justify-content: center;
+}
+
+.team-logo-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.team-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Обрезает 1 к 1 */
+    display: block;
+}
+
+.team-name-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.team-stats-placeholder {
+    width: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* В конец файла src/styles/Windows/CommandWindow/StyleTeamProfile.css */
+
+/* Контейнер для двух кнопок */
+.profile-actions-container {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Стиль вторичных кнопок (как btn-create-team, но можно чуть меньше) */
+.btn-secondary {
+    position: relative;
+    overflow: hidden;
+    height: 45px;
+    padding: 0 20px;
+    border-radius: 12px;
+    z-index: 3;
+    background-color: transparent !important;
+    border: rgba(255, 255, 255, 0.2) solid 2px;
+    color: white;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+    flex: 1; /* Кнопки делят место поровну */
+    max-width: 200px;
+}
+
+/* Цвет фона для вторичных кнопок (например, серый или синий) */
+.secondary-bg {
+    background-color: #4a90e2; /* Синий, как у "Создать команду" */
+}
+
+/* Анимация при наведении (копируем из btn-create-team) */
+.btn-secondary:hover {
+    border-color: #4a90e2;
+}
+
+.btn-secondary:hover .btn-bg-slide {
+    transform: scaleX(1);
+}
+
+.btn-secondary:hover .btn-text {
+    transform: translateX(-150%);
+    opacity: 0;
+}
+
+.btn-secondary:hover .btn-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}

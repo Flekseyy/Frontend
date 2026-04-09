@@ -40,7 +40,6 @@ export default function TaskCard({ task, onEdit, onDelete }) {
                     style={{ backgroundColor: priorityColor }}
                     title={`Важность: ${task.priority}`}
                 >
-                    !
                 </div>
             </div>
 
@@ -56,7 +55,7 @@ export default function TaskCard({ task, onEdit, onDelete }) {
 
                     {task.deadline && (
                         <>
-                            <span className="date-separator">—</span>
+                            <span className="date-separator">&nbsp;</span>
                             <span className="task-date-label">Дедлайн:</span>
                             {/* И здесь тоже добавили обертку */}
                             <span className="date-value">{formatDate(task.deadline)}</span>
