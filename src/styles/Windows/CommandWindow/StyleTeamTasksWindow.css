@@ -1,9 +1,7 @@
-/* === ОКНО ЗАДАЧ КОМАНДЫ (БОЛЬШОЕ) === */
-
 .team-tasks-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Чуть темнее фон */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,57 +15,57 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-
-    padding: 20px;
+    padding: 24px;
     border-radius: 20px;
-
-    /* УВЕЛИЧИВАЕМ РАЗМЕРЫ ОКНА */
-    width: 95vw;       /* Почти на всю ширину экрана */
-    max-width: 1400px; /* Но не больше 1400px */
-    height: 90vh;      /* 90% высоты экрана */
-
+    width: 85vw;
+    height: 92vh;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-
+    gap: 20px;
     color: white;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Nunito', monospace;
     position: relative;
 }
 
 .tasks-header {
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     flex-shrink: 0;
 }
 
 .tasks-header h2 {
     margin: 0;
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 400;
+    font-family: 'Nunito', monospace;
 }
 
 .team-name-subtitle {
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* === KANBAN BOARD === */
-
 .kanban-board {
     display: flex;
-    gap: 20px;
-    flex: 1; /* Занимает всё оставшееся место */
-    overflow-x: auto; /* Горизонтальный скролл если экран маленький */
-    padding-bottom: 10px;
-    min-height: 0; /* Важно для flex-контейнеров со скроллом */
+
+    /* УМЕНЬШИЛ РАССТОЯНИЕ МЕЖДУ КОЛОНКАМИ (было 20px) */
+    gap: 10px;
+
+    overflow-x: auto;
+    padding-bottom: 15px;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .kanban-column {
     flex: 1;
-    min-width: 300px; /* Минимальная ширина колонки */
     background: rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    padding: 15px;
+
+    /* ПАДДИНГ: Сверху 20px, Справа 0 (чтобы скролл был у края), Снизу 0, Слева 20px */
+    padding: 20px 0 0 20px;
+
     display: flex;
     flex-direction: column;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -78,42 +76,50 @@
 }
 
 .column-header {
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 15px;
     text-align: center;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    font-size: 16px;
+    font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 1px;
     flex-shrink: 0;
+
+    /* ВАЖНО: Добавляем правый паддинг заголовку, так как у колонки его нет из-за скролла */
+    padding-right: 20px;
 }
 
 .column-tasks {
     flex: 1;
-    overflow-y: auto; /* Вертикальный скролл внутри колонки */
-    display: flex;
-    flex-direction: column;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 15px;
-    padding-right: 5px;
+
+    /* НЕТ ПРАВОГО ОТСТУПА — СКРОЛЛ МАКСИМАЛЬНО СПРАВА */
+    padding-right: 0 !important;
+
+    /* НЕТ ВЕРХНЕГО ОТСТУПА — СКРОЛЛ НАЧИНАЕТСЯ РОВНО ПОД ЗАГОЛОВКОМ */
+    padding-top: 0 !important;
+
+    /* НЕТ ЛЕВОГО ОТСТУПА ЗДЕСЬ, так как он есть у родителя .kanban-column */
+    padding-left: 0 !important;
 }
 
-/* Скроллбар для колонок */
-.column-tasks::-webkit-scrollbar { width: 6px; }
-.column-tasks::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-.column-tasks::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 3px; }
+/* Если нужно компенсировать отсутствие правого паддинга у колонки для заголовка,
+   можно добавить псевдоэлемент или просто паддинг заголовку, как сделано выше */
 
-/* Контейнер для кнопки внизу */
 .tasks-actions-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 15px;
     flex-shrink: 0;
 }
 
 .btn-add-task-icon-only {
-    width: 60px;
-    height: 60px;
+    width: 24px;
+    height: 24px;
     background: transparent !important;
     border: none;
     outline: none;
@@ -125,8 +131,8 @@
 }
 
 .task-icon-img {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: opacity 0.3s;

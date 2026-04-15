@@ -1,47 +1,89 @@
-// src/App/EditTaskModal.jsx
 import React, { useState, useEffect } from 'react';
-import '../../styles/Windows/StyleAddTaskWindow.css'; // Используем те же стили
+import '../../styles/Windows/StyleAddTaskWindow.css';
 import '../../styles/Animation/FloatingRightButtonAnimation.css';
 import '../../styles/CommonUI.css';
 
 export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
-    // Состояния для всех полей
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [priority, setPriority] = useState('medium'); // По умолчанию средняя, но перезапишется в useEffect
+    const [priority, setPriority] = useState(null);
     const [deadline, setDeadline] = useState('');
 
-    // Заполняем поля данными задачи при открытии
+    const [errorTitle, setErrorTitle] = useState('');
+    const [errorPriority, setErrorPriority] = useState('');
+    const [errorDeadline, setErrorDeadline] = useState('');
+
+    const getLocalDateTimeValue = (dateString) => {
+        if (!dateString) return '';
+
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return '';
+
+        const pad = (n) => n < 10 ? '0' + n : n;
+
+        const year = date.getFullYear();
+        const month = pad(date.getMonth() + 1);
+        const day = pad(date.getDate());
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     useEffect(() => {
-        if (task) {
+        if (task && isOpen) {
             setTitle(task.title);
             setDescription(task.description || '');
-            setPriority(task.priority || 'medium');
-            // Форматируем дату для input type="datetime-local" (нужен формат YYYY-MM-DDTHH:mm)
-            if (task.deadline) {
-                const dateObj = new Date(task.deadline);
-                // Корректируем часовой пояс, чтобы дата не ушла на день назад/вперед
-                const offset = dateObj.getTimezoneOffset() * 60000;
-                const localISOTime = (new Date(dateObj - offset)).toISOString().slice(0, 16);
-                setDeadline(localISOTime);
-            } else {
-                setDeadline('');
-            }
+            setPriority(task.priority || null);
+
+            const formattedDate = getLocalDateTimeValue(task.deadline);
+
+            setTimeout(() => {
+                setDeadline(formattedDate);
+            }, 50);
+
+            clearErrors();
         }
     }, [task, isOpen]);
 
     if (!isOpen || !task) return null;
 
+    const clearErrors = () => {
+        setErrorTitle('');
+        setErrorPriority('');
+        setErrorDeadline('');
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (title.trim()) {
+        clearErrors();
+
+        let isValid = true;
+
+        if (!title.trim()) {
+            setErrorTitle('Введите название задачи');
+            isValid = false;
+        }
+
+        if (!priority) {
+            setErrorPriority('Выберите важность');
+            isValid = false;
+        }
+
+        if (!deadline) {
+            setErrorDeadline('Укажите дедлайн');
+            isValid = false;
+        }
+
+        if (isValid) {
             onSave({
                 ...task,
                 title,
                 description,
                 priority,
                 deadline,
-                updatedAt: new Date().toLocaleString()
+                createdAt: task.createdAt || new Date().toISOString(),
+                updatedAt: new Date().toISOString()
             });
             onClose();
         }
@@ -56,76 +98,104 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                 </button>
 
                 <h2>Редактировать задачу</h2>
-                <form onSubmit={handleSubmit}>
-                    {/* Название */}
-                    <input
-                        type="text"
-                        placeholder="Название задачи"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                        autoFocus
-                    />
 
-                    {/* Описание */}
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+
+                    <div className="field-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Название задачи"
+                            value={title}
+                            onChange={(e) => {
+                                setTitle(e.target.value);
+                                if (errorTitle) setErrorTitle('');
+                            }}
+                            className={errorTitle ? 'input-error' : ''}
+                            autoFocus
+                        />
+                        {errorTitle && <span className="error-message">{errorTitle}</span>}
+                    </div>
+
                     <textarea
                         placeholder="Описание (необязательно)"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        className="resizable-textarea"
                     />
 
-                    {/* Выбор важности (Такая же структура, как в AddTaskModal) */}
-                    <div className="priority-selector">
+                    <div className="priority-selector field-wrapper">
                         <label className="field-label">Важность:</label>
                         <div className="priority-options-row">
-
                             <button
                                 type="button"
                                 className={`priority-text-btn low-btn ${priority === 'low' ? 'active' : ''}`}
-                                onClick={() => setPriority('low')}
+                                onClick={() => {
+                                    setPriority('low');
+                                    if (errorPriority) setErrorPriority('');
+                                }}
                             >
                                 <span className="btn-text-inner">Низкая</span>
+                                <div className="btn-bg-slide low-bg"></div>
                             </button>
 
                             <button
                                 type="button"
                                 className={`priority-text-btn medium-btn ${priority === 'medium' ? 'active' : ''}`}
-                                onClick={() => setPriority('medium')}
+                                onClick={() => {
+                                    setPriority('medium');
+                                    if (errorPriority) setErrorPriority('');
+                                }}
                             >
                                 <span className="btn-text-inner">Средняя</span>
+                                <div className="btn-bg-slide medium-bg"></div>
                             </button>
 
                             <button
                                 type="button"
                                 className={`priority-text-btn high-btn ${priority === 'high' ? 'active' : ''}`}
-                                onClick={() => setPriority('high')}
+                                onClick={() => {
+                                    setPriority('high');
+                                    if (errorPriority) setErrorPriority('');
+                                }}
                             >
                                 <span className="btn-text-inner">Высокая</span>
+                                <div className="btn-bg-slide high-bg"></div>
                             </button>
-
                         </div>
+                        {errorPriority && <span className="error-message">{errorPriority}</span>}
                     </div>
 
-                    {/* Выбор дедлайна */}
-                    <div className="deadline-selector">
+                    <div className="deadline-selector field-wrapper">
                         <label className="field-label">Дедлайн:</label>
                         <input
                             type="datetime-local"
                             value={deadline}
-                            onChange={(e) => setDeadline(e.target.value)}
-                            className="deadline-input"
+                            onChange={(e) => {
+                                setDeadline(e.target.value);
+                                if (errorDeadline) setErrorDeadline('');
+                            }}
+                            className={`deadline-input ${errorDeadline ? 'input-error' : ''}`}
                         />
+                        {errorDeadline && <span className="error-message">{errorDeadline}</span>}
                     </div>
 
-                    {/* Кнопки */}
                     <div className="modal-buttons">
-                        <button type="submit" className="btn-save">
+                        <button 
+                            type="submit" 
+                            className="btn-save"
+                            style={{ border: '1px solid rgba(56, 239, 125, 0.4)' }}
+                        >
                             <span className="btn-text">Сохранить</span>
                             <img src="https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
 
-                        <button type="button" className="btn-cancel" onClick={onClose}>
+                        <button 
+                            type="button" 
+                            className="btn-cancel" 
+                            onClick={onClose}
+                            style={{ border: '1px solid rgba(255, 82, 82, 0.4)' }}
+                        >
                             <span className="btn-text">Отмена</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                             <div className="btn-bg-slide"></div>

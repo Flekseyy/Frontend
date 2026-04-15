@@ -34,7 +34,7 @@
     gap: 20px;
 
     color: white;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Nunito', monospace;
 }
 
 .team-modal-content h2 {
@@ -77,7 +77,7 @@
     gap: 20px;
 
     color: white;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Nunito', monospace;
 }
 
 .team-list-content h2 {
@@ -156,7 +156,7 @@
     border: rgba(255, 255, 255, 0.2) solid 2px;
     color: white;
     font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Nunito', monospace;
     font-size: 16px;
     cursor: pointer;
     display: flex;

@@ -1,58 +1,3 @@
-/* --- Кнопки (Сохранить/Отмена) --- */
-.modal-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.modal-buttons button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    font-family: 'JetBrains Mono', monospace;
-    transition: transform 0.2s;
-    position: relative;
-    overflow: hidden;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: white;
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.modal-buttons button:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.btn-icon {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0) invert(1); /* Делаем иконки белыми */
-}
-
-/* Специфичные цвета для кнопок действия (опционально) */
-.btn-save {
-    background: rgba(56, 239, 125, 0.2);
-    border: 1px solid rgba(56, 239, 125, 0.4);
-}
-.btn-save:hover {
-    background: rgba(56, 239, 125, 0.4);
-}
-
-.btn-cancel {
-    background: rgba(255, 82, 82, 0.2);
-    border: 1px solid rgba(255, 82, 82, 0.4);
-}
-.btn-cancel:hover {
-    background: rgba(255, 82, 82, 0.4);
-}
-
-/* --- Стили для Важности (Простые, без анимаций) --- */
 .priority-selector {
     display: flex;
     flex-direction: column;
@@ -60,7 +5,7 @@
 }
 
 .field-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Nunito', monospace;
     font-size: 14px;
     opacity: 0.9;
     margin-top: 8px;
@@ -72,55 +17,41 @@
     justify-content: space-between;
 }
 
-/* Базовый стиль кнопки */
 .priority-text-btn {
     flex: 1;
     padding: 12px 5px;
     border-radius: 10px;
-
-    /* Прозрачный фон и белая рамка */
     background: transparent;
     border: 2px solid rgba(255, 255, 255, 0.3);
-
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 45px;
-
-    /* Убираем лишние переходы, оставляем только плавную смену цвета фона */
     transition: background-color 0.2s, border-color 0.2s;
 }
 
-/* Текст внутри кнопки */
 .btn-text-inner {
     position: relative;
     z-index: 2;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    font-weight: 600;
-
-    /* ТЕКСТ ВСЕГДА БЕЛЫЙ */
+    font-family: 'Nunito', monospace;
+    font-size: 15px;
+    font-weight: 400;
     color: white !important;
 }
 
-/* Цвета фона при активном состоянии (когда кнопка нажата) */
-/* Низкая важность - Зеленая */
 .priority-text-btn.active.low-btn {
     background-color: rgb(56, 239, 125, 0.4);
 }
 
-/* Средняя важность - Желтая */
 .priority-text-btn.active.medium-btn {
-    background-color: rgb(169, 166, 101);
+    background-color: rgb(168, 146, 37);
 }
 
-/* Высокая важность - Красная */
 .priority-text-btn.active.high-btn {
     background-color: rgb(119, 34, 34);
 }
 
-/* Опционально: легкая подсветка рамки при наведении (неактивной кнопки) */
 .priority-text-btn:hover:not(.active) {
     border-color: rgba(255, 255, 255, 0.6);
     background: rgba(255, 255, 255, 0.05);
@@ -130,7 +61,62 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    /* Вот это создает расстояние сверху */
     margin-top: 8px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.modal-buttons button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 400;
+    font-family: 'Nunito', monospace;
+    font-size: 16px;
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    min-width: 120px;
+    max-width: 200px;
+}
+
+.modal-buttons button:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.btn-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.btn-save {
+    background: rgba(56, 239, 125, 0.2);
+
+}
+
+.btn-save:hover {
+    background: rgba(56, 239, 125, 0.4);
+}
+
+.btn-cancel {
+    background: rgba(255, 82, 82, 0.2);
+    border: 1px solid rgba(26, 25, 25) !important;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 82, 82, 0.4);
 }

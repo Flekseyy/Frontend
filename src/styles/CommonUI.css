@@ -1,45 +1,136 @@
-/* src/styles/CommonUI.css */
-
-/* === ОБЩАЯ КНОПКА ЗАКРЫТИЯ (КРЕСТИК) === */
 .common-close-btn {
     position: absolute;
-    top: 1px;
-    right: 1px;
-
+    top: -5px !important;
+    right: -4px !important;
     width: 40px;
     height: 40px;
-
-    /* Убираем фон и обводку */
     background: transparent !important;
     border: none;
     outline: none;
-
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
-    z-index: 100; /* Чтобы кнопка была поверх всего содержимого окна */
-
-    /* Плавность только для трансформации (подпрыгивания) */
+    z-index: 100;
+    margin: 0;
+    padding: 0;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .common-close-btn img {
-    width: 24px;
-    height: 24px;
-    filter: brightness(0) invert(1); /* Делаем иконку белой */
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: opacity 0.3s;
+    display: block;
+    margin: 0;
 }
 
-/* Эффект при наведении: ТОЛЬКО подпрыгивание */
 .common-close-btn:hover {
-    transform: translateY(-5px); /* Подпрыгивание вверх */
-    /* Никакого background-color, box-shadow или изменения цвета рамки! */
+    transform: scale(1.1);
 }
 
 .common-close-btn:hover img {
-    opacity: 1; /* Иконка становится чуть ярче при наведении */
+    opacity: 1;
+}
+
+.custom-scrollbar {
+    overflow-y: auto !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 3px !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: 40px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+    display: none !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+    background: transparent !important;
+}
+
+textarea.custom-scrollbar {
+    overflow-y: auto !important;
+}
+
+textarea.custom-scrollbar::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+textarea.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 3px !important;
+}
+
+.resizable-textarea {
+    min-height: 100px !important;
+    max-height: 210px;
+    resize: vertical !important;
+    overflow-y: auto;
+    display: block;
+    position: relative;
+}
+
+.resizable-textarea::-webkit-resizer {
+    display: none;
+}
+
+.resizable-textarea::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 15px;
+    height: 15px;
+    background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.5) 50%);
+    cursor: nwse-resize;
+    pointer-events: none;
+    border-bottom-right-radius: 8px;
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4);
 }

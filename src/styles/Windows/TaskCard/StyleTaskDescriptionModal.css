@@ -1,0 +1,71 @@
+.desc-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.desc-modal-content {
+    width: fit-content;
+    min-width: 400px;
+    max-width: 80vw;
+    height: auto;
+    max-height: 85vh;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    font-family: 'Nunito', monospace;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.desc-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.desc-full-text {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 50vh;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 1px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.desc-modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.desc-modal-buttons .btn-cancel {
+    width: 140px;
+    justify-content: center;
+}

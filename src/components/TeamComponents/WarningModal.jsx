@@ -14,7 +14,6 @@ export default function WarningModal({ isOpen, message, onClose }) {
                 </p>
 
                 <div className="modal-buttons">
-                    {/* Кнопка ОК (стиль btn-save, но можно сделать нейтральной) */}
                     <button className="btn-save" onClick={onClose}>
                         <span className="btn-text">Ок</span>
                         <img src="https://img.icons8.com/?size=96&id=2WnpVEXfzAbC&format=png" alt="Check" className="btn-icon" />

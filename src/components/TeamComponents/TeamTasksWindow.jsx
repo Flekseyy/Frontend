@@ -1,15 +1,15 @@
-// src/components/TeamComponents/TeamTasksWindow.jsx
 import React, { useState } from 'react';
 import '../../styles/Windows/CommandWindow/StyleTeamTasksWindow.css';
 import '../../styles/CommonUI.css';
-import '../../styles/Windows/StyleTaskCard.css';
+import '../../styles/Windows/TaskCard/StyleTaskCard.css';
+import '../../styles/CommonUI.css'; // <--- 1. ПОДКЛЮЧАЕМ НОВЫЙ ФАЙЛ СО СКРОЛЛОМ
 
 import AddTaskModal from '../UserTaskListComponents/AddTaskModal';
 import EditTaskModal from '../UserTaskListComponents/EditTaskModal';
 import DeleteTaskModal from '../UserTaskListComponents/DeleteTaskModal';
 import TaskCard from '../UserTaskListComponents/TaskCard';
 import ConfirmMoveModal from './ConfirmMoveModal';
-import WarningModal from './WarningModal'; // <-- Импортируем новое окно
+import WarningModal from './WarningModal';
 
 export default function TeamTasksWindow({ teamData, onClose }) {
 
@@ -19,14 +19,12 @@ export default function TeamTasksWindow({ teamData, onClose }) {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
 
-    // Состояния для модалок подтверждения и предупреждения
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     const [isWarningOpen, setIsWarningOpen] = useState(false);
-    const [pendingMove, setPendingMove] = useState(null); // { taskId, newStatus, message, type: 'confirm' | 'warning' }
+    const [pendingMove, setPendingMove] = useState(null);
 
     if (!teamData) return null;
 
-    // --- ЛОГИКА ЗАДАЧ (без изменений) ---
     const handleAddTask = (newTask) => {
         const taskWithId = { ...newTask, id: Date.now(), status: 'todo', createdAt: new Date().toLocaleString() };
         setTasks([...tasks, taskWithId]);
@@ -44,8 +42,6 @@ export default function TeamTasksWindow({ teamData, onClose }) {
         setIsDeleteOpen(false); setCurrentTask(null);
     };
 
-    // --- ЛОГИКА DRAG AND DROP С НОВЫМИ ПРАВИЛАМИ ---
-
     const handleDragStart = (e, taskId) => {
         e.dataTransfer.setData('taskId', taskId);
         e.dataTransfer.effectAllowed = 'move';
@@ -59,59 +55,38 @@ export default function TeamTasksWindow({ teamData, onClose }) {
     const handleDrop = (e, newStatus) => {
         e.preventDefault();
         const taskId = parseInt(e.dataTransfer.getData('taskId'));
-
-        // Находим задачу, чтобы узнать её текущий статус
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
 
         const currentStatus = task.status;
         let message = '';
-        let type = ''; // 'confirm' или 'warning'
+        let type = '';
 
-        // Если бросили в ту же колонку - ничего не делаем
-        if (currentStatus === newStatus) {
-            return;
-        }
+        if (currentStatus === newStatus) return;
 
-        // --- ЛОГИКА ПЕРЕХОДОВ ---
-
-        // 1. ИЗ ГОТОВО В ПРОЦЕСС -> ПРЕДУПРЕЖДЕНИЕ (НЕВОЗМОЖНО)
         if (currentStatus === 'done' && newStatus === 'in-progress') {
             message = 'Невозможно перенести задачу в эту колонку.';
             type = 'warning';
-        }
-        // 2. ИЗ ГОТОВО В ВЫПОЛНЕНИЕ -> ВОПРОС (ПЕРЕОТКРЫТЬ?)
-        else if (currentStatus === 'done' && newStatus === 'todo') {
+        } else if (currentStatus === 'done' && newStatus === 'todo') {
             message = 'Вы точно хотите переоткрыть задачу?';
             type = 'confirm';
-        }
-        // 3. ИЗ ПРОЦЕССА В ВЫПОЛНЕНИЕ -> ВОПРОС (ТОЧНО ХОТИТЕ?)
-        else if (currentStatus === 'in-progress' && newStatus === 'todo') {
+        } else if (currentStatus === 'in-progress' && newStatus === 'todo') {
             message = 'Вы точно хотите перенести задачу в эту колонку?';
             type = 'confirm';
-        }
-        // 4. ИЗ ВЫПОЛНЕНИЯ В ГОТОВО -> ВОПРОС (УВЕРЕНЫ В СПОСОБЕ?)
-        else if (currentStatus === 'todo' && newStatus === 'done') {
-            message = 'Вы уверены что задачу можно решить именно таким способом?';
+        } else if (currentStatus === 'todo' && newStatus === 'done') {
+            message = 'Вы уверены , что задачу можно решить именно таким способом?';
             type = 'confirm';
-        }
-        // 5. ИЗ ВЫПОЛНЕНИЯ В ПРОЦЕСС -> ВОПРОС (ХОТИТЕ ВЗЯТЬ?)
-        else if (currentStatus === 'todo' && newStatus === 'in-progress') {
+        } else if (currentStatus === 'todo' && newStatus === 'in-progress') {
             message = 'Вы хотите взять задачу?';
             type = 'confirm';
-        }
-        // 6. ИЗ ПРОЦЕССА В ГОТОВО -> ВОПРОС (ГОТОВЫ ЗАВЕРШИТЬ?)
-        else if (currentStatus === 'in-progress' && newStatus === 'done') {
+        } else if (currentStatus === 'in-progress' && newStatus === 'done') {
             message = 'Вы готовы завершить задачу?';
             type = 'confirm';
-        }
-        // Остальные случаи (если вдруг появятся) разрешаем сразу
-        else {
+        } else {
             executeMove(taskId, newStatus);
             return;
         }
 
-        // Если нужно показать модалку
         if (type) {
             setPendingMove({ taskId, newStatus, message, type });
             if (type === 'warning') {
@@ -122,14 +97,12 @@ export default function TeamTasksWindow({ teamData, onClose }) {
         }
     };
 
-    // Функция, которая реально меняет статус задачи
     const executeMove = (taskId, newStatus) => {
         setTasks(tasks.map(task =>
             task.id === taskId ? { ...task, status: newStatus } : task
         ));
     };
 
-    // Обработчики для модалок
     const confirmAction = () => {
         if (pendingMove) {
             executeMove(pendingMove.taskId, pendingMove.newStatus);
@@ -148,7 +121,6 @@ export default function TeamTasksWindow({ teamData, onClose }) {
         setIsWarningOpen(false);
     };
 
-    // Фильтрация задач
     const todoTasks = tasks.filter(t => t.status === 'todo');
     const inProgressTasks = tasks.filter(t => t.status === 'in-progress');
     const doneTasks = tasks.filter(t => t.status === 'done');
@@ -166,13 +138,13 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                     <span className="team-name-subtitle">{teamData.name}</span>
                 </div>
 
-                {/* KANBAN BOARD */}
                 <div className="kanban-board">
 
                     {/* Колонка 1: К выполнению */}
                     <div className="kanban-column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, 'todo')}>
                         <div className="column-header todo-header">К выполнению ({todoTasks.length})</div>
-                        <div className="column-tasks">
+                        {/* 2. ДОБАВЛЯЕМ КЛАСС custom-scrollbar */}
+                        <div className="column-tasks custom-scrollbar">
                             {todoTasks.map(task => (
                                 <div key={task.id} draggable onDragStart={(e) => handleDragStart(e, task.id)}>
                                     <TaskCard task={task} onEdit={openEditModal} onDelete={openDeleteModal} />
@@ -184,7 +156,8 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                     {/* Колонка 2: В процессе */}
                     <div className="kanban-column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, 'in-progress')}>
                         <div className="column-header progress-header">В процессе ({inProgressTasks.length})</div>
-                        <div className="column-tasks">
+                        {/* 2. ДОБАВЛЯЕМ КЛАСС custom-scrollbar */}
+                        <div className="column-tasks custom-scrollbar">
                             {inProgressTasks.map(task => (
                                 <div key={task.id} draggable onDragStart={(e) => handleDragStart(e, task.id)}>
                                     <TaskCard task={task} onEdit={openEditModal} onDelete={openDeleteModal} />
@@ -196,7 +169,8 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                     {/* Колонка 3: Готово */}
                     <div className="kanban-column" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, 'done')}>
                         <div className="column-header done-header">Готово ({doneTasks.length})</div>
-                        <div className="column-tasks">
+                        {/* 2. ДОБАВЛЯЕМ КЛАСС custom-scrollbar */}
+                        <div className="column-tasks custom-scrollbar">
                             {doneTasks.map(task => (
                                 <div key={task.id} draggable onDragStart={(e) => handleDragStart(e, task.id)}>
                                     <TaskCard task={task} onEdit={openEditModal} onDelete={openDeleteModal} />
@@ -207,15 +181,13 @@ export default function TeamTasksWindow({ teamData, onClose }) {
 
                 </div>
 
-                {/* Кнопка добавления задачи */}
                 <div className="tasks-actions-container">
                     <button className="btn-add-task-icon-only" onClick={() => setIsAddOpen(true)}>
-                        <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Add Task" className="task-icon-img" />
+                        <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Add Task" className="task-icon-img" />
                     </button>
                 </div>
             </div>
 
-            {/* МОДАЛКИ */}
             <AddTaskModal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} onSave={handleAddTask} />
 
             {isEditOpen && currentTask && (
@@ -226,7 +198,6 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                 <DeleteTaskModal task={currentTask} isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => handleDeleteTask(currentTask.id)} />
             )}
 
-            {/* МОДАЛКА ПОДТВЕРЖДЕНИЯ (Да/Нет) */}
             <ConfirmMoveModal
                 isOpen={isConfirmOpen}
                 message={pendingMove?.message || ''}
@@ -234,7 +205,6 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                 onCancel={cancelAction}
             />
 
-            {/* МОДАЛКА ПРЕДУПРЕЖДЕНИЯ (Ок) */}
             <WarningModal
                 isOpen={isWarningOpen}
                 message={pendingMove?.message || ''}
