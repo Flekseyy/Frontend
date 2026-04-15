@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="049dd6fb-e907-4ca7-b6ac-8d77b4aa570b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/ProfileComponents/ProfileModal.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UserTaskListComponents/TaskDescriptionModal.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Windows/StyleProfileWindow.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Windows/TaskCard/StyleTaskCard.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Windows/TaskCard/StyleTaskDescriptionModal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MainMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MainMenu.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TeamComponents/TeamTasksWindow.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TeamComponents/TeamTasksWindow.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TeamComponents/WarningModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TeamComponents/WarningModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UserTaskListComponents/AddTaskModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UserTaskListComponents/AddTaskModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UserTaskListComponents/EditTaskModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UserTaskListComponents/EditTaskModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UserTaskListComponents/TaskCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UserTaskListComponents/TaskCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Animation/FloatingRightButtonAnimation.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Animation/FloatingRightButtonAnimation.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Buttons/StyleAddTaskButton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Buttons/StyleAddTaskButton.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Buttons/StyleTeamButton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Buttons/StyleTeamButton.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/CommonUI.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/CommonUI.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleCreateTeamWindow.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleCreateTeamWindow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamProfile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamStartWindow.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamStartWindow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamTasksWindow.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/CommandWindow/StyleTeamTasksWindow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/StyleAddTaskWindow.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/StyleAddTaskWindow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/StyleAuthorization.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/StyleAuthorization.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/StyleMainWindow.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Windows/StyleMainWindow.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Windows/StyleTaskCard.css" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3C9aX6cGXZv8NUzajt2pXzDMLG1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.App.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Razrabotka-1/mainMenu&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Artem/Desktop/Frontend/src/styles/Windows&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\styles\Windows" />
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\styles\Windows\TaskCard" />
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\styles\Windows" />
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\components\UserTaskListComponents" />
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\components\TaskCardComponents " />
+      <recent name="C:\Users\Artem\Desktop\Frontend\src\components\TeamComponents" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.32098.39" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="049dd6fb-e907-4ca7-b6ac-8d77b4aa570b" name="Changes" comment="" />
+      <created>1775800278183</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1775800278183</updated>
+      <workItem from="1775800280388" duration="3188000" />
+      <workItem from="1775854353730" duration="2000" />
+      <workItem from="1775911411968" duration="2000" />
+      <workItem from="1775943463547" duration="1000" />
+      <workItem from="1775999261633" duration="23430000" />
+      <workItem from="1776072144156" duration="720000" />
+      <workItem from="1776111667325" duration="51000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,166 @@
+    .mode-menu {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #222222;
+        
+        min-width: 1280px; 
+        min-height: 720px;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        position: relative;
+    }
+
+    #rectangle-top-panel {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 500px;
+        height: 65px;
+        align-items: center;
+        display: flex;
+    }
+
+    #rectangle-top-panel h1 {
+        margin-left: 10px;
+        font-size: 35px;
+        font-weight: 200;
+        font-family: 'Nunito' monospace;
+        color: #a8a5a5;
+    }
+
+    #add-task-icon {
+        margin-left: auto;
+        margin-right: 10px;
+        width: 45px;
+        height: 45px;
+    }
+
+    #rectangle-left-panel {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70px;
+        height: 500px;
+        padding-top: 10px;
+    }
+
+    .icon {
+        position: relative;
+        width: 52px;
+        height: 52px;
+        background: transparent !important;
+        border: none;
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .icon-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .icon-svg circle {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.2);
+        stroke-width: 2;
+        stroke-dasharray: 120 400;
+        stroke-dashoffset: 120;
+        transition: stroke-dashoffset 1.3s, opacity 0s ease-out;
+    }
+
+    .icon img {
+        position: relative;
+        z-index: 2;
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .icon:hover {
+        transform: translateY(-5px);
+    }
+
+    .icon:hover .icon-svg circle {
+        transition: stroke-dashoffset 1.2s ease-in-out;
+        stroke-dashoffset: -280;
+        opacity: 1;
+        stroke: rgb(119, 119, 119);
+    }
+
+    .icon:hover img {
+        transform: scale(1.1);
+    }
+
+    .icon-text {
+        position: absolute;
+        left: 110%;
+        top: 50%;
+        transform: translateY(-50%) translateX(15px);
+        font-family: 'Nunito', monospace;
+        white-space: nowrap;
+        color: white;
+        font-size: 20px;
+        font-weight: 200;
+        text-shadow: 0 2px 4px rgb(51, 51, 51);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        visibility: hidden;
+    }
+
+    .icon:hover .icon-text {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    #profile-icon { margin-top: 10px; }
+    #team-icon { margin-top: 50px; }
+    #quests-icon { margin-top: 20px; }
+    #settings-icon { margin-top: auto; margin-bottom: 20px; }
+
+    .tasks-container {
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1100px;
+        height: calc(100vh - 140px);
+        padding: 0 20px;
+        
+        display: flex;
+        flex-wrap: wrap;
+        
+        align-items: flex-start; 
+        align-content: flex-start;
+        justify-content: flex-start;
+        
+        gap: 15px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 5;
+    }

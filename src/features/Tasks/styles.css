@@ -1,0 +1,371 @@
+.task-card {
+    width: auto;
+    min-width: 180px;
+    max-width: 100%;
+    height: auto;
+    min-height: 120px;
+    overflow: visible;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    position: relative;
+    transition: none;
+    margin: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    flex-shrink: 0;
+    margin-bottom: 8px;
+    gap: 5px;
+}
+
+.task-header h3 {
+    margin: 0;
+    font-family: 'Nunito', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    word-wrap: break-word;
+    line-height: 1.3;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 90%;
+}
+
+.priority-badge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px currentColor;
+    margin-top: 4px;
+}
+
+.task-middle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.btn-simple-zoom {
+    width: 90px !important;
+    height: 25px;
+    padding: 0 !important;
+    font-size: 9px !important;
+    line-height: 18px !important;
+    text-align: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    font-family: 'Nunito', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+    margin-top: 7px;
+    flex-shrink: 0;
+}
+
+.btn-simple-zoom:hover {
+    transform: scale(1.03);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.task-actions-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.icon-btn-micro {
+    background: transparent !important;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.icon-btn-micro:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+.icon-btn-micro img {
+    width: 15px;
+    height: 15px;
+    filter: brightness(0) invert(1);
+}
+
+.task-footer-dates {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+.date-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.task-date-label {
+    font-family: 'Nunito', monospace !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    white-space: nowrap;
+}
+
+.date-value {
+    font-family: 'Nunito', monospace !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    word-break: break-all;
+}
+
+.field-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea,
+.modal-content input[type="datetime-local"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
+    font-weight: 200;
+    font-family: 'Nunito', monospace;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+    transition: background 0.3s;
+    margin: 0;
+    height: 45px;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+    opacity: 1;
+    font-weight: 200;
+    font-family: 'Nunito', monospace;
+    font-size: 15px;
+}
+
+.input-error {
+    border: 1px solid #ff5252 !important;
+    background: rgba(255, 82, 82, 0.1) !important;
+}
+
+.error-message {
+    display: block;
+    color: #ff5252;
+    font-size: 12px;
+    font-family: 'Nunito', monospace;
+    margin: 0;
+    padding-left: 2px;
+    padding-top: 4px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.priority-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.field-label {
+    font-family: 'Nunito', monospace;
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 8px;
+    display: block;
+    padding-left: 2px;
+    margin-bottom: 4px;
+}
+
+.priority-options-row {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.priority-text-btn {
+    flex: 1;
+    padding: 12px 5px;
+    border-radius: 10px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-text-inner {
+    position: relative;
+    z-index: 2;
+    font-family: 'Nunito', monospace;
+    font-size: 15px;
+    font-weight: 400;
+    color: white !important;
+}
+
+.priority-text-btn.active.low-btn {
+    background-color: rgb(56, 239, 125, 0.4);
+}
+
+.priority-text-btn.active.medium-btn {
+    background-color: rgb(168, 146, 37);
+}
+
+.priority-text-btn.active.high-btn {
+    background-color: rgb(119, 34, 34);
+}
+
+.priority-text-btn:hover:not(.active) {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.deadline-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+    margin: 0;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    justify-content: center;
+}
+
+.desc-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.desc-modal-content {
+    width: fit-content;
+    min-width: 400px;
+    max-width: 80vw;
+    height: auto;
+    max-height: 85vh;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    font-family: 'Nunito', monospace;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.desc-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.desc-full-text {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 50vh;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 1px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.desc-modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.desc-modal-buttons .btn-cancel {
+    width: 140px;
+    justify-content: center;
+}
+.modal-content h2 {
+    padding-bottom: 12;
+    text-align: center;
+    width: 100%;
+}
