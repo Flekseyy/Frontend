@@ -12,38 +12,6 @@ body {
     color: #1e293b;
 }
 
-body .animated-bg-waves {
-    background-color: transparent !important;
-}
-
-body .animated-bg-waves .wave {
-    background: rgba(80, 110, 200, 0.06);
-}
-
-body .animated-bg-waves .wave:nth-child(2) {
-    background: rgba(60, 90, 180, 0.05);
-}
-
-body .animated-bg-waves .wave:nth-child(3) {
-    background: rgba(40, 70, 160, 0.04);
-}
-
-body[data-theme="light"] .animated-bg-waves {
-    background-color: transparent !important;
-}
-
-body[data-theme="light"] .animated-bg-waves .wave {
-    background: rgba(80, 110, 200, 0.06);
-}
-
-body[data-theme="light"] .animated-bg-waves .wave:nth-child(2) {
-    background: rgba(60, 90, 180, 0.05);
-}
-
-body[data-theme="light"] .animated-bg-waves .wave:nth-child(3) {
-    background: rgba(40, 70, 160, 0.04);
-}
-
 /* Стеклянные панели */
 body[data-theme="light"] .glass-panel {
     background: rgba(240, 242, 245, 0.75);
@@ -146,8 +114,8 @@ body[data-theme="light"] .leftPanel .icon .img-default {
 }
 
 /* Верхняя панель */
-body[data-theme="light"] .top-panel h1 {
-    color: #0f172a;
+body[data-theme="light"] .top-panel #rectangle-top-panel h1 {
+    color: #0f172a !important;
 }
 
 /* Карточки задач */

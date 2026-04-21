@@ -14,7 +14,6 @@ function SettingsModal({ isOpen, onClose }) {
         return {
             darkTheme: true,
             notifications: true,
-            soundEffects: false,
             animations: true,
             language: 'ru'
         };
@@ -128,20 +127,6 @@ function SettingsModal({ isOpen, onClose }) {
                             </label>
                         </div>
 
-                        <div className="setting-item">
-                            <div className="setting-info">
-                                <p className="setting-label">Звуковые эффекты</p>
-                                <p className="setting-desc">Проигрывать звуки при действиях</p>
-                            </div>
-                            <label className="toggle-switch">
-                                <input 
-                                    type="checkbox" 
-                                    checked={settings.soundEffects} 
-                                    onChange={() => handleToggle('soundEffects')}
-                                />
-                                <span className="toggle-slider"></span>
-                            </label>
-                        </div>
                     </div>
 
                     {/* Секция Общие */}
