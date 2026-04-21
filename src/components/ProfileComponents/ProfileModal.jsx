@@ -135,7 +135,7 @@ function ProfileModal({ isOpen, onClose }) {
                     <div className="modal-buttons">
                         <button className="btn-save">
                             <span className="btn-text">Поменять пароль</span>
-                            <img src="https://img.icons8.com/?size=96&id=UZxwz5MMFO8j&format=png" alt="Check"
+                            <img src="https://img.icons8.com/?size=100&id=1501&format=png" alt="Check"
                                  className="btn-icon"/>
                             <div className="btn-bg-slide"></div>
                         </button>
