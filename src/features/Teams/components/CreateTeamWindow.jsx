@@ -1,20 +1,44 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 
-export default function CreateTeamWindow({ isOpen, onClose, onSave}) {
+export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
+    const fileInputRef = useRef(null)
     const [teamName, setTeamName] = useState('')
     const [logoFile, setLogoFile] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null)
+    const [isUploading, setIsUploading] = useState(false)
 
     if (!isOpen) return null
+
+    const handleAvatarClick = () => {
+        if (!isUploading) {
+            fileInputRef.current.click()
+        }
+    }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0]
         if (file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Пожалуйста, выберите изображение')
+                return
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Размер изображения не должен превышать 5МБ')
+                return
+            }
+
+            setIsUploading(true)
             setLogoFile(file)
-            const url = URL.createObjectURL(file)
-            setPreviewUrl(url)
+
+            const reader = new FileReader()
+            reader.onload = (event) => {
+                setPreviewUrl(event.target.result)
+                setIsUploading(false)
+            }
+            reader.readAsDataURL(file)
         }
     }
 
@@ -25,6 +49,10 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave}) {
                 name: teamName,
                 logo: previewUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'
             })
+            setTeamName('')
+            setLogoFile(null)
+            setPreviewUrl(null)
+            onClose()
         }
     }
 
@@ -39,35 +67,40 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave}) {
                 <h2>Создание команды</h2>
 
                 <form onSubmit={handleSubmit}>
+                    {/* Аватарка команды — клик по кружку */}
+                    <div className="team-avatar-section">
+                        <div className="team-avatar-circle" onClick={handleAvatarClick}>
+                            {isUploading && (
+                                <div className="avatar-loading">
+                                    <span className="loading-text">Загрузка...</span>
+                                </div>
+                            )}
+                            
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                disabled={isUploading}
+                            />
+                        </div>
+                        <p className="avatar-hint">Нажмите, чтобы добавить логотип</p>
+                    </div>
+
                     <input
                         type="text"
-                        placeholder="Название команды"
+                        className="create-team-input"
+                        placeholder="Введите название команды"
                         value={teamName}
                         onChange={(e) => setTeamName(e.target.value)}
                         required
                         autoFocus
                     />
 
-                    <div className="logo-upload-section">
-                        <label className="field-label">Логотип:</label>
-
-                        {previewUrl && (
-                            <div className="logo-preview-box">
-                                <img src={previewUrl} alt="Preview" />
-                            </div>
-                        )}
-
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="logo-input"
-                        />
-                    </div>
-
                     <div className="modal-buttons">
-                        <button type="submit" className="btn-save">
-                            <span className="btn-text">Сохранить</span>
+                        <button type="submit" className="btn-save" style={{ borderColor: '#098765' }}>
+                            <span className="btn-text">Создать</span>
                             <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>

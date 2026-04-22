@@ -1,7 +1,8 @@
 import React from 'react'
 import '../styles.css'
+import '../../Tasks/styles.css'
 
-export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
+const TeamTaskCard = ({ task, onViewDetails, onAction, onEdit, onDelete }) => {
     const formatDate = (dateString) => {
         if (!dateString) return ''
         const date = new Date(dateString)
@@ -20,6 +21,24 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
         if (p === 'medium') return '#ffd60a'
         if (p === 'low') return '#38ef7d'
         return 'rgba(255,255,255,0.3)'
+    }
+
+    const getButtons = () => {
+        switch (task.status) {
+            case 'todo':
+                return <button className="team-action-btn" onClick={() => onAction('in-progress')} style={{ borderColor: '#EEE8AA' }}>Взять</button>
+            case 'in-progress':
+                return (
+                    <>
+                        <button className="team-action-btn" onClick={() => onAction('todo')}>Переоткрыть</button>
+                        <button className="team-action-btn" onClick={() => onAction('done')} style={{ borderColor: '#098765' }}>Завершить</button>
+                    </>
+                )
+            case 'done':
+                return <button className="team-action-btn" onClick={() => onAction('todo')}>Переоткрыть</button>
+            default:
+                return null
+        }
     }
 
     const priorityColor = getPriorityColor(task.priority)
@@ -44,6 +63,10 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
                 </div>
             </div>
 
+            <div className="team-task-actions">
+                {getButtons()}
+            </div>
+
             <div className="task-footer-dates">
                 <div className="date-row">
                     <span className="task-date-label">Создано:&nbsp;</span>
@@ -60,3 +83,5 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
         </div>
     )
 }
+
+export default TeamTaskCard

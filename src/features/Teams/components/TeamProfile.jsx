@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import TeamTasksWindow from './TeamTasksWindow'
+import AddMemberModal from './AddMemberModal'
 
 export default function TeamProfile({ teamData, onClose }) {
     const [isTasksOpen, setIsTasksOpen] = useState(false)
+    const [isAddMemberOpen, setIsAddMemberOpen] = useState(false)
 
     if (!teamData) return null
 
@@ -18,7 +20,11 @@ export default function TeamProfile({ teamData, onClose }) {
     }
 
     const handleAddMember = () => {
-        alert("Функция добавления участника в разработке!")
+        setIsAddMemberOpen(true)
+    }
+
+    const handleMemberAdded = (memberName) => {
+        alert(`Участник "${memberName}" добавлен! (заглушка)`)
     }
 
     return (
@@ -54,6 +60,12 @@ export default function TeamProfile({ teamData, onClose }) {
                     </button>
                 </div>
             </div>
+
+            <AddMemberModal
+                isOpen={isAddMemberOpen}
+                onClose={() => setIsAddMemberOpen(false)}
+                onAdd={handleMemberAdded}
+            />
         </div>
     )
 }

@@ -176,7 +176,6 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                             type="button" 
                             className="btn-cancel" 
                             onClick={onClose}
-                            style={{ border: '1px solid rgba(255, 82, 82, 0.4)' }}
                         >
                             <span className="btn-text">Отмена</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
@@ -186,7 +185,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                         <button 
                             type="submit" 
                             className="btn-save"
-                            style={{ border: '1px solid rgba(56, 239, 125, 0.4)' }}
+                            style={{ borderColor: '#098765' }}
                         >
                             <span className="btn-text">Сохранить</span>
                             <img src="https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png" alt="Check" className="btn-icon" />

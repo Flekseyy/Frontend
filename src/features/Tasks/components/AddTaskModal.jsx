@@ -157,6 +157,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave }) {
                         <button 
                             type="submit" 
                             className="btn-save"
+                            style={{ borderColor: '#098765' }}
                         >
                             <span className="btn-text">Сохранить</span>
                             <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Check" className="btn-icon" />

@@ -8,6 +8,8 @@ import TaskCard from '../features/Tasks/components/TaskCard'
 import TeamStartWindow from '../features/Teams/components/TeamStartWindow'
 import TaskDescriptionModal from '../features/Tasks/components/TaskDescriptionModal'
 import ProfileModal from '../features/Profile/components/ProfileModal'
+import DeleteAnimation from '../components/ui/animations/DeleteAnimation'
+import SettingsModal from '../features/Settings/components/SettingsModal';
 
 function MainLayout() {
     const [tasks, setTasks] = useState([])
@@ -18,6 +20,8 @@ function MainLayout() {
     const [isTeamOpen, setIsTeamOpen] = useState(false)
     const [currentTask, setCurrentTask] = useState(null)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const handleSaveTask = (newTask) => {
         const taskWithId = {
@@ -45,10 +49,16 @@ function MainLayout() {
     }
 
     const handleDeleteTask = (taskId) => {
-        setTasks(tasks.filter(t => t.id !== taskId))
-        setIsDeleteOpen(false)
-        setCurrentTask(null)
-    }
+    setIsDeleteOpen(false) 
+    setIsDeleting(true)    
+    
+    setTasks(tasks.filter(t => t.id !== taskId))
+    setCurrentTask(null)
+    
+    setTimeout(() => {
+        setIsDeleting(false)
+    }, 3500)
+}
 
     const openDescModal = (task) => {
         setSelectedTaskForDesc(task)
@@ -79,7 +89,7 @@ function MainLayout() {
                         <img src="https://img.icons8.com/?size=96&id=ljwCE5MTJHVo&format=png" alt="Задания" className="img-default"/>
                         <span className="icon-text">Задания</span>
                     </button>
-                    <button id="settings-icon" className="icon">
+                    <button id="settings-icon" className="icon" onClick={() => setIsSettingsOpen(true)}>
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
                         <img src="https://img.icons8.com/?size=96&id=xyFoc6U1Hu3c&format=png" alt="Настройки" className="img-default"/>
                         <span className="icon-text">Настройки</span>
@@ -127,9 +137,10 @@ function MainLayout() {
                     onClose={() => setSelectedTaskForDesc(null)}
                 />
             )}
-
+            {isDeleting && <DeleteAnimation onComplete={() => setIsDeleting(false)} />}
             <TeamStartWindow isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
             <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+            <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
         </>
     )
 }

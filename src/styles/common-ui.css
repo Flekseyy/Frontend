@@ -174,7 +174,7 @@
 }
 
 .btn-save .btn-bg-slide {
-    background-color: #098765;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .btn-save:hover {
@@ -183,10 +183,6 @@
 
 .btn-cancel .btn-bg-slide {
     background-color: rgba(0, 0, 0, 0.1);
-}
-
-.btn-cancel:hover {
-    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .btn-save:hover .btn-bg-slide,

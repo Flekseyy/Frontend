@@ -6,9 +6,10 @@ import '../../Tasks/styles.css'
 import AddTaskModal from '../../Tasks/components/AddTaskModal'
 import EditTaskModal from '../../Tasks/components/EditTaskModal'
 import DeleteTaskModal from '../../Tasks/components/DeleteTaskModal'
-import TaskCard from '../../Tasks/components/TaskCard'
+import TeamTaskCard from './TeamTaskCard'
 import ConfirmMoveModal from './ConfirmMoveModal'
 import WarningModal from './WarningModal'
+import DettailTeamTaskCard from './DettailTeamTaskCard'
 
 export default function TeamTasksWindow({ teamData, onClose }) {
     const [tasks, setTasks] = useState([])
@@ -20,11 +21,15 @@ export default function TeamTasksWindow({ teamData, onClose }) {
     const [isWarningOpen, setIsWarningOpen] = useState(false)
     const [pendingMove, setPendingMove] = useState(null)
     const [activeCategory, setActiveCategory] = useState('todo')
+    
+    // ДОБАВЛЕНО: состояния для просмотра деталей
+    const [viewTask, setViewTask] = useState(null)
+    const [isViewOpen, setIsViewOpen] = useState(false)
 
     if (!teamData) return null
 
     const handleAddTask = (newTask) => {
-        const taskWithId = { ...newTask, id: Date.now(), status: 'todo', createdAt: new Date().toLocaleString() }
+        const taskWithId = { ...newTask, id: Date.now(), status: 'todo', createdAt: new Date().toISOString() }
         setTasks([...tasks, taskWithId])
         setIsAddOpen(false)
     }
@@ -51,65 +56,43 @@ export default function TeamTasksWindow({ teamData, onClose }) {
         setCurrentTask(null)
     }
 
-    const handleDragStart = (e, taskId) => {
-        e.dataTransfer.setData('taskId', taskId)
-        e.dataTransfer.effectAllowed = 'move'
-    }
-
-    const handleDragOver = (e) => {
-        e.preventDefault()
-        e.dataTransfer.dropEffect = 'move'
-    }
-
-    const handleDrop = (e, newStatus) => {
-        e.preventDefault()
-        const taskId = parseInt(e.dataTransfer.getData('taskId'))
-        const task = tasks.find(t => t.id === taskId)
-        if (!task) return
-
-        const currentStatus = task.status
-        let message = ''
-        let type = ''
-
-        if (currentStatus === newStatus) return
-
-        if (currentStatus === 'done' && newStatus === 'in-progress') {
-            message = 'Невозможно перенести задачу в эту колонку.'
-            type = 'warning'
-        } else if (currentStatus === 'done' && newStatus === 'todo') {
-            message = 'Вы точно хотите переоткрыть задачу?'
-            type = 'confirm'
-        } else if (currentStatus === 'in-progress' && newStatus === 'todo') {
-            message = 'Вы точно хотите перенести задачу в эту колонку?'
-            type = 'confirm'
-        } else if (currentStatus === 'todo' && newStatus === 'done') {
-            message = 'Вы уверены , что задачу можно решить именно таким способом?'
-            type = 'confirm'
-        } else if (currentStatus === 'todo' && newStatus === 'in-progress') {
-            message = 'Вы хотите взять задачу?'
-            type = 'confirm'
-        } else if (currentStatus === 'in-progress' && newStatus === 'done') {
-            message = 'Вы готовы завершить задачу?'
-            type = 'confirm'
-        } else {
-            executeMove(taskId, newStatus)
-            return
-        }
-
-        if (type) {
-            setPendingMove({ taskId, newStatus, message, type })
-            if (type === 'warning') {
-                setIsWarningOpen(true)
-            } else {
-                setIsConfirmOpen(true)
-            }
-        }
+    // ДОБАВЛЕНО: функция для открытия окна деталей
+    const openViewDetails = (task) => {
+        setViewTask(task)
+        setIsViewOpen(true)
     }
 
     const executeMove = (taskId, newStatus) => {
         setTasks(tasks.map(task =>
             task.id === taskId ? { ...task, status: newStatus } : task
         ))
+    }
+
+    const getStatusChangeInfo = (currentStatus, newStatus) => {
+        if (currentStatus === newStatus) return null
+        if (currentStatus === 'done' && newStatus === 'in-progress') return { message: 'Невозможно перенести задачу в эту колонку.', type: 'warning' }
+        if (currentStatus === 'done' && newStatus === 'todo') return { message: 'Вы точно хотите переоткрыть задачу?', type: 'confirm' }
+        if (currentStatus === 'in-progress' && newStatus === 'todo') return { message: 'Вы точно хотите перенести задачу в эту колонку?', type: 'confirm' }
+        if (currentStatus === 'todo' && newStatus === 'done') return { message: 'Вы уверены , что задачу можно решить именно таким способом?', type: 'confirm' }
+        if (currentStatus === 'todo' && newStatus === 'in-progress') return { message: 'Вы хотите взять задачу?', type: 'confirm' }
+        if (currentStatus === 'in-progress' && newStatus === 'done') return { message: 'Вы готовы завершить задачу?', type: 'confirm' }
+        return null
+    }
+
+    const handleActionClick = (taskId, newStatus) => {
+        const task = tasks.find(t => t.id === taskId)
+        if (!task) return
+        const info = getStatusChangeInfo(task.status, newStatus)
+        if (!info) {
+            executeMove(taskId, newStatus)
+            return
+        }
+        setPendingMove({ taskId, newStatus, message: info.message, type: info.type })
+        if (info.type === 'warning') {
+            setIsWarningOpen(true)
+        } else {
+            setIsConfirmOpen(true)
+        }
     }
 
     const confirmAction = () => {
@@ -173,11 +156,11 @@ export default function TeamTasksWindow({ teamData, onClose }) {
 
                         <button 
                             className="team-nav-btn btn-add-task-nav"
-                            onClick={() => setIsAddOpen(true)}>
+                            onClick={() => setIsAddOpen(true)}
+                        >
                             <span className="nav-text">Добавить задачу</span>
                             <div className="nav-bg-slide green-bg"></div>
                         </button>
-
                     </div>
 
                     <div className="team-tasks-area custom-scrollbar">
@@ -186,12 +169,13 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                         ) : (
                             <div className="tasks-grid">
                                 {filteredTasks.map(task => (
-                                    <TaskCard 
+                                    <TeamTaskCard 
                                         key={task.id} 
                                         task={task} 
-                                        onEdit={openEditModal} 
-                                        onDelete={openDeleteModal} 
-                                        onViewDetails={() => {}} 
+                                        onViewDetails={() => openViewDetails(task)}
+                                        onAction={(newStatus) => handleActionClick(task.id, newStatus)}
+                                        onEdit={openEditModal}
+                                        onDelete={openDeleteModal}
                                     />
                                 ))}
                             </div>
@@ -199,7 +183,11 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                     </div>
                 </div>
 
-    
+                <DettailTeamTaskCard 
+                    task={viewTask} 
+                    isOpen={isViewOpen} 
+                    onClose={() => setIsViewOpen(false)} 
+                />
             </div>
 
             <AddTaskModal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} onSave={handleAddTask} />

@@ -4,10 +4,15 @@ import '../../../styles/common-ui.css'
 
 export default function DeleteTaskModal({ task, isOpen, onClose, onConfirm }) {
     if (!isOpen) return null
+
+    const handleDeleteClick = () => {
+        onClose()
+        setTimeout(onConfirm, 100)
+    }
+
     return (
         <div className="modal-overlay">
             <div className="modal-content glass-panel">
-
                 <button className="common-close-btn" onClick={onClose}>
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
@@ -18,13 +23,13 @@ export default function DeleteTaskModal({ task, isOpen, onClose, onConfirm }) {
                 </p>
 
                 <div className="modal-buttons">
-                    <button className="btn-cancel" onClick={onConfirm} style={{ borderColor: '#d9534f' }}>
+                    <button className="btn-cancel" onClick={handleDeleteClick} style={{ borderColor: '#d9534f' }}>
                         <span className="btn-text">Удалить</span>
                         <img src="https://img.icons8.com/?size=96&id=CzTISLkmHrKE&format=png" alt="Delete" className="btn-icon" />
-                        <div className="btn-bg-slide" style={{ backgroundColor: '#d9534f' }}></div>
+                        <div className="btn-bg-slide"></div>
                     </button>
 
-                    <button className="btn-cancel" onClick={onClose} style={{ borderColor: '#333131' }}>
+                    <button className="btn-cancel" onClick={onClose}>
                         <span className="btn-text">Отмена</span>
                         <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
