@@ -98,7 +98,8 @@ body[data-theme="light"] .team-avatar-circle:hover {
 }
 
 body[data-theme="light"] .leftPanel .icon {
-    color: #334155;
+    color: #1e293b;
+    font-weight: 500;
 }
 
 body[data-theme="light"] .leftPanel .icon:hover {
@@ -111,7 +112,7 @@ body[data-theme="light"] .leftPanel .icon .img-default {
 }
 
 body[data-theme="light"] .top-panel #rectangle-top-panel h1 {
-    color: #0f172a !important;
+    color: #7f848f !important;
 }
 
 body[data-theme="light"] .task-card {
@@ -129,8 +130,9 @@ body[data-theme="light"] .btn-save,
 body[data-theme="light"] .btn-secondary,
 body[data-theme="light"] .team-nav-btn,
 body[data-theme="light"] .btn-create-team-small {
-    border-color: rgba(0, 0, 0, 0.2);
-    color: #1e293b;
+    border-color: rgba(0, 0, 0, 0.25);
+    color: #0f172a !important;
+    font-weight: 600;
 }
 
 body[data-theme="light"] .btn-save .btn-bg-slide,
@@ -143,8 +145,9 @@ body[data-theme="light"] .btn-create-team-small .btn-bg-slide {
 
 body[data-theme="light"] .btn-cancel {
     background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    color: #334155;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #334155 !important;
+    font-weight: 500;
 }
 
 body[data-theme="light"] .btn-cancel:hover {
@@ -193,9 +196,10 @@ body[data-theme="light"] .priority-text-btn:hover:not(.active) {
 
 body[data-theme="light"] .details-btn,
 body[data-theme="light"] .team-action-btn {
-    background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: #1e293b;
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #0f172a !important;
+    font-weight: 500;
 }
 
 body[data-theme="light"] .icon-btn-micro img {
@@ -204,8 +208,8 @@ body[data-theme="light"] .icon-btn-micro img {
 }
 
 body[data-theme="light"] .common-close-btn img {
-    filter: brightness(0);
-    opacity: 0.6;
+    filter: brightness(0) invert(0);
+    opacity: 0.7;
 }
 
 body[data-theme="light"] .date-label,
@@ -220,4 +224,168 @@ body[data-theme="light"] .date-value,
 body[data-theme="light"] .task-description-content,
 body[data-theme="light"] .info-block-value {
     color: #1e293b;
+}
+
+body[data-theme="light"] .btn-simple-zoom {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #0f172a !important;
+}
+
+body[data-theme="light"] .btn-simple-zoom:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .btn-text-inner {
+    color: #1e293b !important;
+}
+
+body[data-theme="light"] .desc-modal-content {
+    background: rgba(240, 242, 245, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .desc-full-text {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .field-label {
+    color: #0f172a;
+    opacity: 0.9;
+}
+
+body[data-theme="light"] .task-footer-dates {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .create-team-modal-content {
+    background: rgba(240, 242, 245, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .avatar-upload-icon {
+    filter: brightness(0) invert(0) !important;
+    opacity: 0.7 !important;
+}
+
+body[data-theme="light"] .avatar-hint {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body[data-theme="light"] .btn-icon {
+    filter: brightness(0) invert(0);
+    opacity: 0;
+}
+
+body[data-theme="light"] .btn-save:hover .btn-icon,
+body[data-theme="light"] .btn-cancel:hover .btn-icon,
+body[data-theme="light"] .btn-secondary:hover .btn-icon,
+body[data-theme="light"] .btn-create-team-small:hover .btn-icon {
+    opacity: 0.9;
+}
+
+body[data-theme="light"] .team-list-content {
+    background: rgba(240, 242, 245, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .team-item {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .team-item:hover {
+    background: rgba(0, 0, 0, 0.07);
+}
+
+body[data-theme="light"] .empty-message {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body[data-theme="light"] .nav-icon {
+    filter: brightness(0) invert(0);
+    opacity: 0.8;
+}
+
+body[data-theme="light"] .task-icon-img {
+    filter: brightness(0) invert(0);
+    opacity: 0.8;
+}
+
+body[data-theme="light"] .kanban-column {
+    background: rgba(0, 0, 0, 0.04);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .column-header {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    color: #0f172a;
+}
+
+body[data-theme="light"] .team-tasks-content {
+    background: rgba(240, 242, 245, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .team-profile-content {
+    background: rgba(240, 242, 245, 0.85);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .team-stats-placeholder {
+    background: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.6);
+}
+
+body[data-theme="light"] .task-description-box {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #1e293b;
+}
+
+body[data-theme="light"] .sidebar-info-block {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .info-value {
+    color: #1e293b;
+}
+
+body[data-theme="light"] .profile-icon {
+    filter: brightness(0.4);
+    opacity: 0.75;
+}
+
+body[data-theme="light"] .info-label,
+body[data-theme="light"] .detail-section-label,
+body[data-theme="light"] .date-label-text {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+body[data-theme="light"] .password-input {
+    background: rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #1e293b !important;
+}
+
+body[data-theme="light"] .password-input:focus {
+    background: rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+body[data-theme="light"] .password-input::placeholder {
+    color: rgba(0, 0, 0, 0.4) !important;
+}
+
+body[data-theme="light"] .info-icon img {
+    filter: brightness(0.4) !important;
+    opacity: 0.75 !important;
 }
