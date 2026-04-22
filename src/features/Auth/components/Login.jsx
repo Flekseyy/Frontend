@@ -20,10 +20,6 @@ const Login = ({ onLogin }) => {
                 email,
                 password
             })
-
-            if (data.token) {
-                localStorage.setItem('token', data.token)
-            }
             onLogin()
         } catch (err) {
             console.error(err)

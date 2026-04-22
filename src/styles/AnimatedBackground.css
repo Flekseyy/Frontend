@@ -1,15 +1,16 @@
-@keyframes fadeAnimation {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+.animated-bg-waves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Чтобы был позади контента */
+    overflow: hidden;
+    background-color: var(--animated-bg-base);
+    transition: background-color 0.4s ease;
 }
 
-@keyframes waveMove {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-25%); }
-    100% { transform: translateX(0); }
-}
-
-/* Тема по умолчанию (Темная) */
+/* Theme tokens */
 :root {
     --animated-bg-base: #222222;
     --animated-wave-1: rgba(119, 119, 119, 0.2);
@@ -19,24 +20,13 @@
 
 html[data-theme="light"],
 body[data-theme="light"] {
-    --animated-bg-base: #C0C0C0;
-    --animated-wave-1: #A9A9A9;  
-    --animated-wave-2: #C0C0C0;  
-    --animated-wave-3:  #D3D3D3;  
+    --animated-bg-base: #f1f5f9;
+    --animated-wave-1: rgba(180, 190, 220, 0.15);
+    --animated-wave-2: rgba(160, 170, 200, 0.12);
+    --animated-wave-3: rgba(140, 150, 180, 0.1);
 }
 
-.animated-bg-waves {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
-    background-color: var(--animated-bg-base);
-    transition: background-color 0.4s ease;
-}
-
+/* Сами волны */
 .wave {
     position: absolute;
     bottom: 0;
@@ -66,9 +56,9 @@ body[data-theme="light"] {
     background: var(--animated-wave-3);
 }
 
-section {
-    animation-name: fadeAnimation;
-    animation-duration: 1s;
-    animation-timing-function: ease-in;
-    animation-fill-mode: both;
+/* Ключевые кадры анимации */
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-25%); }
+    100% { transform: translateX(0); }
 }

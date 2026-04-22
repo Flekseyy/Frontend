@@ -24,7 +24,9 @@ const Register = ({ onLogin, onBack }) => {
             await registerUser({
                 username,
                 email,
-                password
+                password,
+                roleId: 2,
+                teamId: null
             })
             alert('Регистрация успешна! Пожалуйста, войдите.')
             onBack()

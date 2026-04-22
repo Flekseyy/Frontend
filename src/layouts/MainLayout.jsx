@@ -8,7 +8,6 @@ import TaskCard from '../features/Tasks/components/TaskCard'
 import TeamStartWindow from '../features/Teams/components/TeamStartWindow'
 import TaskDescriptionModal from '../features/Tasks/components/TaskDescriptionModal'
 import ProfileModal from '../features/Profile/components/ProfileModal'
-import DeleteAnimation from '../components/ui/animations/DeleteAnimation'
 import SettingsModal from '../features/Settings/components/SettingsModal';
 
 function MainLayout() {
@@ -20,7 +19,6 @@ function MainLayout() {
     const [isTeamOpen, setIsTeamOpen] = useState(false)
     const [currentTask, setCurrentTask] = useState(null)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
-    const [isDeleting, setIsDeleting] = useState(false)
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const handleSaveTask = (newTask) => {
@@ -49,16 +47,10 @@ function MainLayout() {
     }
 
     const handleDeleteTask = (taskId) => {
-    setIsDeleteOpen(false) 
-    setIsDeleting(true)    
-    
-    setTasks(tasks.filter(t => t.id !== taskId))
-    setCurrentTask(null)
-    
-    setTimeout(() => {
-        setIsDeleting(false)
-    }, 3500)
-}
+        setTasks(tasks.filter(t => t.id !== taskId))
+        setIsDeleteOpen(false)
+        setCurrentTask(null)
+    }
 
     const openDescModal = (task) => {
         setSelectedTaskForDesc(task)
@@ -120,7 +112,12 @@ function MainLayout() {
                 ))}
             </section>
 
-            <AddTaskModal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} onSave={handleSaveTask} />
+            <AddTaskModal 
+                isOpen={isAddOpen} 
+                onClose={() => setIsAddOpen(false)} 
+                onSave={handleSaveTask} 
+                token={localStorage.getItem('token')} 
+            />
 
             {isEditOpen && currentTask && (
                 <EditTaskModal task={currentTask} isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} onSave={handleUpdateTask} />
@@ -137,7 +134,7 @@ function MainLayout() {
                     onClose={() => setSelectedTaskForDesc(null)}
                 />
             )}
-            {isDeleting && <DeleteAnimation onComplete={() => setIsDeleting(false)} />}
+
             <TeamStartWindow isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
             <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
             <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />

@@ -16,7 +16,6 @@ export default function DeleteTaskModal({ task, isOpen, onClose, onConfirm }) {
                 <button className="common-close-btn" onClick={onClose}>
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
-
                 <h2>Удалить задачу?</h2>
                 <p style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', marginBottom: '20px' }}>
                     Вы уверены, что хотите удалить заметку?

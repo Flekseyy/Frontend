@@ -32,6 +32,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 isOpen={isCreateOpen}
                 onClose={() => setIsCreateOpen(false)}
                 onSave={handleSaveTeam}
+                token={localStorage.getItem('token')} 
             />
         )
     }

@@ -12,6 +12,14 @@ html, body {
     color: white;
 }
 
+html[data-theme="light"],
+body[data-theme="light"] {
+    --animated-bg-base: #f1f5f9;
+    --animated-wave-1: rgba(180, 190, 220, 0.15);
+    --animated-wave-2: rgba(160, 170, 200, 0.12);
+    --animated-wave-3: rgba(140, 150, 180, 0.1);
+}
+
 #root {
     width: 100%;
     min-height: 100vh;
