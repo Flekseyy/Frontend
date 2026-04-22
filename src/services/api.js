@@ -7,16 +7,7 @@ const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    withCredentials: true,
-})
-
-// Интерцептор для автоматической подстановки токена
-apiClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
+    withCredentials: true, 
 })
 
 export const registerUser = async (userData) => {
@@ -32,20 +23,16 @@ export const registerUser = async (userData) => {
 export const loginUser = async (credentials) => {
     try {
         const response = await apiClient.post('/auth/login', credentials)
-        return response.data
+        return response.data 
     } catch (error) {
         console.error('Ошибка входа:', error)
         throw error
     }
 }
 
-export const createTask = async (taskData, token) => {
+export const createTask = async (taskData) => {
     try {
-        const response = await apiClient.post('/tasks', taskData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        const response = await apiClient.post('/tasks', taskData)
         return response.data
     } catch (error) {
         console.error('Ошибка создания задачи:', error)

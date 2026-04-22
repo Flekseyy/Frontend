@@ -15,12 +15,8 @@ const Login = ({ onLogin }) => {
         setError('')
         setIsLoading(true)
         try {
-            // Вызываем функцию входа
-            const data = await loginUser({
-                email,
-                password
-            })
-            onLogin()
+            await loginUser({ email, password }) // <-- Убрали получение data.token
+            onLogin() // <-- Просто переходим в приложение
         } catch (err) {
             console.error(err)
             const errorMessage = err.response?.data?.message || 'Неверный email или пароль'
