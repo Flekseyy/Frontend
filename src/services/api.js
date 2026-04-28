@@ -32,7 +32,7 @@ export const loginUser = async (credentials) => {
 
 export const createTask = async (taskData) => {
     try {
-        const response = await apiClient.post('/tasks', taskData)
+        const response = await apiClient.post('/task', taskData)
         return response.data
     } catch (error) {
         console.error('Ошибка создания задачи:', error)
@@ -42,7 +42,7 @@ export const createTask = async (taskData) => {
 
 export const createTeam = async (teamData) => {
     try {
-        const response = await apiClient.post('/teams', teamData)
+        const response = await apiClient.post('/team', teamData)
         return response.data
     } catch (error) {
         console.error('Ошибка создания команды:', error)
