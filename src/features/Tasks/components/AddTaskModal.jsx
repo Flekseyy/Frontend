@@ -91,7 +91,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
         const rawValue = e.target.value;
         const formattedValue = formatDeadlineInput(rawValue);
         
-        setInputValue(formattedValue);
+        setInputValue(formattedValue); 
 
         const regex = /^(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2})$/;
         const match = formattedValue.match(regex);
@@ -310,7 +310,6 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
                             <button 
                                 type="submit" 
                                 className="btn-save"
-                                style={{ borderColor: '#098765' }}
                                 disabled={isLoading}
                             >
                                 <span className="btn-text">{isLoading ? 'Сохранение...' : 'Сохранить'}</span>

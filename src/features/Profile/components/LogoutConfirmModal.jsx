@@ -9,7 +9,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
         <div className="modal-overlay" onClick={onCancel}>
             <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
                 
-                <div className="modal-header">
+                <div className="modal-header" >
                     <h2>Подтверждение</h2>
                     <button className="common-close-btn" onClick={onCancel}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
@@ -22,7 +22,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
 
                 <div className="modal-buttons">
                     <button 
-                        className="btn-cancel btn-no" 
+                        className="btn-save" 
                         onClick={onCancel}
                     >
                         <span className="btn-text">Нет</span>
@@ -31,7 +31,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
                     </button>
 
                     <button 
-                        className="btn-save btn-yes" 
+                        className="btn-cancel" 
                         onClick={onConfirm}
                     >
                         <span className="btn-text">Да</span>

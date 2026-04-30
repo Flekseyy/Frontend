@@ -188,6 +188,11 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.btn-cancel:hover {
+    border-color: #B44C43;
+}
+
+
 .btn-save:hover .btn-bg-slide,
 .btn-cancel:hover .btn-bg-slide {
     transform: scaleX(1);

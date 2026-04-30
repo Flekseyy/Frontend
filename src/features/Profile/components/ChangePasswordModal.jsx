@@ -94,7 +94,6 @@ function ChangePasswordModal({ isOpen, onClose }) {
                         <button 
                             type="submit" 
                             className="btn-save"
-                            style={{ borderColor: 'rgb(9, 135, 101)' }}
                         >
                             <span className="btn-text">Сменить</span>
                             <img src="https://img.icons8.com/?size=96&id=UZxwz5MMFO8j&format=png" alt="Check" className="btn-icon" />

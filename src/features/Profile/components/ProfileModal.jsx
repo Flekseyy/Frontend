@@ -130,7 +130,6 @@ function ProfileModal({ isOpen, onClose, onLogout }) {
                     <div className="profile-actions" style={{ display: 'flex', gap: '10px', marginTop: '40px', justifyContent: 'center', width: '100%'}}>
                         <button 
                             className="btn-save" 
-                            style={{ borderColor: 'rgb(9, 135, 101)' , width: '40%'}}
                             onClick={() => setIsChangePassOpen(true)}
                         >
                             <span className="btn-text">Смена пароля</span>
@@ -140,7 +139,6 @@ function ProfileModal({ isOpen, onClose, onLogout }) {
 
                         <button 
                             className="btn-cancel" 
-                            style={{ borderColor: '#d9534f', width: '40%'}}
                             onClick={handleLogoutClick}>
                             <span className="btn-text">Выход</span>
                             <img src="https://img.icons8.com/?size=96&id=5HW1YsFkzHio&format=png" alt="Logout" className="btn-icon"/>
