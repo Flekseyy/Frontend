@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
-import { createTask } from '../../../services/api'
+// import { createTask } from '../../../services/api' // <-- Закомментируй импорт, если он больше нигде не нужен в этом файле
 import DateTimePicker from './DateTimePicker' 
 import { useTranslation } from '../../../i18n/LanguageContext'
 
@@ -14,7 +14,6 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
     const [deadlineDate, setDeadlineDate] = useState(null) 
     const [deadlineTime, setDeadlineTime] = useState('12:00') 
     
-    // Новое состояние для отслеживания того, что пользователь печатает прямо сейчас
     const [inputValue, setInputValue] = useState('')
 
     const [isCalendarOpen, setIsCalendarOpen] = useState(false)
@@ -40,7 +39,6 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [isOpen])
 
-    // Синхронизируем inputValue с реальными данными при открытии модалки или выборе из календаря
     useEffect(() => {
         if (deadlineDate) {
             const day = String(deadlineDate.getDate()).padStart(2, '0')
@@ -124,17 +122,17 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
         let isValid = true
 
         if (!title.trim()) {
-            setErrorTitle('Введите название задачи')
+            setErrorTitle(t('errorTitleRequired')) // Используем перевод, если есть, или строку
             isValid = false
         }
 
         if (!priority) {
-            setErrorPriority('Выберите важность')
+            setErrorPriority(t('errorPriorityRequired'))
             isValid = false
         }
 
         if (!deadlineDate) {
-            setErrorDeadline('Укажите дату дедлайна')
+            setErrorDeadline(t('errorDeadlineRequired'))
             isValid = false
         }
 
@@ -143,29 +141,41 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
         setIsLoading(true)
 
         try {
+            // --- НАЧАЛО ИЗМЕНЕНИЙ: Имитация ответа сервера ---
+            
+            // 1. Формируем дату для объекта
             let finalDeadline = new Date(deadlineDate)
             if (deadlineTime) {
                 const [hours, minutes] = deadlineTime.split(':').map(Number)
                 finalDeadline.setHours(hours, minutes, 0, 0)
             }
-
             const deadlineISO = finalDeadline.toISOString()
 
-            const newTask = await createTask({
-                title,
-                description,
-                priority,
-                deadline: deadlineISO
-            }, token)
+            // 2. Создаем фейковый объект задачи, как будто он пришел с бэка
+            // Важно: добавь id, если твой список задач требует уникальный ID для рендеринга
+            const mockNewTask = {
+                id: Date.now(), // Генерируем временный ID
+                title: title,
+                description: description,
+                priority: priority,
+                deadline: deadlineISO,
+                createdAt: new Date().toISOString()
+            };
 
-            onSave(newTask)
+            // Имитация задержки сети (опционально, для реалистичности)
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // 3. Передаем этот объект в onSave, чтобы он появился в списке
+            onSave(mockNewTask);
             
+            // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+
             setTitle('')
             setDescription('')
             setPriority(null)
             setDeadlineDate(null)
             setDeadlineTime('12:00')
-            setInputValue('') // Очищаем поле ввода
+            setInputValue('')
             setIsCalendarOpen(false)
             onClose()
         } catch (err) {
@@ -270,7 +280,6 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
                         <div className="deadline-selector field-wrapper" ref={calendarRef}>
                             <label className="field-label">{t('deadline')}:</label>
                             
-                            {/* Используем inputValue для отображения текущего ввода */}
                             <input
                                 type="text"
                                 value={inputValue}
@@ -303,6 +312,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
                                 className="btn-cancel" 
                                 onClick={onClose}
                                 disabled={isLoading}
+                                style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
                             >
                                 <span className="btn-text">{t('cancel')}</span>
                                 <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
@@ -312,7 +322,6 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
                             <button 
                                 type="submit" 
                                 className="btn-save"
-                                style={{ borderColor: '#098765' }}
                                 disabled={isLoading}
                             >
                                 <span className="btn-text">{isLoading ? t('saving') : t('save')}</span>

@@ -47,13 +47,13 @@ export default function TeamProfile({ teamData, onClose }) {
                 </div>
 
                 <div className="profile-actions-container">
-                    <button className="btn-secondary" onClick={handleAddMember}>
+                    <button className="btn-add-member" onClick={handleAddMember}>
                         <span className="btn-text">+ Участник</span>
                         <img src="https://img.icons8.com/?size=96&id=isUGx8n5CHFi&format=png" alt="Add User" className="btn-icon" />
                         <div className="btn-bg-slide secondary-bg"></div>
                     </button>
 
-                    <button className="btn-secondary" onClick={() => setIsTasksOpen(true)}>
+                    <button className="btn-team-tasks" onClick={() => setIsTasksOpen(true)}>
                         <span className="btn-text">Задачи</span>
                         <img src="https://img.icons8.com/?size=96&id=xJ3hLmeSmDWo&format=png" alt="Tasks" className="btn-icon" />
                         <div className="btn-bg-slide secondary-bg"></div>

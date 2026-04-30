@@ -24,13 +24,17 @@ export default function DeleteTaskModal({ task, isOpen, onClose, onConfirm }) {
                 </p>
 
                 <div className="modal-buttons">
-                    <button className="btn-cancel" onClick={handleDeleteClick} style={{ borderColor: '#d9534f' }}>
+                    <button className="btn-cancel" onClick={handleDeleteClick}>
                         <span className="btn-text">{t('delete')}</span>
                         <img src="https://img.icons8.com/?size=96&id=CzTISLkmHrKE&format=png" alt="Delete" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>
 
-                    <button className="btn-cancel" onClick={onClose}>
+                    <button 
+                        className="btn-cancel" 
+                        onClick={onClose} 
+                        style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
+                        >
                         <span className="btn-text">{t('cancel')}</span>
                         <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                         <div className="btn-bg-slide"></div>

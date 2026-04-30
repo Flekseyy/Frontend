@@ -181,6 +181,8 @@
 p 
 {
     font-family: "Nunito", monospace;
+    text-align: center;
+    margin-top: -5px;
 }
 
 .form-group {

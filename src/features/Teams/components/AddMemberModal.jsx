@@ -36,13 +36,13 @@ export default function AddMemberModal({ isOpen, onClose, onAdd }) {
                     />
                     
                     <div className="add-member-buttons">
-                        <button type="submit" className="btn-save">
+                        <button className="btn-save">
                             <span className="btn-text">Добавить</span>
                             <img src="https://img.icons8.com/?size=96&id=isUGx8n5CHFi&format=png" alt="Add" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
 
-                        <button type="button" className="btn-cancel" onClick={onClose}>
+                        <button className="btn-cancel" onClick={onClose} style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}>
                             <span className="btn-text">Отмена</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                             <div className="btn-bg-slide"></div>

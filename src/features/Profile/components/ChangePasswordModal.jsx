@@ -85,6 +85,8 @@ function ChangePasswordModal({ isOpen, onClose }) {
                             type="button" 
                             className="btn-cancel" 
                             onClick={onClose}
+                            style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
+
                         >
                             <span className="btn-text">Отмена</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />

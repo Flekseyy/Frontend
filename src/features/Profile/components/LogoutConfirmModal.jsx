@@ -22,7 +22,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
 
                 <div className="modal-buttons">
                     <button 
-                        className="btn-cancel btn-no" 
+                        className="btn-save btn-yes"
                         onClick={onCancel}
                     >
                         <span className="btn-text">Нет</span>
@@ -31,7 +31,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
                     </button>
 
                     <button 
-                        className="btn-save btn-yes" 
+                        className="btn-cancel btn-no" 
                         onClick={onConfirm}
                     >
                         <span className="btn-text">Да</span>

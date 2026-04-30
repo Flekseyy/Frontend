@@ -1,23 +1,23 @@
 import React, { useRef, useState } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
-import { createTeam } from '../../../services/api'
 import { useTranslation } from '../../../i18n/LanguageContext'
 
-export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
+export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
     const { t } = useTranslation();
     const fileInputRef = useRef(null)
     const [teamName, setTeamName] = useState('')
     const [logoFile, setLogoFile] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null)
     const [isUploading, setIsUploading] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    // Убрали isSubmitting для бэкенда, но можно оставить для визуальной блокировки при "сохранении"
+    const [isProcessing, setIsProcessing] = useState(false) 
     const [serverError, setServerError] = useState('')
 
     if (!isOpen) return null
 
     const handleAvatarClick = () => {
-        if (!isUploading && !isSubmitting) {
+        if (!isUploading && !isProcessing) {
             fileInputRef.current.click()
         }
     }
@@ -47,7 +47,7 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
         }
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         setServerError('')
 
@@ -56,33 +56,34 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
             return
         }
 
-        setIsSubmitting(true)
+        setIsProcessing(true)
 
-        try {
-            const newTeam = await createTeam({
+        // Имитация задержки и создания объекта локально
+        setTimeout(() => {
+            const newTeam = {
+                id: Date.now(), // Генерируем временный ID
                 name: teamName,
-                logo: previewUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'
-            }, token)
+                logo: previewUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s',
+                createdAt: new Date().toISOString()
+            }
 
+            // Передаем созданный объект в родительский компонент
             onSave(newTeam)
+            
+            // Сброс состояния
             setTeamName('')
             setLogoFile(null)
             setPreviewUrl(null)
+            setIsProcessing(false)
             onClose()
-        } catch (err) {
-            console.error(err)
-            const errorMessage = err.response?.data?.message || 'Не удалось создать команду. Попробуйте позже.'
-            setServerError(errorMessage)
-        } finally {
-            setIsSubmitting(false)
-        }
+        }, 500) // Небольшая задержка для плавности UI
     }
 
     return (
         <div className="create-team-modal-overlay" onClick={onClose}>
             <div className="create-team-modal-content" onClick={(e) => e.stopPropagation()}>
 
-                <button className="common-close-btn" onClick={onClose} disabled={isSubmitting}>
+                <button className="common-close-btn" onClick={onClose} disabled={isProcessing}>
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
@@ -122,7 +123,7 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
                                 onChange={handleFileChange}
                                 accept="image/*"
                                 style={{ display: 'none' }}
-                                disabled={isUploading || isSubmitting}
+                                disabled={isUploading || isProcessing}
                             />
                         </div>
                         <p className="avatar-hint">{t('uploadLogo')}</p>
@@ -139,7 +140,7 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
                         }}
                         required
                         autoFocus
-                        disabled={isSubmitting}
+                        disabled={isProcessing}
                     />
 
                     <div className="modal-buttons">
@@ -147,7 +148,8 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
                             type="button" 
                             className="btn-cancel" 
                             onClick={onClose}
-                            disabled={isSubmitting}
+                            disabled={isProcessing}
+                            style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
                         >
                             <span className="btn-text">{t('cancel')}</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
@@ -158,9 +160,9 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave, token }) {
                             type="submit" 
                             className="btn-save"
                             style={{ borderColor: '#098765' }}
-                            disabled={isSubmitting}
+                            disabled={isProcessing}
                         >
-                            <span className="btn-text">{isSubmitting ? t('creatingTeam') : t('create')}</span>
+                            <span className="btn-text">{isProcessing ? t('creatingTeam') : t('create')}</span>
                             <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>

@@ -44,6 +44,8 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
                 </div>
             </div>
 
+
+            
             <div className="task-footer-dates">
                 <div className="date-row">
                     <span className="task-date-label">Создано:&nbsp;</span>

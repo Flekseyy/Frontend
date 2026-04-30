@@ -72,30 +72,53 @@ function MainLayout({ onLogout }) {
                     
                     {/* Группа верхних иконок */}
                     <div className="panel-top-group">
-                        <button id="profile-icon" className="icon" onClick={() => setIsProfileOpen(true)}>
+                        <button
+                            id="profile-icon"
+                            className="icon"
+                            onClick={() => setIsProfileOpen(true)}
+                            title={t('navProfile')}
+                            aria-label={t('navProfile')}
+                        >
                             <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                            <img src="https://img.icons8.com/?size=96&id=p8UFrp2VUgHR&format=png" alt="Профиль" className="img-default"/>
-                            <span className="icon-text">{t('profile')}</span>
+                            <img src="https://img.icons8.com/?size=96&id=p8UFrp2VUgHR&format=png" alt={t('navProfile')} className="img-default"/>
+                            <span className="icon-text">{t('navProfile')}</span>
                         </button>
 
-                        <button id="team-icon" className="icon" onClick={() => setIsTeamOpen(true)}>
+                        <button
+                            id="team-icon"
+                            className="icon"
+                            onClick={() => setIsTeamOpen(true)}
+                            title={t('navTeams')}
+                            aria-label={t('navTeams')}
+                        >
                             <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                            <img src="https://img.icons8.com/?size=96&id=aSlhg0UOn67Q&format=png" alt="Команда" className="img-default"/>
-                            <span className="icon-text">{t('team')}</span>
+                            <img src="https://img.icons8.com/?size=96&id=aSlhg0UOn67Q&format=png" alt={t('navTeams')} className="img-default"/>
+                            <span className="icon-text">{t('navTeams')}</span>
                         </button>
 
-                        <button id="quests-icon" className="icon">
+                        <button
+                            id="quests-icon"
+                            className="icon"
+                            title={t('navTasks')}
+                            aria-label={t('navTasks')}
+                        >
                             <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                            <img src="https://img.icons8.com/?size=96&id=ljwCE5MTJHVo&format=png" alt="Задания" className="img-default"/>
-                            <span className="icon-text">{t('tasks')}</span>
+                            <img src="https://img.icons8.com/?size=96&id=ljwCE5MTJHVo&format=png" alt={t('navTasks')} className="img-default"/>
+                            <span className="icon-text">{t('navTasks')}</span>
                         </button>
                     </div>
 
                     {/* Кнопка настроек внизу */}
-                    <button id="settings-icon" className="icon" onClick={() => setIsSettingsOpen(true)}>
+                    <button
+                        id="settings-icon"
+                        className="icon"
+                        onClick={() => setIsSettingsOpen(true)}
+                        title={t('navSettings')}
+                        aria-label={t('navSettings')}
+                    >
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                        <img src="https://img.icons8.com/?size=96&id=xyFoc6U1Hu3c&format=png" alt="Настройки" className="img-default"/>
-                            <span className="icon-text">{t('settings')}</span>
+                        <img src="https://img.icons8.com/?size=96&id=xyFoc6U1Hu3c&format=png" alt={t('navSettings')} className="img-default"/>
+                            <span className="icon-text">{t('navSettings')}</span>
                     </button>
                 </div>
             </section>
@@ -104,26 +127,35 @@ function MainLayout({ onLogout }) {
             <section className="top-panel">
                 <div id="rectangle-top-panel" className="glass-panel">
                     <h1>SaveYourTime</h1>
-                    <button id="add-task-icon" className="icon" onClick={() => setIsAddOpen(true)}>
+                    <button
+                        id="add-task-icon"
+                        className="icon"
+                        onClick={() => setIsAddOpen(true)}
+                        title={t('addTask')}
+                        aria-label={t('addTask')}
+                    >
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                        <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Добавить" className="img-default"/>
+                        <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt={t('addTask')} className="img-default"/>
                             <span className="icon-text">{t('addTask')}</span>
                     </button>
                 </div>
             </section>
 
-            {/* === КОНТЕЙНЕР ЗАДАЧ === */}
-            <section className="tasks-container">
-                {tasks.map(task => (
-                    <TaskCard
-                        key={task.id}
-                        task={task}
-                        onEdit={openEditModal}
-                        onDelete={openDeleteModal}
-                        onViewDetails={openDescModal}
-                    />
-                ))}
-            </section>
+            <div className="tasks-panel-container">
+                <div className="tasks-scroll-wrapper custom-scrollbar">
+                    <div className="tasks-grid">
+                        {tasks.map(task => (
+                            <TaskCard
+                                key={task.id}
+                                task={task}
+                                onEdit={openEditModal}
+                                onDelete={openDeleteModal}
+                                onViewDetails={() => openDescModal(task)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
 
             {/* === МОДАЛКИ === */}
             <AddTaskModal 

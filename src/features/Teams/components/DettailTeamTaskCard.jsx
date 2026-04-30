@@ -80,7 +80,7 @@ const DettailTeamTaskCard = ({ task, isOpen, onClose }) => {
                 </div>
 
                 <div className="desc-modal-buttons">
-                    <button className="btn-cancel" onClick={onClose}>
+                    <button className="btn-cancel" onClick={onClose} style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}>
                         <span className="btn-text">Закрыть</span>
                         <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="" className="btn-icon" />
                         <div className="btn-bg-slide"></div>

@@ -78,7 +78,7 @@ function ProfileModal({ isOpen, onClose, onLogout }) {
                 <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
 
                     <div className="modal-header">
-                        <h2>{t('profile')}</h2>
+                        <h2>{t('profileTitle')}</h2>
                         <button className="common-close-btn" onClick={onClose}>
                             <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt=" Close"/>
                         </button>

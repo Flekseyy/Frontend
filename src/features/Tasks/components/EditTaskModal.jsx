@@ -178,6 +178,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                             type="button" 
                             className="btn-cancel" 
                             onClick={onClose}
+                            style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
                         >
                             <span className="btn-text">{t('cancel')}</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />

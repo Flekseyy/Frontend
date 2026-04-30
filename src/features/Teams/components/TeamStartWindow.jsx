@@ -57,7 +57,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <div className="teams-scroll-container">
+                <div className="teams-scroll-container custom-scrollbar">
                     {teams.length === 0 ? (
                         <p className="empty-message">{t('noTeams')}</p>
                     ) : (
@@ -77,7 +77,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 </div>
 
                 <div className="list-actions-container">
-                    <button className="btn-create-team-small" onClick={() => setIsCreateOpen(true)}>
+                    <button className="btn-add-member" onClick={() => setIsCreateOpen(true)} style={{ width: '50%' }}>
                         <span className="btn-text">{t('createTeam')}</span>
                         <img src="https://img.icons8.com/?size=96&id=Y0LmisQTNVSH&format=png" alt="Plus" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
