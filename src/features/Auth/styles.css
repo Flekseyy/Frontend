@@ -34,7 +34,7 @@ h1 {
     font-size: 2rem;
     color: #fff;
     text-align: center;
-    font-family: 'Raleway', sans-serif;
+    font-family: '', sans-serif;
 }
 
 .inputbox {
@@ -53,7 +53,7 @@ h1 {
     font-size: 1rem;
     pointer-events: none;
     transition: all 0.5s ease-in-out;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 input:focus ~ label,
@@ -74,7 +74,7 @@ input[value]:not([value=""]) ~ label {
     font-size: 1rem;
     padding: 0 35px 0 5px;
     color: #fff;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 .inputbox ion-icon {
@@ -96,7 +96,7 @@ input[value]:not([value=""]) ~ label {
 .forget label {
     display: flex;
     align-items: center;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 .forget label input {
@@ -124,7 +124,7 @@ button {
     font-size: 1rem;
     font-weight: bold;
     transition: all 0.4s ease;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 button:hover {
@@ -138,7 +138,7 @@ button:hover {
     margin: 20px 0;
     color: #fff;
     font-size: 0.85rem;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 .divider::before,
@@ -168,7 +168,7 @@ button:hover {
     justify-content: center;
     gap: 8px;
     color: #333;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 .google-btn:hover {
@@ -182,7 +182,7 @@ button:hover {
     color: #fff;
     text-align: center;
     margin: 25px 0 10px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Nunito', sans-serif
 }
 
 .register p a, .authorization p a {
@@ -203,3 +203,8 @@ button:hover {
     -webkit-text-fill-color: #fff !important;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+ a 
+ {
+    font-family: 'Nunito', sans-serif
+ }

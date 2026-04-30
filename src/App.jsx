@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Login from './components/AuthorizationComponents/Login'
+import Login from './features/Auth/components/Login' 
 import MainLayout from './layouts/MainLayout'
 import { useNavigate, Route, Routes, Navigate } from 'react-router'
 import {useEffect} from 'react'

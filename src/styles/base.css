@@ -20,6 +20,10 @@ body[data-theme="light"] {
     --animated-wave-3: rgba(140, 150, 180, 0.1);
 }
 
+body, input, button, h1, h2, h3, p, span, div {
+    font-family: 'Nunito', sans-serif;
+}
+
 #root {
     width: 100%;
     min-height: 100vh;

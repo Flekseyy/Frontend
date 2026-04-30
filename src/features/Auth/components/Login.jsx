@@ -15,8 +15,30 @@ const Login = ({ onLogin }) => {
         setError('')
         setIsLoading(true)
         try {
-            await loginUser({ email, password }) // <-- Убрали получение data.token
-            onLogin() // <-- Просто переходим в приложение
+            // 1. Получаем ответ от сервера
+            const response = await loginUser({ email, password }) 
+            
+            // 2. Проверяем структуру ответа. 
+            // Обычно axios возвращает данные в response.data.
+            // Если твой бэкэнд возвращает { id: 123, token: "..." }, то id лежит в response.data.id
+            
+            // ВАРИАНТ А: Если loginUser возвращает весь объект ответа axios
+            const userId = response.data?.id || response.data?.user?.id;
+
+            // ВАРИАНТ Б: Если loginUser уже распакован и возвращает только data (см. ниже примечание)
+            // const userId = response?.id;
+
+            if (userId) {
+                // 3. Сохраняем ID в localStorage
+                localStorage.setItem('userId', String(userId));
+                console.log('User ID saved:', userId);
+            } else {
+                console.warn('User ID not found in response:', response);
+            }
+
+            // 4. Вызываем функцию входа
+            onLogin() 
+            
         } catch (err) {
             console.error(err)
             const errorMessage = err.response?.data?.message || 'Неверный email или пароль'

@@ -10,7 +10,7 @@ import TaskDescriptionModal from '../features/Tasks/components/TaskDescriptionMo
 import ProfileModal from '../features/Profile/components/ProfileModal'
 import SettingsModal from '../features/Settings/components/SettingsModal';
 
-function MainLayout() {
+function MainLayout({ onLogout }) {
     const [tasks, setTasks] = useState([])
     const [isAddOpen, setIsAddOpen] = useState(false)
     const [isEditOpen, setIsEditOpen] = useState(false)
@@ -64,23 +64,32 @@ function MainLayout() {
                 <div className="wave"></div>
             </div>
 
+            {/* === ЛЕВАЯ ПАНЕЛЬ (Узкая и Длинная) === */}
             <section className="leftPanel">
                 <div id="rectangle-left-panel" className="glass-panel">
-                    <button id="profile-icon" className="icon" onClick={() => setIsProfileOpen(true)}>
-                        <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                        <img src="https://img.icons8.com/?size=96&id=p8UFrp2VUgHR&format=png" alt="Профиль" className="img-default"/>
-                        <span className="icon-text">Профиль</span>
-                    </button>
-                    <button id="team-icon" className="icon" onClick={() => setIsTeamOpen(true)}>
-                        <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                        <img src="https://img.icons8.com/?size=96&id=aSlhg0UOn67Q&format=png" alt="Команда" className="img-default"/>
-                        <span className="icon-text">Команда</span>
-                    </button>
-                    <button id="quests-icon" className="icon">
-                        <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
-                        <img src="https://img.icons8.com/?size=96&id=ljwCE5MTJHVo&format=png" alt="Задания" className="img-default"/>
-                        <span className="icon-text">Задания</span>
-                    </button>
+                    
+                    {/* Группа верхних иконок */}
+                    <div className="panel-top-group">
+                        <button id="profile-icon" className="icon" onClick={() => setIsProfileOpen(true)}>
+                            <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
+                            <img src="https://img.icons8.com/?size=96&id=p8UFrp2VUgHR&format=png" alt="Профиль" className="img-default"/>
+                            <span className="icon-text">Профиль</span>
+                        </button>
+
+                        <button id="team-icon" className="icon" onClick={() => setIsTeamOpen(true)}>
+                            <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
+                            <img src="https://img.icons8.com/?size=96&id=aSlhg0UOn67Q&format=png" alt="Команда" className="img-default"/>
+                            <span className="icon-text">Команда</span>
+                        </button>
+
+                        <button id="quests-icon" className="icon">
+                            <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
+                            <img src="https://img.icons8.com/?size=96&id=ljwCE5MTJHVo&format=png" alt="Задания" className="img-default"/>
+                            <span className="icon-text">Задания</span>
+                        </button>
+                    </div>
+
+                    {/* Кнопка настроек внизу */}
                     <button id="settings-icon" className="icon" onClick={() => setIsSettingsOpen(true)}>
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
                         <img src="https://img.icons8.com/?size=96&id=xyFoc6U1Hu3c&format=png" alt="Настройки" className="img-default"/>
@@ -89,6 +98,7 @@ function MainLayout() {
                 </div>
             </section>
 
+            {/* === ВЕРХНЯЯ ПАНЕЛЬ === */}
             <section className="top-panel">
                 <div id="rectangle-top-panel" className="glass-panel">
                     <h1>SaveYourTime</h1>
@@ -100,6 +110,7 @@ function MainLayout() {
                 </div>
             </section>
 
+            {/* === КОНТЕЙНЕР ЗАДАЧ === */}
             <section className="tasks-container">
                 {tasks.map(task => (
                     <TaskCard
@@ -112,6 +123,7 @@ function MainLayout() {
                 ))}
             </section>
 
+            {/* === МОДАЛКИ === */}
             <AddTaskModal 
                 isOpen={isAddOpen} 
                 onClose={() => setIsAddOpen(false)} 
@@ -136,7 +148,13 @@ function MainLayout() {
             )}
 
             <TeamStartWindow isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
-            <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
+            
+            <ProfileModal 
+                isOpen={isProfileOpen} 
+                onClose={() => setIsProfileOpen(false)} 
+                onLogout={onLogout} 
+            />
+            
             <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
         </>
     )

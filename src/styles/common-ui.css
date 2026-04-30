@@ -22,7 +22,7 @@
     filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: opacity 0.3s;
-    display: block; /* Убирает лишние отступы у картинки */
+    display: block; 
 }
 
 .common-close-btn:hover {
@@ -139,6 +139,9 @@
     align-items: center;
     justify-content: center;
     transition: border-color 0.3s ease;
+    
+    background: transparent;
+    color: white;
 }
 
 .btn-text {

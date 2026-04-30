@@ -14,13 +14,18 @@ const Register = ({ onLogin, onBack }) => {
         e.preventDefault()
         setError('')
 
+        if (password.length < 6) {
+            setError('Кол-во символов не меньше 6')
+            return
+        }
+
         if (password !== passwordConfirm) {
             setError('Пароли не совпадают!')
             return
         }
+
         setIsLoading(true) 
         try {
-            // Вызываем функцию из api.js
             await registerUser({
                 username,
                 email,
