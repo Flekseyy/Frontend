@@ -1,5 +1,5 @@
 {
-  "name": "untitled",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,9 +7,13 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "react-router-dom": "^7.14.0",
+    "axios": "^1.15.0",
+    "date-fns": "^4.1.0",
+    "dependencies": "^0.0.1",
+    "react": "^19.2.5",
+    "react-datepicker": "^9.1.0",
+    "react-dom": "^19.2.5",
+    "react-router": "^7.14.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
