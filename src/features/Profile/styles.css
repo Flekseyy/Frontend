@@ -180,7 +180,6 @@
     opacity: 0.9;
 }
 
-/* Avoid global <p> styles leaking into info cards */
 .profile-header p {
     font-family: "Nunito", monospace;
     text-align: center;
@@ -274,4 +273,9 @@
     transform: none;
     border-color: rgba(255, 255, 255, 0.3);
     cursor: wait;
+}
+.confirm-text{
+    font-family: "Nunito", monospace;
+    text-align: center;
+    
 }

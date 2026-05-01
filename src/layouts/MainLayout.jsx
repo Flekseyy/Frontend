@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './MainLayout.css'
 import { useTranslation } from '../i18n/LanguageContext'
-import { getAssignmentById, getAssignments, getCurrentUser, createTask } from '../services/api'
+import { getAssignments, getCurrentUser, createTask } from '../services/api'
 
 import AddTaskModal from '../features/Tasks/components/AddTaskModal'
 import DeleteTaskModal from '../features/Tasks/components/DeleteTaskModal'
@@ -25,7 +25,7 @@ function MainLayout({ onLogout }) {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null)
-    const [isCreating, setIsCreating] = useState(false)
+    const [isDarkMode, setIsDarkMode] = useState(true)
 
     const normalizeTask = (raw) => {
         if (!raw || typeof raw !== 'object') return raw
@@ -41,6 +41,19 @@ function MainLayout({ onLogout }) {
     }
 
     useEffect(() => {
+        const savedTheme = localStorage.getItem('theme')
+        const isDark = savedTheme ? savedTheme === 'dark' : true
+        setIsDarkMode(isDark)
+        if (isDark) {
+            document.body.classList.add('dark-theme')
+            document.body.classList.remove('light-theme')
+        } else {
+            document.body.classList.add('light-theme')
+            document.body.classList.remove('dark-theme')
+        }
+    }, [])
+
+    useEffect(() => {
         const user = getCurrentUser()
         setCurrentUser(user?.id)
     }, [])
@@ -49,16 +62,28 @@ function MainLayout({ onLogout }) {
         let cancelled = false
 
         const load = async () => {
+            if (!currentUser) return
+            
             try {
                 setTasksError('')
                 const data = await getAssignments()
                 if (cancelled) return
-                const normalized = Array.isArray(data) ? data.map(normalizeTask) : []
-                const userTasks = currentUser ? normalized.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : normalized
-                setTasks(userTasks)
+                
+                if (Array.isArray(data)) {
+                    const normalized = data.map(normalizeTask)
+                    const userTasks = normalized.filter(task => 
+                        task.assigneeId === currentUser || 
+                        task.userId === currentUser ||
+                        (task.authorId && task.authorId === currentUser)
+                    )
+                    setTasks(userTasks)
+                } else {
+                    setTasks([])
+                }
             } catch (e) {
                 if (cancelled) return
-                setTasksError('Не удалось загрузить задачи. Проверь, что бэкенд запущен и доступен.')
+                console.error("Error loading tasks:", e)
+                setTasksError(t('tasksLoadError') || 'Не удалось загрузить задачи.')
                 setTasks([])
             }
         }
@@ -67,52 +92,50 @@ function MainLayout({ onLogout }) {
         return () => {
             cancelled = true
         }
-    }, [currentUser])
+    }, [currentUser, t])
 
     const handleSaveTask = async (newTask) => {
-        setIsCreating(true)
         try {
-            // Пытаемся создать задачу через API
-            // Если функция createTask выбрасывает ошибку, но задача создается на бэкенде,
-            // мы все равно перейдем в блок finally/catch для обновления списка
-            if (typeof createTask === 'function') {
-                await createTask(newTask)
-            } else {
-                throw new Error('Функция createTask не найдена в API')
+            const payload = {
+                ...newTask,
+                userId: currentUser,
+                authorId: currentUser
             }
             
-            // Успешное создание: загружаем свежий список
+            await createTask(payload)
+            
             const data = await getAssignments()
-            const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
-            const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
-            setTasks(userTasks)
+            if (Array.isArray(data)) {
+                const normalized = data.map(normalizeTask)
+                const userTasks = normalized.filter(task => 
+                    task.assigneeId === currentUser || 
+                    task.userId === currentUser ||
+                    (task.authorId && task.authorId === currentUser)
+                )
+                setTasks(userTasks)
+            }
             setIsAddOpen(false)
         } catch (error) {
-            console.warn('Предупреждение при создании задачи:', error)
-            // Даже если произошла ошибка (или бэкенд вернул странный ответ),
-            // пробуем загрузить список, так как задача могла сохраниться.
-            // Это решает проблему "ошибка есть, но после F5 задача видна".
-            try {
-                const data = await getAssignments()
-                const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
-                const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
-                
-                // Проверяем, появилась ли задача в списке (по названию или другим признакам, если нужно)
-                // Для простоты просто обновляем весь список
-                setTasks(userTasks)
-                
-                // Если задача нашлась в списке после "ошибки", считаем успехом и закрываем модалку
-                const taskExists = refreshed.some(t => t.title === newTask.title)
-                if (taskExists) {
-                    setIsAddOpen(false)
-                } else {
-                    setTasksError('Задача создана, но произошла ошибка при обновлении списка. Попробуйте обновить страницу.')
+            setTimeout(() => {
+                const reload = async () => {
+                    try {
+                        const data = await getAssignments()
+                        if (Array.isArray(data)) {
+                            const normalized = data.map(normalizeTask)
+                            const userTasks = normalized.filter(task => 
+                                task.assigneeId === currentUser || 
+                                task.userId === currentUser ||
+                                (task.authorId && task.authorId === currentUser)
+                            )
+                            setTasks(userTasks)
+                        }
+                        setTasksError('')
+                    } catch (e) {
+                        console.error("Reload error:", e)
+                    }
                 }
-            } catch (loadError) {
-                setTasksError('Не удалось создать задачу или обновить список.')
-            }
-        } finally {
-            setIsCreating(false)
+                reload()
+            })
         }
     }
 
@@ -132,7 +155,7 @@ function MainLayout({ onLogout }) {
         setIsDeleteOpen(true)
     }
 
-    const handleDeleteTask = (taskId) => {
+    const handleDeleteTask = async (taskId) => {
         setTasks(tasks.filter(t => t.id !== taskId))
         setIsDeleteOpen(false)
         setCurrentTask(null)
@@ -140,6 +163,20 @@ function MainLayout({ onLogout }) {
 
     const openDescModal = (task) => {
         setSelectedTaskForDesc(task)
+    }
+
+    const toggleTheme = () => {
+        const newMode = !isDarkMode
+        setIsDarkMode(newMode)
+        localStorage.setItem('theme', newMode ? 'dark' : 'light')
+        
+        if (newMode) {
+            document.body.classList.add('dark-theme')
+            document.body.classList.remove('light-theme')
+        } else {
+            document.body.classList.add('light-theme')
+            document.body.classList.remove('dark-theme')
+        }
     }
 
     return (
@@ -213,7 +250,6 @@ function MainLayout({ onLogout }) {
                         onClick={() => setIsAddOpen(true)}
                         title={t('addTask')}
                         aria-label={t('addTask')}
-                        disabled={isCreating}
                     >
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
                         <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt={t('addTask')} className="img-default"/>
@@ -226,7 +262,7 @@ function MainLayout({ onLogout }) {
                 <div className="tasks-scroll-wrapper custom-scrollbar">
                     <div className="tasks-grid">
                         {tasksError && (
-                            <div style={{ color: '#ff5252', textAlign: 'center', marginBottom: '10px', fontSize: '14px' }}>
+                            <div style={{ color: '#ff5252', textAlign: 'center', marginBottom: '10px', fontSize: '14px', gridColumn: '1/-1' }}>
                                 {tasksError}
                             </div>
                         )}
@@ -245,7 +281,7 @@ function MainLayout({ onLogout }) {
 
             <AddTaskModal 
                 isOpen={isAddOpen} 
-                onClose={() => !isCreating && setIsAddOpen(false)} 
+                onClose={() => setIsAddOpen(false)} 
                 onSave={handleSaveTask} 
                 token={localStorage.getItem('token')} 
             />
@@ -274,7 +310,12 @@ function MainLayout({ onLogout }) {
                 onLogout={onLogout} 
             />
             
-            <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+            <SettingsModal 
+                isOpen={isSettingsOpen} 
+                onClose={() => setIsSettingsOpen(false)} 
+                isDarkMode={isDarkMode}
+                onToggleTheme={toggleTheme}
+            />
         </>
     )
 }
