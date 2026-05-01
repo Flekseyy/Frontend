@@ -23,7 +23,7 @@ export default function AddMemberModal({ isOpen, onClose, onAdd }) {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <h2>Добавить участника</h2>
+                <header>Добавить участника</header>
                 
                 <form onSubmit={handleSubmit}>
                     <input

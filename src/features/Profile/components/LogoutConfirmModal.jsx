@@ -10,7 +10,7 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
             <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
                 
                 <div className="modal-header">
-                    <h2>Подтверждение</h2>
+                    <header>Подтверждение</header>
                     <button className="common-close-btn" onClick={onCancel}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
                     </button>

@@ -87,7 +87,7 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <h2>{t('createTeam')}</h2>
+                <header>{t('createTeam')}</header>
 
                 {serverError && (
                     <div style={{ color: '#ff5252', textAlign: 'center', marginBottom: '10px', fontSize: '14px' }}>
@@ -163,7 +163,7 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
                             disabled={isProcessing}
                         >
                             <span className="btn-text">{isProcessing ? t('creatingTeam') : t('create')}</span>
-                            <img src="https://img.icons8.com/?size=96&id=GqJpEbXPcmLg&format=png" alt="Check" className="btn-icon" />
+                            <img src="https://img.icons8.com/?size=96&id=Y0LmisQTNVSH&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
                     </div>

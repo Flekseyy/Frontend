@@ -43,7 +43,7 @@ const DettailTeamTaskCard = ({ task, isOpen, onClose }) => {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <h2 className="desc-title">{task.title}</h2>
+                <header className="desc-title">{task.title}</header>
 
                 <div className="task-details-container">
                     <div className="task-description-section">

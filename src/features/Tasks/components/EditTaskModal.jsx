@@ -91,7 +91,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <h2>{t('editTask')}</h2>
+                <header>{t('editTask')}</header>
 
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
 

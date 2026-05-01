@@ -44,7 +44,7 @@ export default function TaskDescriptionModal({ task, isOpen, onClose }) {
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <h2 className="desc-title">{task.title}</h2>
+                <header className="desc-title">{task.title}</header>
 
                 <div className="task-details-container">
                     <div className="task-description-section">
@@ -81,7 +81,7 @@ export default function TaskDescriptionModal({ task, isOpen, onClose }) {
                 </div>
 
                 <div className="desc-modal-buttons">
-                    <button className="btn-cancel" onClick={onClose} style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} >
+                    <button className="btn-cancel" onClick={onClose} style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}>
                         <span className="btn-text">Закрыть</span>
                         <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Check" className="btn-icon" />
                         <div className="btn-bg-slide"></div>

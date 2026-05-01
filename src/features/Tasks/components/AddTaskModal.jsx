@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
-// import { createTask } from '../../../services/api' // <-- Закомментируй импорт, если он больше нигде не нужен в этом файле
+import { createTask } from '../../../services/api' // <-- Закомментируй импорт, если он больше нигде не нужен в этом файле
 import DateTimePicker from './DateTimePicker' 
 import { useTranslation } from '../../../i18n/LanguageContext'
 
@@ -141,6 +141,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
         setIsLoading(true)
 
         try {
+            /* Артём поставил заглушку
             // --- НАЧАЛО ИЗМЕНЕНИЙ: Имитация ответа сервера ---
             
             // 1. Формируем дату для объекта
@@ -169,6 +170,42 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
             onSave(mockNewTask);
             
             // --- КОНЕЦ ИЗМЕНЕНИЙ ---
+            */
+
+            
+            
+            // ------------МЕРДАН добавил запрос к бэку---------- 
+            // --- НАЧАЛО ИЗМЕНЕНИЙ: Реальный запрос к бэкенду ---
+
+            // 1. Формируем дату для объекта
+            let finalDeadline = new Date(deadlineDate)
+            if (deadlineTime) {
+                const [hours, minutes] = deadlineTime.split(':').map(Number)
+                finalDeadline.setHours(hours, minutes, 0, 0)
+            }
+            const deadlineISO = finalDeadline.toISOString()
+
+            // 2. Формируем данные для отправки (PascalCase как в C# модели)
+            const taskData = {
+                Title: title,
+                Description: description,
+                Priority: priority,
+                Deadline: deadlineISO
+            };
+
+            console.log('Отправляем на бэкенд:', taskData);
+
+            // 3. Отправляем POST-запрос на бэкенд
+            // Важно: createTask() в сервисе уже возвращает response.data
+            const createdTask = await createTask(taskData)
+
+            console.log('Ответ от сервера:', createdTask)
+
+            // 4. Передаем объект задачи наверх, чтобы обновить список
+            // onSave может быть async (например, чтобы подтянуть свежие данные с бэка)
+            await Promise.resolve(onSave(createdTask))
+
+            // --- КОНЕЦ ИЗМЕНЕНИЙ ---
 
             setTitle('')
             setDescription('')
@@ -196,7 +233,7 @@ export default function AddTaskModal({ isOpen, onClose, onSave, token }) {
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                     </button>
 
-                    <h2>{t('newTask')}</h2>
+                    <header>{t('newTask')}</header>
 
                     {serverError && (
                         <div style={{ color: '#ff5252', textAlign: 'center', marginBottom: '10px', fontSize: '14px' }}>

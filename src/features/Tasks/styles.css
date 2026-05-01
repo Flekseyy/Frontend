@@ -251,14 +251,14 @@
 .priority-text-btn {
     flex: 1;
     padding: 12px 5px;
-    border-radius: 10px;
+    border-radius: 13px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
+    height: 38px;
 }
 
 .btn-text-inner {
@@ -511,10 +511,13 @@
     justify-content: center;
 }
 
-.modal-content h2 {
-    padding-bottom: 12px;
+.modal-content header {
+    margin: 0;
+    font-family: 'Nunito', monospace;
     text-align: center;
-    width: 100%;
+    font-size: 20px;
+    flex-grow: 1;
+    margin-bottom: 10px !important;
 }
 
 .details-btn {
@@ -915,7 +918,7 @@
     position: relative;
 }
 
-.modal-content h2 {
+.modal-content header {
     margin-bottom: 20px;
     font-family: 'Nunito', monospace;
     text-align: center;
@@ -930,6 +933,7 @@
     overflow-y: auto;
     display: block;
     position: relative;
+    border-radius: 13px;
 }
 
 .resizable-textarea::-webkit-resizer {
@@ -947,52 +951,6 @@
     cursor: nwse-resize;
     pointer-events: none;
     border-bottom-right-radius: 8px;
-}
-
-.btn-save, .btn-cancel, .btn-delete {
-    background-color: transparent !important;
-    position: relative;
-    overflow: hidden;
-    height: 45px;
-    padding: 0 20px;
-    border-radius: 10px;
-    min-width: 120px;
-    z-index: 3;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    font-weight: 600;
-    font-family: 'Nunito', monospace;
-    font-size: 16px !important;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.3s ease;
-    background: transparent;
-}
-
-.btn-save {
-    border-color: #098765;
-}
-
-.btn-cancel {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.btn-delete {
-    border-color: #B44C43;
-}
-
-.btn-save:hover {
-    border-color: #1ea043;
-}
-
-.btn-cancel:hover {
-    border-color: rgba(255, 255, 255, 0.6);
-}
-
-.btn-delete:hover {
-    border-color: #b44c4374;
 }
 
 .btn-text {
@@ -1051,4 +1009,12 @@
 .btn-delete:hover .btn-icon {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.quation-text {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Nunito', monospace;
+    margin-top: 20px;
 }

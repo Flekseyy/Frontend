@@ -38,7 +38,7 @@ export default function TeamProfile({ teamData, onClose }) {
                     <div className="team-logo-container">
                         <img src={teamData.logo} alt="Logo" className="team-logo-img" />
                     </div>
-                    <h2 className="team-name-title">{teamData.name}</h2>
+                    <header className="team-name-title">{teamData.name}</header>
                 </div>
 
                 <div className="team-stats-placeholder">

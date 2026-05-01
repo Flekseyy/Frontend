@@ -1,44 +1,37 @@
 import React, { useState } from 'react'
 import '../styles.css'
 import Register from './Register'
-import { loginUser } from '../../../services/api' 
+import { loginUser, getUserById } from '../../../services/api'
 
 const Login = ({ onLogin }) => {
     const [showRegister, setShowRegister] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const [isLoading, setIsLoading] = useState(false)   
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
         setIsLoading(true)
         try {
-            // 1. Получаем ответ от сервера
-            const response = await loginUser({ email, password }) 
+            const response = await loginUser({ email, password })
             
-            // 2. Проверяем структуру ответа. 
-            // Обычно axios возвращает данные в response.data.
-            // Если твой бэкэнд возвращает { id: 123, token: "..." }, то id лежит в response.data.id
+            const data = response.data || response
+            const user = data.user || data.data || data
+            const userId = user.id || user.userId || data.id || data.userId
             
-            // ВАРИАНТ А: Если loginUser возвращает весь объект ответа axios
-            const userId = response.data?.id || response.data?.user?.id;
-
-            // ВАРИАНТ Б: Если loginUser уже распакован и возвращает только data (см. ниже примечание)
-            // const userId = response?.id;
-
             if (userId) {
-                // 3. Сохраняем ID в localStorage
-                localStorage.setItem('userId', String(userId));
-                console.log('User ID saved:', userId);
-            } else {
-                console.warn('User ID not found in response:', response);
+                try {
+                    const fullUserData = await getUserById(userId)
+                    localStorage.setItem('currentUser', JSON.stringify(fullUserData))
+                } catch (err) {
+                    console.error('❌ Не удалось загрузить данные пользователя:', err)
+                    localStorage.setItem('currentUser', JSON.stringify(user))
+                }
             }
-
-            // 4. Вызываем функцию входа
-            onLogin() 
             
+            onLogin()
         } catch (err) {
             console.error(err)
             const errorMessage = err.response?.data?.message || 'Неверный email или пароль'

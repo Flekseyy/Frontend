@@ -115,13 +115,13 @@ input[value]:not([value=""]) ~ label {
 
 button {
     width: 100%;
-    height: 40px;
+    height: 36px;
     border-radius: 40px;
     background-color: rgb(255, 255, 255, 1);
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: bold;
     transition: all 0.4s ease;
     font-family: 'Nunito', sans-serif
@@ -154,13 +154,13 @@ button:hover {
 
 .google-btn {
     width: 100%;
-    height: 40px;
+    height: 36px;
     border-radius: 40px;
     background-color: rgba(255, 255, 255, 0.9);
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
     transition: all 0.4s ease;
     display: flex;

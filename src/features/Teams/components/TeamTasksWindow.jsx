@@ -28,8 +28,28 @@ export default function TeamTasksWindow({ teamData, onClose }) {
 
     if (!teamData) return null
 
+    const normalizeTask = (raw) => {
+        if (!raw || typeof raw !== 'object') return raw
+        return {
+            ...raw,
+            id: raw.id ?? raw.Id ?? raw.assignmentId ?? raw.AssignmentId,
+            title: raw.title ?? raw.Title ?? '',
+            description: raw.description ?? raw.Description ?? '',
+            priority: raw.priority ?? raw.Priority ?? null,
+            deadline: raw.deadline ?? raw.Deadline ?? null,
+            createdAt: raw.createdAt ?? raw.CreatedAt ?? raw.created ?? raw.Created ?? null,
+            status: raw.status ?? raw.Status ?? raw.statusId ?? raw.StatusId ?? raw.state ?? raw.State,
+        }
+    }
+
     const handleAddTask = (newTask) => {
-        const taskWithId = { ...newTask, id: Date.now(), status: 'todo', createdAt: new Date().toISOString() }
+        const normalized = normalizeTask(newTask)
+        const taskWithId = {
+            ...normalized,
+            id: normalized?.id ?? Date.now(),
+            status: normalized?.status ?? 'todo',
+            createdAt: normalized?.createdAt ?? new Date().toISOString(),
+        }
         setTasks([...tasks, taskWithId])
         setIsAddOpen(false)
     }
@@ -124,7 +144,7 @@ export default function TeamTasksWindow({ teamData, onClose }) {
                 </button>
 
                 <div className="tasks-header">
-                    <h2>Задачи команды</h2>
+                    <header>Задачи команды</header>
                     <span className="team-name-subtitle">{teamData.name}</span>
                 </div>
 

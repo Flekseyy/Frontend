@@ -2,10 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
-.modal-header h2 {
+.modal-header header {
     margin: 0;
     font-family: 'Nunito', monospace;
     text-align: center;
@@ -19,6 +19,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 30px;
+    margin-top: 15px;
 }
 
 .avatar {
@@ -108,14 +109,12 @@
 .info-card {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 10px;
-    padding: 10px 12px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.2s ease;
-    min-height: 50px;
     box-sizing: border-box;
 }
 
@@ -146,15 +145,18 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    align-items: flex-start; 
+    text-align: left;
 }
 
 .info-label {
-    margin: 0;
     font-size: 10px;
     opacity: 0.6;
     font-family: "Nunito", monospace;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 0px !important;
+    margin-top: 0 !important;
 }
 
 .info-value {
@@ -178,11 +180,31 @@
     opacity: 0.9;
 }
 
-p 
-{
+/* Avoid global <p> styles leaking into info cards */
+.profile-header p {
     font-family: "Nunito", monospace;
     text-align: center;
-    margin-top: -5px;
+    margin-top: 0;
+}
+
+.profile-info .info-card {
+    padding: 2px;
+    align-items: stretch;
+    min-height: 20px;
+    height: 50px;
+    overflow: hidden;
+}
+
+.profile-info .info-content {
+    justify-content: center;
+}
+
+.profile-info 
+
+.profile-info .info-value {
+    margin: 0 !important;
+    text-align: left;
+    line-height: 1.2;
 }
 
 .form-group {

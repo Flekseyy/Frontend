@@ -51,7 +51,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     return (
         <div className="team-list-overlay" onClick={onClose}>
             <div className="team-list-content glass-panel" onClick={(e) => e.stopPropagation()}>
-                <h2>{t('myTeams')}</h2>
+                <header>{t('myTeams')}</header>
 
                 <button className="common-close-btn" onClick={onClose}>
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />

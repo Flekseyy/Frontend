@@ -1,4 +1,3 @@
-// src/components/SettingsModal.jsx
 import React, { useState } from 'react';
 import '../styles/StyleSettingsWindow.css';
 import '../../../styles/common-ui.css'
@@ -68,15 +67,14 @@ function SettingsModal({ isOpen, onClose }) {
             <div className="modal-content glass-panel settings-modal" onClick={(e) => e.stopPropagation()}>
 
                 <div className="modal-header">
-                    <h2>{t('settingsTitle')}</h2>
+                    <header>{t('settingsTitle')}</header>
                     <button className="common-close-btn" onClick={onClose}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
                     </button>
                 </div>
 
-                <div className="settings-container">
+                <div className="settings-container custom-scrollbar">
                     
-                    {/* Секция Внешний вид */}
                     <div className="settings-section">
                         <h3 className="section-title">{t('appearance')}</h3>
                         
@@ -91,7 +89,6 @@ function SettingsModal({ isOpen, onClose }) {
                                     checked={settings.darkTheme} 
                                     onChange={() => handleToggle('darkTheme')}
                                 />
-                                <span className="toggle-slider"></span>
                             </label>
                         </div>
 
@@ -164,10 +161,12 @@ function SettingsModal({ isOpen, onClose }) {
                 <div className="modal-buttons settings-buttons">
                     <button className="btn-cancel" onClick={onClose}>
                         <span className="btn-text">{t('cancel')}</span>
+                        <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Check" className="btn-icon"/>
+                        <div className="btn-bg-slide"></div>
                     </button>
                     <button className="btn-save" onClick={handleSave}>
                         <span className="btn-text">{t('saveSettings')}</span>
-                        <img src="https://img.icons8.com/?size=100&id=1501&format=png" alt="Check" className="btn-icon"/>
+                        <img src="https://img.icons8.com/?size=96&id=2WnpVEXfzAbC&format=png" alt="Check" className="btn-icon"/>
                         <div className="btn-bg-slide"></div>
                     </button>
                 </div>
