@@ -1,14 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
+import { getTeamById } from '../../../services/api'
 import TeamTasksWindow from './TeamTasksWindow'
 import AddMemberModal from './AddMemberModal'
 
-export default function TeamProfile({ teamData, onClose }) {
+export default function TeamProfile({ teamData, onClose, onRefresh }) {
     const [isTasksOpen, setIsTasksOpen] = useState(false)
     const [isAddMemberOpen, setIsAddMemberOpen] = useState(false)
+    const [currentTeamData, setCurrentTeamData] = useState(teamData)
+    const [isLoading, setIsLoading] = useState(true)
 
-    if (!teamData) return null
+    useEffect(() => {
+        if (teamData && teamData.id) {
+            loadTeamDetails()
+        } else {
+            setCurrentTeamData(teamData)
+            setIsLoading(false)
+        }
+    }, [teamData])
+
+    const loadTeamDetails = async () => {
+        try {
+            setIsLoading(true)
+            const details = await getTeamById(teamData.id)
+            setCurrentTeamData(details)
+        } catch (error) {
+            console.error('Ошибка при загрузке деталей команды:', error)
+            setCurrentTeamData(teamData)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    if (!currentTeamData || isLoading) return null
 
     if (isTasksOpen) {
         return (
@@ -36,9 +61,9 @@ export default function TeamProfile({ teamData, onClose }) {
 
                 <div className="team-header-info">
                     <div className="team-logo-container">
-                        <img src={teamData.logo} alt="Logo" className="team-logo-img" />
+                        <img src={'https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png'} alt="Logo" className="team-logo-img" />
                     </div>
-                    <header className="team-name-title">{teamData.name}</header>
+                    <header className="team-name-title">{currentTeamData.name}</header>
                 </div>
 
                 <div className="team-stats-placeholder">

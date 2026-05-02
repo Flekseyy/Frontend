@@ -16,13 +16,13 @@
     flex-direction: column;
     color: white;
     position: relative;
-    transition: opacity 0.2s ease, filter 0.2s ease, max-height 0.25s ease, padding 0.25s ease, margin 0.25s ease;
+    transition: none;
     margin: 0;
     flex-grow: 0;
     flex-shrink: 0;
-    /* важно: не обрезаем контент (кнопки/действия) при длинном заголовке */
     overflow: visible;
     max-height: none;
+    border-radius: 15px !important;
 }
 
 .task-header {
@@ -44,7 +44,6 @@
     overflow-wrap: break-word;
     line-height: 1.3;
     white-space: normal;
-    /* ограничиваем высоту заголовка, чтобы он не “выталкивал” кнопки вниз */
     display: -webkit-box;
     line-clamp: 2;
     -webkit-line-clamp: 2;

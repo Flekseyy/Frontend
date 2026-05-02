@@ -22,16 +22,10 @@ function SettingsModal({ isOpen, onClose }) {
     const [settings, setSettings] = useState(loadSettings);
 
     const applyTheme = (isDark) => {
-        const root = document.documentElement;
-        if (isDark) {
-            root.classList.add('dark-theme');
-            root.classList.remove('light-theme');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            root.classList.add('light-theme');
-            root.classList.remove('dark-theme');
-            localStorage.setItem('theme', 'light');
-        }
+        const themeValue = isDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', themeValue);
+        document.body.setAttribute('data-theme', themeValue);
+        localStorage.setItem('theme', themeValue);
     };
 
     const applyAnimations = (enabled) => {
@@ -73,11 +67,6 @@ function SettingsModal({ isOpen, onClose }) {
         };
         setSettings(newSettings);
         applySettingsToDOM(newSettings);
-    };
-
-    const handleSave = () => {
-        applySettingsToDOM(settings);
-        onClose();
     };
 
     if (!isOpen) return null;
@@ -173,14 +162,11 @@ function SettingsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="modal-buttons settings-buttons">
-                    <button className="btn-cancel" onClick={onClose}>
+                    <button className="btn-cancel" onClick={onClose} 
+                    style=
+                    {{ borderColor: 'rgba(255, 255, 255, 0.3)' , width: '50%', margin: '0 auto'}}>
                         <span className="btn-text">{t('cancel')}</span>
                         <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Check" className="btn-icon"/>
-                        <div className="btn-bg-slide"></div>
-                    </button>
-                    <button className="btn-save" onClick={handleSave}>
-                        <span className="btn-text">{t('saveSettings')}</span>
-                        <img src="https://img.icons8.com/?size=96&id=2WnpVEXfzAbC&format=png" alt="Check" className="btn-icon"/>
                         <div className="btn-bg-slide"></div>
                     </button>
                 </div>

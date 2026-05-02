@@ -1,7 +1,8 @@
-﻿import React, { useState } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import { useTranslation } from '../../../i18n/LanguageContext'
+import { getTeams, getCurrentUser } from '../../../services/api'
 
 import CreateTeamWindow from './CreateTeamWindow'
 import TeamProfile from './TeamProfile'
@@ -11,12 +12,39 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     const [teams, setTeams] = useState([])
     const [currentTeam, setCurrentTeam] = useState(null)
     const [isCreateOpen, setIsCreateOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        if (isOpen) {
+            loadTeams()
+        }
+    }, [isOpen])
+
+    const loadTeams = async () => {
+        try {
+            setIsLoading(true)
+            const currentUser = getCurrentUser()
+            const allTeams = await getTeams()
+
+            // Фильтруем команды: показываем только те, где пользователь является лидером или участником
+            const userTeams = allTeams.filter(team =>
+                team.leaderId === currentUser?.id ||
+                team.members?.some(member => member.userId === currentUser?.id)
+            )
+
+            setTeams(userTeams)
+        } catch (error) {
+            console.error('Ошибка при загрузке команд:', error)
+            setTeams([])
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     if (!isOpen) return null
 
-    const handleSaveTeam = (newTeam) => {
-        setTeams([...teams, newTeam])
-        setCurrentTeam(newTeam)
+    const handleSaveTeam = () => {
+        loadTeams()
         setIsCreateOpen(false)
     }
 
@@ -34,7 +62,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 isOpen={isCreateOpen}
                 onClose={() => setIsCreateOpen(false)}
                 onSave={handleSaveTeam}
-                token={localStorage.getItem('token')} 
+                token={localStorage.getItem('token')}
             />
         )
     }
@@ -44,6 +72,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
             <TeamProfile
                 teamData={currentTeam}
                 onClose={handleBackToList}
+                onRefresh={loadTeams}
             />
         )
     }
@@ -58,17 +87,19 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 </button>
 
                 <div className="teams-scroll-container custom-scrollbar">
-                    {teams.length === 0 ? (
+                    {isLoading ? (
+                        <p className="empty-message">{t('loading')}</p>
+                    ) : teams.length === 0 ? (
                         <p className="empty-message">{t('noTeams')}</p>
                     ) : (
-                        teams.map((team, index) => (
+                        teams.map((team) => (
                             <div
-                                key={index}
+                                key={team.id}
                                 className="team-item"
                                 onClick={() => handleSelectTeam(team)}
                             >
                                 <div className="team-item-logo">
-                                    <img src={team.logo} alt={team.name} />
+                                    <img src={'https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png'} alt={team.name} />
                                 </div>
                                 <span className="team-item-name">{team.name}</span>
                             </div>

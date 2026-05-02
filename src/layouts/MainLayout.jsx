@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './MainLayout.css'
 import { useTranslation } from '../i18n/LanguageContext'
-import { getAssignments, getCurrentUser, createTask } from '../services/api'
+import { getAssignmentById, getAssignments, getCurrentUser, createTask, updateTask, deleteTask } from '../services/api'
 
 import AddTaskModal from '../features/Tasks/components/AddTaskModal'
 import DeleteTaskModal from '../features/Tasks/components/DeleteTaskModal'
@@ -25,7 +25,7 @@ function MainLayout({ onLogout }) {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null)
-    const [isDarkMode, setIsDarkMode] = useState(true)
+    const [isCreating, setIsCreating] = useState(false)
 
     const normalizeTask = (raw) => {
         if (!raw || typeof raw !== 'object') return raw
@@ -41,19 +41,6 @@ function MainLayout({ onLogout }) {
     }
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme')
-        const isDark = savedTheme ? savedTheme === 'dark' : true
-        setIsDarkMode(isDark)
-        if (isDark) {
-            document.body.classList.add('dark-theme')
-            document.body.classList.remove('light-theme')
-        } else {
-            document.body.classList.add('light-theme')
-            document.body.classList.remove('dark-theme')
-        }
-    }, [])
-
-    useEffect(() => {
         const user = getCurrentUser()
         setCurrentUser(user?.id)
     }, [])
@@ -62,28 +49,15 @@ function MainLayout({ onLogout }) {
         let cancelled = false
 
         const load = async () => {
-            if (!currentUser) return
-            
             try {
                 setTasksError('')
                 const data = await getAssignments()
                 if (cancelled) return
-                
-                if (Array.isArray(data)) {
-                    const normalized = data.map(normalizeTask)
-                    const userTasks = normalized.filter(task => 
-                        task.assigneeId === currentUser || 
-                        task.userId === currentUser ||
-                        (task.authorId && task.authorId === currentUser)
-                    )
-                    setTasks(userTasks)
-                } else {
-                    setTasks([])
-                }
+                const normalized = Array.isArray(data) ? data.map(normalizeTask) : []
+                const userTasks = currentUser ? normalized.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : normalized
+                setTasks(userTasks)
             } catch (e) {
                 if (cancelled) return
-                console.error("Error loading tasks:", e)
-                setTasksError(t('tasksLoadError') || 'Не удалось загрузить задачи.')
                 setTasks([])
             }
         }
@@ -92,50 +66,30 @@ function MainLayout({ onLogout }) {
         return () => {
             cancelled = true
         }
-    }, [currentUser, t])
+    }, [currentUser])
 
     const handleSaveTask = async (newTask) => {
+        setIsCreating(true)
         try {
-            const payload = {
-                ...newTask,
-                userId: currentUser,
-                authorId: currentUser
+            if (typeof createTask === 'function') {
+                await createTask(newTask)
             }
-            
-            await createTask(payload)
-            
             const data = await getAssignments()
-            if (Array.isArray(data)) {
-                const normalized = data.map(normalizeTask)
-                const userTasks = normalized.filter(task => 
-                    task.assigneeId === currentUser || 
-                    task.userId === currentUser ||
-                    (task.authorId && task.authorId === currentUser)
-                )
-                setTasks(userTasks)
-            }
+            const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
+            const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
+            setTasks(userTasks)
             setIsAddOpen(false)
         } catch (error) {
-            setTimeout(() => {
-                const reload = async () => {
-                    try {
-                        const data = await getAssignments()
-                        if (Array.isArray(data)) {
-                            const normalized = data.map(normalizeTask)
-                            const userTasks = normalized.filter(task => 
-                                task.assigneeId === currentUser || 
-                                task.userId === currentUser ||
-                                (task.authorId && task.authorId === currentUser)
-                            )
-                            setTasks(userTasks)
-                        }
-                        setTasksError('')
-                    } catch (e) {
-                        console.error("Reload error:", e)
-                    }
-                }
-                reload()
-            })
+            const data = await getAssignments()
+            const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
+            const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
+            setTasks(userTasks)
+            const taskExists = refreshed.some(t => t.title === newTask.title)
+            if (taskExists) {
+                setIsAddOpen(false)
+            }
+        } finally {
+            setIsCreating(false)
         }
     }
 
@@ -144,10 +98,28 @@ function MainLayout({ onLogout }) {
         setIsEditOpen(true)
     }
 
-    const handleUpdateTask = (updatedTask) => {
-        setTasks(tasks.map(t => t.id === updatedTask.id ? updatedTask : t))
-        setIsEditOpen(false)
-        setCurrentTask(null)
+    const handleUpdateTask = async (updatedTask) => {
+        try {
+            await updateTask(updatedTask.id, {
+                title: updatedTask.title,
+                description: updatedTask.description,
+                priority: updatedTask.priority,
+                deadline: updatedTask.deadline
+            })
+            const data = await getAssignments()
+            const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
+            const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
+            setTasks(userTasks)
+            setIsEditOpen(false)
+            setCurrentTask(null)
+        } catch (error) {
+            const data = await getAssignments()
+            const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
+            const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
+            setTasks(userTasks)
+            setIsEditOpen(false)
+            setCurrentTask(null)
+        }
     }
 
     const openDeleteModal = (task) => {
@@ -156,27 +128,17 @@ function MainLayout({ onLogout }) {
     }
 
     const handleDeleteTask = async (taskId) => {
-        setTasks(tasks.filter(t => t.id !== taskId))
+        await deleteTask(taskId)
+        const data = await getAssignments()
+        const refreshed = Array.isArray(data) ? data.map(normalizeTask) : []
+        const userTasks = currentUser ? refreshed.filter(task => task.assigneeId === currentUser || task.userId === currentUser) : refreshed
+        setTasks(userTasks)
         setIsDeleteOpen(false)
         setCurrentTask(null)
     }
 
     const openDescModal = (task) => {
         setSelectedTaskForDesc(task)
-    }
-
-    const toggleTheme = () => {
-        const newMode = !isDarkMode
-        setIsDarkMode(newMode)
-        localStorage.setItem('theme', newMode ? 'dark' : 'light')
-        
-        if (newMode) {
-            document.body.classList.add('dark-theme')
-            document.body.classList.remove('light-theme')
-        } else {
-            document.body.classList.add('light-theme')
-            document.body.classList.remove('dark-theme')
-        }
     }
 
     return (
@@ -250,6 +212,7 @@ function MainLayout({ onLogout }) {
                         onClick={() => setIsAddOpen(true)}
                         title={t('addTask')}
                         aria-label={t('addTask')}
+                        disabled={isCreating}
                     >
                         <svg className="icon-svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" strokeWidth="2" strokeDasharray="120 400" strokeDashoffset="120"/></svg>
                         <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt={t('addTask')} className="img-default"/>
@@ -261,11 +224,6 @@ function MainLayout({ onLogout }) {
             <div className="tasks-panel-container">
                 <div className="tasks-scroll-wrapper custom-scrollbar">
                     <div className="tasks-grid">
-                        {tasksError && (
-                            <div style={{ color: '#ff5252', textAlign: 'center', marginBottom: '10px', fontSize: '14px', gridColumn: '1/-1' }}>
-                                {tasksError}
-                            </div>
-                        )}
                         {tasks.map(task => (
                             <TaskCard
                                 key={task.id}
@@ -281,7 +239,7 @@ function MainLayout({ onLogout }) {
 
             <AddTaskModal 
                 isOpen={isAddOpen} 
-                onClose={() => setIsAddOpen(false)} 
+                onClose={() => !isCreating && setIsAddOpen(false)} 
                 onSave={handleSaveTask} 
                 token={localStorage.getItem('token')} 
             />
@@ -310,12 +268,7 @@ function MainLayout({ onLogout }) {
                 onLogout={onLogout} 
             />
             
-            <SettingsModal 
-                isOpen={isSettingsOpen} 
-                onClose={() => setIsSettingsOpen(false)} 
-                isDarkMode={isDarkMode}
-                onToggleTheme={toggleTheme}
-            />
+            <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
         </>
     )
 }
