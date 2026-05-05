@@ -2,7 +2,7 @@ import React from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 
-function LogoutConfirmModal({ isOpen, onConfirm, onCancel, title = "Подтверждение", message = "Вы точно хотите выйти из аккаунта?", yesText = "Да", noText = "Нет" }) {
+function ConfirmLeaderTransferModal({ isOpen, onConfirm, onCancel, newLeaderName }) {
     if (!isOpen) return null
 
     return (
@@ -14,32 +14,32 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel, title = "Подтве
             >
 
                 <div className="modal-header">
-                    <header>{title}</header>
+                    <header>Предупреждение</header>
                     <button className="common-close-btn" onClick={onCancel}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
                     </button>
                 </div>
 
                 <p className="confirm-text">
-                    {message}
+                    Вы уверены в своём выборе? Вы передадите лидерство пользователю <strong>{newLeaderName}</strong> и покинете команду.
                 </p>
 
                 <div className="modal-buttons">
                     <button
-                        className="btn-save btn-yes"
-                        onClick={onCancel}
+                        className="btn-cancel btn-no"
+                        onClick={onConfirm}
                     >
-                        <span className="btn-text">{noText}</span>
-                        <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="No" className="btn-icon" />
+                        <span className="btn-text">Да</span>
+                        <img src="https://img.icons8.com/?size=96&id=5HW1YsFkzHio&format=png" alt="Yes" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>
 
                     <button
-                        className="btn-cancel btn-no"
-                        onClick={onConfirm}
+                        className="btn-save btn-yes"
+                        onClick={onCancel}
                     >
-                        <span className="btn-text">{yesText}</span>
-                        <img src="https://img.icons8.com/?size=96&id=5HW1YsFkzHio&format=png" alt="Yes" className="btn-icon" />
+                        <span className="btn-text">Нет</span>
+                        <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="No" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>
                 </div>
@@ -48,4 +48,4 @@ function LogoutConfirmModal({ isOpen, onConfirm, onCancel, title = "Подтве
     )
 }
 
-export default LogoutConfirmModal
+export default ConfirmLeaderTransferModal

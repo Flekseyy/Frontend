@@ -4,10 +4,14 @@ import '../../../styles/common-ui.css'
 import { useTranslation } from '../../../i18n/LanguageContext'
 import { createTeam, getCurrentUser } from '../../../services/api'
 
+const DEFAULT_AVATAR = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'
+const BASE_URL = 'http://localhost:5257'
+
 export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
     const { t } = useTranslation();
     const fileInputRef = useRef(null)
     const [teamName, setTeamName] = useState('')
+    const [teamDescription, setTeamDescription] = useState('')
     const [logoFile, setLogoFile] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null)
     const [isUploading, setIsUploading] = useState(false)
@@ -60,26 +64,39 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
 
         try {
             const currentUser = getCurrentUser()
-            if (!currentUser || !currentUser.id) {
+            console.log('📦 Текущий пользователь:', currentUser)
+
+            if (!currentUser) {
                 setServerError('Пользователь не авторизован')
                 setIsProcessing(false)
                 return
             }
 
-            const teamData = {
-                LeaderId: parseInt(currentUser.id),
-                Name: teamName,
-                Description: null
+            const userId = currentUser.id || currentUser.userId || currentUser.Id || currentUser.UserId;
+            console.log('🔍 Найденный LeaderId:', userId)
+
+            if (!userId) {
+                setServerError('Не удалось найти ID пользователя')
+                setIsProcessing(false)
+                return
             }
 
-            await createTeam(teamData)
+            const teamData = {
+                LeaderId: parseInt(userId),
+                teamId: 0,
+                Name: teamName.trim(),
+                Description: teamDescription.trim() || '',
+                AvatarUrl: previewUrl
+            }
+
+            const result = await createTeam(teamData)
 
             setTeamName('')
+            setTeamDescription('')
             setLogoFile(null)
             setPreviewUrl(null)
             setIsProcessing(false)
             onClose()
-
             onSave()
         } catch (error) {
             console.error('Ошибка при создании команды:', error)
@@ -87,6 +104,8 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
             setIsProcessing(false)
         }
     }
+
+    const avatarSrc = previewUrl || DEFAULT_AVATAR
 
     return (
         <div className="create-team-modal-overlay" onClick={onClose}>
@@ -113,16 +132,11 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
                                 </div>
                             )}
 
-                            {previewUrl && !isUploading && (
-                                <img src={previewUrl} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
-                            )}
-
-                            {!previewUrl && !isUploading && (
+                            {!isUploading && (
                                 <img
-                                    src="https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png"
-                                    alt="Upload"
-                                    className="avatar-upload-icon"
-                                    style={{ width: '32px', height: '32px', filter: 'brightness(0) invert(1)', opacity: '0.7' }}
+                                    src={avatarSrc}
+                                    alt="Avatar"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                                 />
                             )}
 
@@ -150,6 +164,16 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
                         required
                         autoFocus
                         disabled={isProcessing}
+                    />
+
+                    <textarea
+                        className="create-team-input"
+                        placeholder={t('teamDescription') || 'Описание команды'}
+                        value={teamDescription}
+                        onChange={(e) => setTeamDescription(e.target.value)}
+                        disabled={isProcessing}
+                        rows="3"
+                        style={{ resize: 'vertical', minHeight: '80px' }}
                     />
 
                     <div className="modal-buttons">

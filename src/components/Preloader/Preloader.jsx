@@ -27,7 +27,7 @@ function Preloader({ isActive, onComplete }) {
     return (
         <div className={`preload-bg ${isFading ? 'fade-out' : ''}`}>
             <img
-                src="https://img.icons8.com/?size=96&id=Q5L9qorNWZuu&format=png"
+                src="https://img.icons8.com/?size=96&id=qnXlC34BHU8M&format=png"
                 alt="Loading..."
                 className="preload-icon"
             />

@@ -2,7 +2,7 @@
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import { useTranslation } from '../../../i18n/LanguageContext'
-import { getTeams, getCurrentUser } from '../../../services/api'
+import { getTeams, getCurrentUser, getTeamById } from '../../../services/api'
 
 import CreateTeamWindow from './CreateTeamWindow'
 import TeamProfile from './TeamProfile'
@@ -26,10 +26,10 @@ export default function TeamStartWindow({ isOpen, onClose }) {
             const currentUser = getCurrentUser()
             const allTeams = await getTeams()
 
-            // Фильтруем команды: показываем только те, где пользователь является лидером или участником
             const userTeams = allTeams.filter(team =>
                 team.leaderId === currentUser?.id ||
-                team.members?.some(member => member.userId === currentUser?.id)
+                team.LeaderId === currentUser?.id ||
+                team.members?.some(member => member.userId === currentUser?.id || member.id === currentUser?.id)
             )
 
             setTeams(userTeams)
@@ -49,7 +49,13 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     }
 
     const handleSelectTeam = (team) => {
-        setCurrentTeam(team)
+        // Загружаем актуальные данные команды перед открытием профиля
+        getTeamById(team.id).then(updatedTeam => {
+            setCurrentTeam(updatedTeam)
+        }).catch(err => {
+            console.error('Ошибка при загрузке данных команды:', err)
+            setCurrentTeam(team)
+        })
     }
 
     const handleBackToList = () => {
@@ -99,7 +105,10 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                                 onClick={() => handleSelectTeam(team)}
                             >
                                 <div className="team-item-logo">
-                                    <img src={'https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png'} alt={team.name} />
+                                    <img
+                                        src={team.avatarUrl || team.AvatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'}
+                                        alt={team.name}
+                                    />
                                 </div>
                                 <span className="team-item-name">{team.name}</span>
                             </div>
