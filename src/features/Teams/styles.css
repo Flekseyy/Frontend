@@ -1477,7 +1477,7 @@
 .members-list {
     max-height: 300px;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 15px;
 }
 /* Стили для валидации поля ввода ID пользователя */
 .input-error {
@@ -1553,8 +1553,6 @@
     right: 50px;
 }
 
-/* Убедитесь что icon-btn-micro уже есть в Tasks/styles.css */
-/* Если нет, добавьте: */
 .icon-btn-micro {
     background: transparent !important;
     border: none;
@@ -1564,10 +1562,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: 10px;
     height: 20px;
     opacity: 0.6;
     transition: transform 0.2s, opacity 0.2s;
+    align-self: flex-end; 
+    margin-right: 12px;
 }
 
 .icon-btn-micro:hover {
@@ -1583,11 +1583,39 @@
 
 .leader-icons-container {
     position: absolute;
-    left: 20px;
+    left: -5px;         
+    right: auto;        
     top: 50%;
     transform: translateY(-50%);
+    z-index: 10;
+    
+    width: 40px; 
+    height: 25px;        
+    background-color: rgba(1, 1, 1, 0.1);
+    border-radius: 12px;
+    
+    
     display: flex;
     flex-direction: column;
     gap: 8px;
-    z-index: 10;
+    
+    align-items: flex-end; 
+    justify-content: center; 
+}
+
+.team-description-panel {
+    background-color: rgba(1, 1, 1, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 20px;
+    margin-left: 0%;
+    max-height: 200px;
+    overflow-y: auto;       
+    overflow-x: hidden;     
+    width: 80%;
+    
+    
+    white-space: pre-wrap;  
+    word-wrap: break-word;
+    word-break: break-word; 
 }

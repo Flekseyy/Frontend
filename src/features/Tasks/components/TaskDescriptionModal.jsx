@@ -71,8 +71,10 @@ export default function TaskDescriptionModal({ task, isOpen, onClose }) {
 
                 <div className="task-dates-wrapper">
                     <div className="date-info">
-                        <span className="date-label">Создано:</span>
-                        <span className="date-value">{formatDate(task.createdAt)}</span>
+                        <span className="date-label">
+                            {task.updatedAt ? 'Редактировано:' : 'Создано:'}
+                        </span>
+                        <span className="date-value">{formatDate(task.updatedAt ?? task.createdAt)}</span>
                     </div>
                     <div className="date-info">
                         <span className="date-label">Дедлайн:</span>

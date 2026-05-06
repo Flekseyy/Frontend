@@ -71,18 +71,13 @@ export default function TeamMembersModal({ isOpen, onClose, members, allUsers, o
                         onClick={() => {
                             if (onLeaveTeam) onLeaveTeam()
                         }}
-                        style={{
-                            width: 'auto',
-                            justifyContent: 'center',
-                            borderColor: '#B44C43'
-                        }}
                     >
                         <span className="btn-text">Покинуть команду</span>
                         <img src="https://img.icons8.com/?size=96&id=5HW1YsFkzHio&format=png" alt="Leave" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>
-                    <button className="btn-save" onClick={onAddMember} style={{ width: 'auto', flex: 1 }}>
-                        <span className="btn-text">+ Добавить участника</span>
+                    <button className="btn-save" onClick={onAddMember}>
+                        <span className="btn-text">Добавить участника</span>
                         <img src="https://img.icons8.com/?size=96&id=isUGx8n5CHFi&format=png" alt="Add User" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>

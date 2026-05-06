@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import '../../Tasks/styles.css'
-import { getTeamTasks, createTeamTask, updateTeamTask, deleteTeamTask, updateTeamTaskStatus } from '../../../services/api'
+import { getTeamTasks, getTeamTaskById, createTeamTask, updateTeamTask, deleteTeamTask, updateTeamTaskStatus } from '../../../services/api'
 
 import AddTaskModal from '../../Tasks/components/AddTaskModal'
 import EditTaskModal from '../../Tasks/components/EditTaskModal'
@@ -68,6 +68,7 @@ export default function TeamTasksWindow({ teamData, onClose }) {
             priority: raw.priority ?? raw.Priority ?? null,
             deadline: raw.deadline ?? raw.Deadline ?? null,
             createdAt: raw.createdAt ?? raw.CreatedAt ?? raw.created ?? raw.Created ?? null,
+            updatedAt: raw.updatedAt ?? raw.UpdatedAt ?? null,
             status: statusStr,
             teamId: raw.teamId ?? raw.TeamId,
             userId: raw.userId ?? raw.UserId ?? null,
@@ -89,7 +90,10 @@ export default function TeamTasksWindow({ teamData, onClose }) {
     const handleUpdateTask = async (updatedTask) => {
         try {
             await updateTeamTask(teamData.id, updatedTask.id, updatedTask)
-            setTasks(tasks.map(t => t.id === updatedTask.id ? updatedTask : t))
+            // Загружаем обновленную задачу с сервера, чтобы получить актуальное updatedAt
+            const refreshedTask = await getTeamTaskById(updatedTask.id)
+            const normalized = normalizeTask(refreshedTask)
+            setTasks(tasks.map(t => t.id === updatedTask.id ? normalized : t))
             setIsEditOpen(false)
             setCurrentTask(null)
         } catch (error) {

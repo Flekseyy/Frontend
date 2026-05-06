@@ -167,7 +167,6 @@ export default function TeamProfile({ teamData, onClose, onRefresh }) {
                                     className="icon-btn-micro"
                                     onClick={() => setShowDeleteConfirm(true)}
                                     title="Удалить команду"
-                                    style={{ padding: 0, background: 'none', border: 'none', cursor: 'pointer' }}
                                 >
                                     <img src="https://img.icons8.com/?size=96&id=CzTISLkmHrKE&format=png" alt="Delete Team" style={{ width: '24px', height: '20px'}} />
                                 </button>
@@ -184,14 +183,7 @@ export default function TeamProfile({ teamData, onClose, onRefresh }) {
                     </div>
 
                     {currentTeamData.description && (
-                        <div className="team-description-panel custom-scrollbar" style={{
-                            backgroundColor: 'rgba(1, 1, 1, 0.1)',
-                            borderRadius: '12px',
-                            padding: '15px',
-                            marginTop: '20px',
-                            maxHeight: '150px',
-                            overflowY: 'auto'
-                        }}>
+                        <div className="team-description-panel custom-scrollbar">
                             <p style={{
                                 margin: 0,
                                 color: 'rgba(255, 255, 255, 0.9)',

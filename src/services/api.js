@@ -48,7 +48,8 @@ export const createTask = async (taskData) => {
 }
 
 export const updateTask = async (id, taskData) => {
-    const response = await apiClient.put(`/assignment/${id}`, taskData)
+    // Backend принимает PUT /api/assignment (без id в роуте)
+    const response = await apiClient.put(`/assignment`, taskData)
     return response.data
 }
 
@@ -189,7 +190,9 @@ export const updateTeamTask = async (teamId, taskId, taskData) => {
         name: taskData.title || taskData.name,
         description: taskData.description,
         statusId: taskData.statusId,
-        userId: taskData.userId
+        userId: taskData.userId,
+        priority: taskData.priority,
+        deadline: taskData.deadline
     })
     return response.data
 }

@@ -35,6 +35,7 @@ function MainLayout({ onLogout }) {
             priority: raw.priority ?? raw.Priority ?? null,
             deadline: raw.deadline ?? raw.Deadline ?? null,
             createdAt: raw.createdAt ?? raw.CreatedAt ?? raw.created ?? raw.Created ?? null,
+            updatedAt: raw.updatedAt ?? raw.UpdatedAt ?? raw.editedAt ?? raw.EditedAt ?? null,
             teamId: raw.teamId ?? raw.TeamId ?? null,
             userId: raw.userId ?? raw.UserId ?? null,
             assigneeId: raw.assigneeId ?? raw.AssigneeId ?? null,
@@ -84,7 +85,7 @@ function MainLayout({ onLogout }) {
     const handleUpdateTask = async (updatedTask) => {
         try {
             await updateTask(updatedTask.id, {
-                assignmentId: updatedTask.id,
+                assigmentId: updatedTask.id,
                 userId: currentUser,
                 title: updatedTask.title,
                 description: updatedTask.description,
