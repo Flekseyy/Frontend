@@ -43,15 +43,12 @@
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    padding-right: 15px;
     box-sizing: border-box;
 }
 .empty-message {
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
     font-style: italic;
-    margin-top: 20px !important;
-    margin-bottom: 15px !important;
 }
 
 .team-item {

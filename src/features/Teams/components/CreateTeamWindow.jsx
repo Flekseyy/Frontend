@@ -169,7 +169,6 @@ export default function CreateTeamWindow({ isOpen, onClose, onSave }) {
                     <textarea
                         className="create-team-input"
                         placeholder={t('teamDescription') || 'Описание команды'}
-                        value={teamDescription}
                         onChange={(e) => setTeamDescription(e.target.value)}
                         disabled={isProcessing}
                         rows="3"

@@ -42,6 +42,7 @@ export const translations = {
     creatingTeam: "Создание команды...",
     teamName: "Название команды",
     uploadLogo: "Нажмите, чтобы добавить логотип",
+    teamDescription: "Описание команды",
 
     // Профиль
     profileTitle: "Профиль",
