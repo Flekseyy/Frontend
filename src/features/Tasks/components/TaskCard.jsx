@@ -44,10 +44,14 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
                 </div>
             </div>
 
+
+            
             <div className="task-footer-dates">
                 <div className="date-row">
-                    <span className="task-date-label">Создано:&nbsp;</span>
-                    <span className="date-value">{formatDate(task.createdAt)}</span>
+                    <span className="task-date-label">
+                        {task.updatedAt ? 'Редактировано:' : 'Создано:'}&nbsp;
+                    </span>
+                    <span className="date-value">{formatDate(task.updatedAt ?? task.createdAt)}</span>
                 </div>
 
                 {task.deadline && (

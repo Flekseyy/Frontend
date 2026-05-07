@@ -1,25 +1,61 @@
-﻿import React, { useState } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
+import { useTranslation } from '../../../i18n/LanguageContext'
+import { getTeams, getCurrentUser, getTeamById } from '../../../services/api'
 
 import CreateTeamWindow from './CreateTeamWindow'
 import TeamProfile from './TeamProfile'
 
 export default function TeamStartWindow({ isOpen, onClose }) {
+    const { t } = useTranslation();
     const [teams, setTeams] = useState([])
     const [currentTeam, setCurrentTeam] = useState(null)
     const [isCreateOpen, setIsCreateOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        if (isOpen) {
+            loadTeams()
+        }
+    }, [isOpen])
+
+    const loadTeams = async () => {
+        try {
+            setIsLoading(true)
+            const currentUser = getCurrentUser()
+            const allTeams = await getTeams()
+
+            const userTeams = allTeams.filter(team =>
+                team.leaderId === currentUser?.id ||
+                team.LeaderId === currentUser?.id ||
+                team.members?.some(member => member.userId === currentUser?.id || member.id === currentUser?.id)
+            )
+
+            setTeams(userTeams)
+        } catch (error) {
+            console.error('Ошибка при загрузке команд:', error)
+            setTeams([])
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     if (!isOpen) return null
 
-    const handleSaveTeam = (newTeam) => {
-        setTeams([...teams, newTeam])
-        setCurrentTeam(newTeam)
+    const handleSaveTeam = () => {
+        loadTeams()
         setIsCreateOpen(false)
     }
 
     const handleSelectTeam = (team) => {
-        setCurrentTeam(team)
+        // Загружаем актуальные данные команды перед открытием профиля
+        getTeamById(team.id).then(updatedTeam => {
+            setCurrentTeam(updatedTeam)
+        }).catch(err => {
+            console.error('Ошибка при загрузке данных команды:', err)
+            setCurrentTeam(team)
+        })
     }
 
     const handleBackToList = () => {
@@ -32,7 +68,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 isOpen={isCreateOpen}
                 onClose={() => setIsCreateOpen(false)}
                 onSave={handleSaveTeam}
-                token={localStorage.getItem('token')} 
+                token={localStorage.getItem('token')}
             />
         )
     }
@@ -42,6 +78,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
             <TeamProfile
                 teamData={currentTeam}
                 onClose={handleBackToList}
+                onRefresh={loadTeams}
             />
         )
     }
@@ -49,24 +86,29 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     return (
         <div className="team-list-overlay" onClick={onClose}>
             <div className="team-list-content glass-panel" onClick={(e) => e.stopPropagation()}>
-                <h2>Мои команды</h2>
+                <header>{t('myTeams')}</header>
 
                 <button className="common-close-btn" onClick={onClose}>
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <div className="teams-scroll-container">
-                    {teams.length === 0 ? (
-                        <p className="empty-message">У вас пока нет команд.</p>
+                <div className="teams-scroll-container custom-scrollbar">
+                    {isLoading ? (
+                        <p className="empty-message">{t('loading')}</p>
+                    ) : teams.length === 0 ? (
+                        <p className="empty-message">{t('noTeams')}</p>
                     ) : (
-                        teams.map((team, index) => (
+                        teams.map((team) => (
                             <div
-                                key={index}
+                                key={team.id}
                                 className="team-item"
                                 onClick={() => handleSelectTeam(team)}
                             >
                                 <div className="team-item-logo">
-                                    <img src={team.logo} alt={team.name} />
+                                    <img
+                                        src={team.avatarUrl || team.AvatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'}
+                                        alt={team.name}
+                                    />
                                 </div>
                                 <span className="team-item-name">{team.name}</span>
                             </div>
@@ -75,8 +117,8 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                 </div>
 
                 <div className="list-actions-container">
-                    <button className="btn-create-team-small" onClick={() => setIsCreateOpen(true)}>
-                        <span className="btn-text">Создать команду</span>
+                    <button className="btn-add-member" onClick={() => setIsCreateOpen(true)} style={{ width: '50%' }}>
+                        <span className="btn-text">{t('createTeam')}</span>
                         <img src="https://img.icons8.com/?size=96&id=Y0LmisQTNVSH&format=png" alt="Plus" className="btn-icon" />
                         <div className="btn-bg-slide"></div>
                     </button>

@@ -8,8 +8,9 @@ export default function ConfirmMoveModal({ isOpen, message, onConfirm, onCancel 
     return (
         <div className="modal-overlay" onClick={onCancel}>
             <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
-                <h2>Подтверждение</h2>
-                <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', margin: '20px 0' }}>
+                <header>Подтверждение</header>
+                <p 
+                className="confirm-text">
                     {message}
                 </p>
 

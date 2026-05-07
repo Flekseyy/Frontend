@@ -1,16 +1,16 @@
-// src/components/SettingsModal.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/StyleSettingsWindow.css';
 import '../../../styles/common-ui.css'
+import { useTranslation } from '../../../i18n/LanguageContext';
 
 function SettingsModal({ isOpen, onClose }) {
-    // Загружаем сохраненные настройки при открытии
+    const { t, language, setLanguage } = useTranslation();
+    
     const loadSettings = () => {
         const saved = localStorage.getItem('appSettings');
         if (saved) {
             return JSON.parse(saved);
         }
-        // Значения по умолчанию
         return {
             darkTheme: true,
             notifications: true,
@@ -21,41 +21,52 @@ function SettingsModal({ isOpen, onClose }) {
 
     const [settings, setSettings] = useState(loadSettings);
 
-    // Применяем настройки глобально
-    const applySettings = (newSettings) => {
-    // Смена темы
-    document.documentElement.setAttribute('data-theme', newSettings.darkTheme ? 'dark' : 'light');
-    document.body.setAttribute('data-theme', newSettings.darkTheme ? 'dark' : 'light');
-        
-        // Смена языка
-        document.documentElement.lang = newSettings.language;
+    const applyTheme = (isDark) => {
+        const themeValue = isDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', themeValue);
+        document.body.setAttribute('data-theme', themeValue);
+        localStorage.setItem('theme', themeValue);
+    };
 
-        // Анимации
-        if (!newSettings.animations) {
+    const applyAnimations = (enabled) => {
+        if (!enabled) {
             document.body.classList.add('no-animations');
         } else {
             document.body.classList.remove('no-animations');
         }
+    };
 
-        // Сохраняем в localStorage
+    const applySettingsToDOM = (newSettings) => {
+        applyTheme(newSettings.darkTheme);
+        applyAnimations(newSettings.animations);
+        
+        if (newSettings.language && newSettings.language !== language) {
+            setLanguage(newSettings.language);
+        }
+
         localStorage.setItem('appSettings', JSON.stringify(newSettings));
     };
 
-    // Применяем настройки при первом рендере
-    React.useEffect(() => {
-        applySettings(settings);
+    useEffect(() => {
+        applySettingsToDOM(settings);
     }, []);
 
     const handleToggle = (key) => {
-        setSettings(prev => ({
-            ...prev,
-            [key]: !prev[key]
-        }));
+        const newSettings = {
+            ...settings,
+            [key]: !settings[key]
+        };
+        setSettings(newSettings);
+        applySettingsToDOM(newSettings);
     };
 
-    const handleSave = () => {
-        applySettings(settings);
-        onClose();
+    const handleLanguageChange = (newLang) => {
+        const newSettings = {
+            ...settings,
+            language: newLang
+        };
+        setSettings(newSettings);
+        applySettingsToDOM(newSettings);
     };
 
     if (!isOpen) return null;
@@ -65,22 +76,21 @@ function SettingsModal({ isOpen, onClose }) {
             <div className="modal-content glass-panel settings-modal" onClick={(e) => e.stopPropagation()}>
 
                 <div className="modal-header">
-                    <h2>Настройки</h2>
+                    <header>{t('settingsTitle')}</header>
                     <button className="common-close-btn" onClick={onClose}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
                     </button>
                 </div>
 
-                <div className="settings-container">
+                <div className="settings-container custom-scrollbar">
                     
-                    {/* Секция Внешний вид */}
                     <div className="settings-section">
-                        <h3 className="section-title">Внешний вид</h3>
+                        <h3 className="section-title">{t('appearance')}</h3>
                         
                         <div className="setting-item">
                             <div className="setting-info">
-                                <p className="setting-label">Тёмная тема</p>
-                                <p className="setting-desc">Использовать тёмную цветовую схему интерфейса</p>
+                                <p className="setting-label">{t('darkTheme')}</p>
+                                <p className="setting-desc">{t('darkThemeDesc')}</p>
                             </div>
                             <label className="toggle-switch">
                                 <input 
@@ -94,8 +104,8 @@ function SettingsModal({ isOpen, onClose }) {
 
                         <div className="setting-item">
                             <div className="setting-info">
-                                <p className="setting-label">Анимации интерфейса</p>
-                                <p className="setting-desc">Плавные переходы и визуальные эффекты</p>
+                                <p className="setting-label">{t('animations')}</p>
+                                <p className="setting-desc">{t('animationsDesc')}</p>
                             </div>
                             <label className="toggle-switch">
                                 <input 
@@ -108,14 +118,13 @@ function SettingsModal({ isOpen, onClose }) {
                         </div>
                     </div>
 
-                    {/* Секция Уведомления */}
                     <div className="settings-section">
-                        <h3 className="section-title">Уведомления</h3>
+                        <h3 className="section-title">{t('notificationsSection')}</h3>
                         
                         <div className="setting-item">
                             <div className="setting-info">
-                                <p className="setting-label">Включить уведомления</p>
-                                <p className="setting-desc">Получать напоминания о задачах</p>
+                                <p className="setting-label">{t('notifications')}</p>
+                                <p className="setting-desc">{t('notificationsDesc')}</p>
                             </div>
                             <label className="toggle-switch">
                                 <input 
@@ -129,27 +138,23 @@ function SettingsModal({ isOpen, onClose }) {
 
                     </div>
 
-                    {/* Секция Общие */}
                     <div className="settings-section">
-                        <h3 className="section-title">Общие</h3>
+                        <h3 className="section-title">{t('general')}</h3>
 
                         <div className="setting-item">
                             <div className="setting-info">
-                                <p className="setting-label">Язык интерфейса</p>
-                                <p className="setting-desc">Choose your preferred language</p>
+                                <p className="setting-label">{t('language')}</p>
+                                <p className="setting-desc">{t('languageDesc')}</p>
                             </div>
                             <select 
                                 className="settings-select" 
-                                value={settings.language} 
-                                onChange={(e) => {
-                                    setSettings(prev => ({
-                                        ...prev,
-                                        language: e.target.value
-                                    }));
-                                }}
+                                value={settings.language || language} 
+                                onChange={(e) => handleLanguageChange(e.target.value)}
                             >
-                                <option value="ru">🇷🇺 Русский</option>
-                                <option value="en">🇬🇧 English</option>
+                                <option value="ru">Русский</option>
+                                <option value="en">English</option>
+                                <option value="tt">Татарча</option>
+                                <option value="tr">Türkçe</option>
                             </select>
                         </div>
                     </div>
@@ -157,12 +162,11 @@ function SettingsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="modal-buttons settings-buttons">
-                    <button className="btn-cancel" onClick={onClose}>
-                        <span className="btn-text">Отмена</span>
-                    </button>
-                    <button className="btn-save" onClick={handleSave}>
-                        <span className="btn-text">Сохранить настройки</span>
-                        <img src="https://img.icons8.com/?size=100&id=1501&format=png" alt="Check" className="btn-icon"/>
+                    <button className="btn-cancel" onClick={onClose} 
+                    style=
+                    {{ borderColor: 'rgba(255, 255, 255, 0.3)' , width: '50%', margin: '0 auto'}}>
+                        <span className="btn-text">{t('cancel')}</span>
+                        <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Check" className="btn-icon"/>
                         <div className="btn-bg-slide"></div>
                     </button>
                 </div>
