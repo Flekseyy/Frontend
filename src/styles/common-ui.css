@@ -4,10 +4,10 @@
     right: -1px;
     width: 40px;
     height: 40px;
-    background: transparent !important; 
+    background: transparent !important;
     border: none !important;
     outline: none !important;
-    box-shadow: none !important; 
+    box-shadow: none !important;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -22,11 +22,11 @@
     filter: brightness(0) invert(1);
     opacity: 0.8;
     transition: opacity 0.3s;
-    display: block; 
+    display: block;
 }
 
 .common-close-btn:hover {
-    transform: scale(1.1) !important; 
+    transform: scale(1.1) !important;
     background: transparent !important;
     box-shadow: none !important;
     outline: none !important;
@@ -172,7 +172,7 @@
     align-items: center;
     justify-content: center;
     transition: border-color 0.3s ease;
-    
+
     background: transparent;
     color: white;
 }
@@ -191,6 +191,23 @@
 
 .btn-cancel:hover {
     border-color: #b44c4374;
+}
+
+/* Кнопки Нет и Да в модальных окнах подтверждения */
+.btn-no {
+    border-color: #B44C43 !important; /* Красная рамка для кнопки Нет */
+}
+
+.btn-no:hover {
+    border-color: #8b3a33 !important;
+}
+
+.btn-yes {
+    border-color: #098765 !important; /* Зеленая рамка для кнопки Да */
+}
+
+.btn-yes:hover {
+    border-color: #054a37 !important;
 }
 
 .btn-add-member {
@@ -281,7 +298,7 @@
 .btn-add-member:hover .btn-icon {
     opacity: 1 !important;
     transform: translate(-50%, -50%) scale(1) !important;
-    z-index: 102; 
+    z-index: 102;
 }
 
 .confirm-text{

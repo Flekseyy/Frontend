@@ -59,7 +59,14 @@ export const deleteTask = async (id) => {
 }
 
 export const updateTaskStatus = async (id, statusId) => {
-    const response = await apiClient.patch(`/assignment/${id}/status`, statusId)
+    // Преобразуем числовой ID статуса в строковое значение для бекенда
+    const statusMap = {
+        1: 'todo',
+        2: 'in-progress',
+        3: 'done'
+    }
+    const status = statusMap[statusId] || 'todo'
+    const response = await apiClient.patch(`/assignment/status?assigmentId=${id}&status=${status}`)
     return response.data
 }
 
@@ -247,4 +254,21 @@ export const deleteTeamTasks = async (teamId) => {
     for (const task of tasks) {
         await deleteTeamTask(teamId, task.id)
     }
+}
+
+export const uploadTeamAvatar = async (teamId, file) => {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await apiClient.post(`/team/${teamId}/avatar`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    return response.data
+}
+
+export const updateTeamName = async (teamId, teamData) => {
+    const response = await apiClient.put('/team', teamData)
+    return response.data
 }

@@ -80,6 +80,12 @@ body[data-theme="light"] {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Dropdowns must be above all other glass panels including task cards */
+.filter-dropdown,
+.sort-dropdown {
+    z-index: 10000 !important;
+}
+
 .leftPanel {
     position: fixed;
     left: 15px;
@@ -93,9 +99,9 @@ body[data-theme="light"] {
     flex-direction: column;
     align-items: center; /* Центрируем по горизонтали */
     justify-content: space-between; /* Расталкиваем верхнюю группу и настройки по краям */
-    
+
     width: 70px;
-    height: 500px; 
+    height: 500px;
     padding: 20px 0; /* Отступы сверху и снизу, чтобы иконки не прилипали к краям стекла */
     box-sizing: border-box;
 }
@@ -103,9 +109,9 @@ body[data-theme="light"] {
 .panel-top-group {
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    width: 100%; 
-    gap: 0; 
+    align-items: center;
+    width: 100%;
+    gap: 0;
 }
 
 /* === ВЕРХНЯЯ ПАНЕЛЬ === */
@@ -128,7 +134,7 @@ body[data-theme="light"] {
 #rectangle-top-panel h1 {
     margin-left: 10px;
     font-size: 35px;
-    font-weight: 200; 
+    font-weight: 200;
     font-family: 'Nunito', monospace;
     color: #a8a5a5;
     white-space: nowrap;
@@ -151,9 +157,9 @@ body[data-theme="light"] {
     cursor: pointer;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    margin: 0; 
+    margin: 0;
 }
 
 .icon-svg {
@@ -235,18 +241,19 @@ body[data-theme="light"] {
     width: 1100px;
     height: calc(100vh - 140px);
     padding: 0 20px;
-    
+
     display: flex;
     flex-wrap: wrap;
-    
-    align-items: flex-start; 
+
+    align-items: flex-start;
     align-content: flex-start;
     justify-content: flex-start;
-    
+
     gap: 15px;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 5;
+    overflow: visible;
 }
 
 .tasks-container::-webkit-scrollbar {
@@ -271,6 +278,7 @@ body[data-theme="light"] {
     overflow: hidden;
     max-height: 500px;
     transition: opacity 0.2s ease, filter 0.2s ease, max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
 .task-card.deleting {
@@ -358,7 +366,7 @@ html[data-theme="light"] .icon:hover .icon-svg circle {
 }
 
 html[data-theme="light"] .icon .img-default {
-    filter: brightness(0); 
+    filter: brightness(0);
 }
 
 html[data-theme="light"] .task-card {
@@ -376,4 +384,365 @@ html[data-theme="light"] .task-footer-dates {
 html[data-theme="light"] .details-btn {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для .filter-button-wrapper больше не нужны, так как кнопки перемещены в tasks-dark-header */
+/* Удалён старый класс .filter-button-wrapper */
+
+.filter-dropdown-container {
+    position: relative;
+    z-index: 100;
+}
+
+.sort-dropdown-container {
+    position: relative;
+    z-index: 100;
+}
+
+.filter-toggle-btn {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    background: transparent !important;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0;
+}
+
+.sort-toggle-btn {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    background: transparent !important;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0;
+}
+
+.filter-toggle-btn .icon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.filter-toggle-btn .icon-svg circle {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 2;
+    stroke-dasharray: 120 400;
+    stroke-dashoffset: 120;
+    transition: stroke-dashoffset 1.3s, opacity 0s ease-out;
+}
+
+.filter-toggle-btn .img-default {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.filter-toggle-btn:hover {
+    transform: translateY(-2px);
+}
+
+.filter-toggle-btn:hover .icon-svg circle {
+    transition: stroke-dashoffset 1.2s ease-in-out;
+    stroke-dashoffset: -280;
+    opacity: 1;
+    stroke: rgb(119, 119, 119);
+}
+
+.filter-toggle-btn:hover .img-default {
+    transform: scale(1.1);
+}
+
+.filter-toggle-btn .icon-text {
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%) translateX(15px);
+    font-family: 'Nunito', monospace;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+    font-weight: 200;
+    text-shadow: 0 2px 4px rgb(51, 51, 51);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    visibility: hidden;
+}
+
+.filter-toggle-btn:hover .icon-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Стили для кнопки сортировки */
+.sort-toggle-btn .icon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sort-toggle-btn .icon-svg circle {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 2;
+    stroke-dasharray: 120 400;
+    stroke-dashoffset: 120;
+    transition: stroke-dashoffset 1.3s, opacity 0s ease-out;
+}
+
+.sort-toggle-btn .img-default {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.sort-toggle-btn:hover {
+    transform: translateY(-2px);
+}
+
+.sort-toggle-btn:hover .icon-svg circle {
+    transition: stroke-dashoffset 1.2s ease-in-out;
+    stroke-dashoffset: -280;
+    opacity: 1;
+    stroke: rgb(119, 119, 119);
+}
+
+.sort-toggle-btn:hover .img-default {
+    transform: scale(1.1);
+}
+
+.sort-toggle-btn .icon-text {
+    position: absolute;
+    left: 110%;
+    top: 50%;
+    transform: translateY(-50%) translateX(15px);
+    font-family: 'Nunito', monospace;
+    white-space: nowrap;
+    color: white;
+    font-size: 20px;
+    font-weight: 200;
+    text-shadow: 0 2px 4px rgb(51, 51, 51);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    visibility: hidden;
+}
+
+.sort-toggle-btn:hover .icon-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 100%; /* Открывается вниз от кнопки */
+    left: 0;
+    min-width: 180px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+    animation: fadeAnimation 0.2s ease;
+    z-index: 10000 !important;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.sort-dropdown {
+    position: absolute;
+    top: 100%; /* Открывается вниз от кнопки */
+    left: 0;
+    min-width: 180px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+    animation: fadeAnimation 0.2s ease;
+    z-index: 10000 !important;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.filter-option {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-family: 'Nunito', monospace;
+    font-size: 14px;
+    font-weight: 250;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+    border-radius: 8px;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.filter-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.filter-option.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.sort-option {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-family: 'Nunito', monospace;
+    font-size: 14px;
+    font-weight: 250;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+    border-radius: 8px;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sort-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.sort-option.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.sort-icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: brightness(0) invert(0);
+    margin-left: 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.sort-icon-img:hover {
+    /* No hover effect on the icon */
+}
+
+html[data-theme="light"] .sort-icon-img {
+    filter: none;
+}
+
+/* Светлая тема для фильтра */
+html[data-theme="light"] .filter-toggle-btn .icon-svg circle {
+    stroke: rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="light"] .filter-toggle-btn:hover .icon-svg circle {
+    stroke: #555;
+}
+
+html[data-theme="light"] .filter-toggle-btn .img-default {
+    filter: brightness(0);
+}
+
+html[data-theme="light"] .filter-toggle-btn .icon-text {
+    color: #333;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+html[data-theme="light"] .filter-dropdown {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .filter-option {
+    color: #333;
+}
+
+html[data-theme="light"] .filter-option:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .filter-option.active {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* Светлая тема для сортировки */
+html[data-theme="light"] .sort-toggle-btn .icon-svg circle {
+    stroke: rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="light"] .sort-toggle-btn:hover .icon-svg circle {
+    stroke: #555;
+}
+
+html[data-theme="light"] .sort-toggle-btn .img-default {
+    filter: brightness(0);
+}
+
+html[data-theme="light"] .sort-toggle-btn .icon-text {
+    color: #333;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+html[data-theme="light"] .sort-dropdown {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .sort-option {
+    color: #333;
+}
+
+html[data-theme="light"] .sort-option:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="light"] .sort-option.active {
+    background: rgba(0, 0, 0, 0.15);
 }

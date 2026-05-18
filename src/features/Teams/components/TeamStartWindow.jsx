@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import { useTranslation } from '../../../i18n/LanguageContext'
@@ -49,7 +49,6 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     }
 
     const handleSelectTeam = (team) => {
-        // Загружаем актуальные данные команды перед открытием профиля
         getTeamById(team.id).then(updatedTeam => {
             setCurrentTeam(updatedTeam)
         }).catch(err => {
@@ -59,6 +58,7 @@ export default function TeamStartWindow({ isOpen, onClose }) {
     }
 
     const handleBackToList = () => {
+        loadTeams()
         setCurrentTeam(null)
     }
 
@@ -107,10 +107,10 @@ export default function TeamStartWindow({ isOpen, onClose }) {
                                 <div className="team-item-logo">
                                     <img
                                         src={team.avatarUrl || team.AvatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'}
-                                        alt={team.name}
+                                        alt={team.name || team.Name}
                                     />
                                 </div>
-                                <span className="team-item-name">{team.name}</span>
+                                <span className="team-item-name">{team.name || team.Name}</span>
                             </div>
                         ))
                     )}

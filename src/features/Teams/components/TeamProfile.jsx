@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
-import { getTeamById, addUserToTeam, getUsers, removeUserFromTeam, changeTeamLeader, deleteTeam, deleteTeamTasks } from '../../../services/api'
+import { getTeamById, addUserToTeam, getUsers, removeUserFromTeam, changeTeamLeader, deleteTeam, deleteTeamTasks, uploadTeamAvatar, updateTeamName } from '../../../services/api'
 import TeamTasksWindow from './TeamTasksWindow'
 import AddMemberModal from './AddMemberModal'
 import TeamMembersModal from './TeamMembersModal'
@@ -18,6 +18,16 @@ export default function TeamProfile({ teamData, onClose, onRefresh }) {
     const [isLoading, setIsLoading] = useState(true)
     const [allUsers, setAllUsers] = useState([])
     const [existingMemberIds, setExistingMemberIds] = useState([])
+
+    // States for avatar change
+    const fileInputRef = useRef(null)
+    const [isUploading, setIsUploading] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
+
+    // States for name editing
+    const [isEditingName, setIsEditingName] = useState(false)
+    const [editedName, setEditedName] = useState('')
+    const [isSavingName, setIsSavingName] = useState(false)
 
     // Состояния для модальных окон
     const [showLeaveConfirm, setShowLeaveConfirm] = useState(false)
@@ -117,6 +127,105 @@ export default function TeamProfile({ teamData, onClose, onRefresh }) {
         }
     }
 
+    // Avatar change handlers
+    const handleAvatarClick = () => {
+        if (!isUploading && isLeader) {
+            fileInputRef.current.click()
+        }
+    }
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Пожалуйста, выберите изображение')
+                return
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Размер изображения не должен превышать 5МБ')
+                return
+            }
+
+            setIsUploading(true)
+            setUploadProgress(0)
+
+            try {
+                // Upload to server
+                const result = await uploadTeamAvatar(currentTeamData.id, file)
+
+                // Update local state with new avatar (both casing variants)
+                setCurrentTeamData(prevData => ({
+                    ...prevData,
+                    AvatarUrl: result.AvatarUrl || result.avatarUrl,
+                    avatarUrl: result.avatarUrl || result.AvatarUrl
+                }))
+                setIsUploading(false)
+                setUploadProgress(100)
+
+                // Refresh parent component's team list
+                onRefresh()
+
+                // Reset file input
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = ''
+                }
+            } catch (error) {
+                console.error('Ошибка при загрузке аватарки:', error)
+                setIsUploading(false)
+                alert('Не удалось загрузить аватарку')
+            }
+        }
+    }
+
+    // Name editing handlers
+    const handleNameClick = () => {
+        if (isLeader) {
+            setEditedName(currentTeamData.name || currentTeamData.Name)
+            setIsEditingName(true)
+        }
+    }
+
+    const handleCancelEditName = () => {
+        setIsEditingName(false)
+        setEditedName('')
+    }
+
+    const handleSaveName = async () => {
+        if (!editedName.trim()) {
+            alert('Введите название команды')
+            return
+        }
+
+        setIsSavingName(true)
+        try {
+            const teamDataUpdate = {
+                LeaderId: currentTeamData.leaderId || currentTeamData.LeaderId,
+                teamId: currentTeamData.id,
+                Name: editedName.trim(),
+                Description: currentTeamData.description || currentTeamData.Description,
+                AvatarUrl: currentTeamData.avatarUrl || currentTeamData.AvatarUrl
+            }
+
+            const result = await updateTeamName(currentTeamData.id, teamDataUpdate)
+            // Update local state with both casing variants
+            setCurrentTeamData(prevData => ({
+                ...prevData,
+                name: editedName.trim(),
+                Name: editedName.trim()
+            }))
+            setIsEditingName(false)
+            setEditedName('')
+
+            // Refresh parent component's team list to show updated name
+            onRefresh()
+        } catch (error) {
+            console.error('Ошибка при сохранении названия:', error)
+            alert('Не удалось сохранить название')
+        } finally {
+            setIsSavingName(false)
+        }
+    }
+
     if (!currentTeamData || isLoading) return null
 
     if (isTasksOpen) {
@@ -172,14 +281,76 @@ export default function TeamProfile({ teamData, onClose, onRefresh }) {
                                 </button>
                             </div>
                         )}
-                        <div className="team-logo-container">
-                            <img
-                                src={currentTeamData.avatarUrl || currentTeamData.AvatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'}
-                                alt="Logo"
-                                className="team-logo-img"
+                        <div
+                            className={`team-logo-container ${isLeader ? 'editable-avatar' : ''}`}
+                            onClick={handleAvatarClick}
+                        >
+                            {isUploading && (
+                                <div className="avatar-loading">
+                                    <div className="upload-progress" style={{width: `${uploadProgress}%`}}></div>
+                                    <span className="progress-text">{uploadProgress}%</span>
+                                </div>
+                            )}
+                            {!isUploading && (
+                                <img
+                                    src={currentTeamData.AvatarUrl || currentTeamData.avatarUrl || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-5irPY5zzxpbRCQhMvD6dI3gv8iSDO2WDxA&s'}
+                                    alt="Logo"
+                                    className="team-logo-img"
+                                />
+                            )}
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                                accept="image/*"
+                                style={{display: 'none'}}
+                                disabled={isUploading}
                             />
                         </div>
-                        <header className="team-name-title">{currentTeamData.name}</header>
+
+                        {isEditingName ? (
+                            <div className="team-name-edit-container">
+                                <div className="team-name-edit-wrapper">
+                                    <input
+                                        type="text"
+                                        className="team-name-edit-input"
+                                        value={editedName}
+                                        onChange={(e) => setEditedName(e.target.value)}
+                                        autoFocus
+                                        disabled={isSavingName}
+                                    />
+                                </div>
+                                <div className="team-name-edit-buttons">
+                                    <button
+                                        className="team-name-cancel-btn-red"
+                                        onClick={handleCancelEditName}
+                                        disabled={isSavingName}
+                                    >
+                                        Отмена
+                                    </button>
+                                    <button
+                                        className="team-name-save-btn"
+                                        onClick={handleSaveName}
+                                        disabled={isSavingName}
+                                    >
+                                        Сохранить
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <header
+                                className={`team-name-title ${isLeader ? 'editable-name' : ''}`}
+                                onClick={handleNameClick}
+                            >
+                                <span className="name-text-wrapper">{currentTeamData.name || currentTeamData.Name}</span>
+                                {isLeader && (
+                                    <div className="edit-button-overlay">
+                                        Редактировать
+                                        <img src="https://img.icons8.com/?size=96&id=TGKHLKPBB4J8&format=png" alt="Edit" />
+                                    </div>
+                                )}
+                            </header>
+                        )}
                     </div>
 
                     {currentTeamData.description && (

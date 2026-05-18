@@ -21,6 +21,12 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
     const [errorPriority, setErrorPriority] = useState('')
     const [errorDeadline, setErrorDeadline] = useState('')
 
+    const [titleShake, setTitleShake] = useState(false)
+    const [descriptionShake, setDescriptionShake] = useState(false)
+
+    const titleCounterRef = useRef(null)
+    const descriptionCounterRef = useRef(null)
+
     useEffect(() => {
         if (!isOpen) return
 
@@ -126,6 +132,18 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
             isValid = false
         }
 
+        if (title.length > 200) {
+            setTitleShake(true)
+            setTimeout(() => setTitleShake(false), 300)
+            isValid = false
+        }
+
+        if (description.length > 1000) {
+            setDescriptionShake(true)
+            setTimeout(() => setDescriptionShake(false), 300)
+            isValid = false
+        }
+
         if (!priority) {
             setErrorPriority('Выберите важность')
             isValid = false
@@ -177,7 +195,7 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
 
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
 
-                    <div className="field-wrapper">
+                    <div className="field-wrapper input-with-counter">
                         <input
                             type="text"
                             placeholder={t('taskTitle')}
@@ -188,16 +206,26 @@ export default function EditTaskModal({ task, isOpen, onClose, onSave }) {
                             }}
                             className={errorTitle ? 'input-error' : ''}
                             autoFocus
+                            maxLength={250}
                         />
                         {errorTitle && <span className="error-message">{errorTitle}</span>}
+                        <span ref={titleCounterRef} className={`char-counter ${title.length > 200 ? 'char-counter-error' : ''} ${titleShake ? 'shake' : ''}`}>
+                            {title.length}/200
+                        </span>
                     </div>
 
-                    <textarea
-                        placeholder={t('taskDescription')}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        className="resizable-textarea"
-                    />
+                    <div className="field-wrapper custom-scrollbar input-with-counter">
+                        <textarea
+                            placeholder={t('taskDescription')}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="resizable-textarea"
+                            maxLength={1050}
+                        />
+                        <span ref={descriptionCounterRef} className={`char-counter ${description.length > 1000 ? 'char-counter-error' : ''} ${descriptionShake ? 'shake' : ''}`}>
+                            {description.length}/1000
+                        </span>
+                    </div>
 
                     <div className="priority-selector field-wrapper">
                         <label className="field-label">{t('priority')}:</label>

@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles.css'
 
-export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
+export default function TaskCard({ task, onEdit, onDelete, onViewDetails, onCloseTask, onReopenTask }) {
     const formatDate = (dateString) => {
         if (!dateString) return ''
         const date = new Date(dateString)
@@ -24,6 +24,9 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
 
     const priorityColor = getPriorityColor(task.priority)
 
+    // Проверяем статус задачи - закрыта ли она
+    const isClosed = task.status === 'done' || task.isClosed === true
+
     return (
         <div className="task-card glass-panel">
             <div className="task-header">
@@ -44,8 +47,15 @@ export default function TaskCard({ task, onEdit, onDelete, onViewDetails }) {
                 </div>
             </div>
 
+            {/* Кнопки Закрыть/Переоткрыть */}
+            <div className="task-action-buttons">
+                {!isClosed ? (
+                    <button className="close-task-btn" onClick={() => onCloseTask(task)}>Закрыть</button>
+                ) : (
+                    <button className="reopen-task-btn" onClick={() => onReopenTask(task)}>Переоткрыть</button>
+                )}
+            </div>
 
-            
             <div className="task-footer-dates">
                 <div className="date-row">
                     <span className="task-date-label">
