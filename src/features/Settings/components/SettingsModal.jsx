@@ -5,7 +5,7 @@ import { useTranslation } from '../../../i18n/LanguageContext';
 
 function SettingsModal({ isOpen, onClose }) {
     const { t, language, setLanguage } = useTranslation();
-    
+
     const loadSettings = () => {
         const saved = localStorage.getItem('appSettings');
         if (saved) {
@@ -39,7 +39,7 @@ function SettingsModal({ isOpen, onClose }) {
     const applySettingsToDOM = (newSettings) => {
         applyTheme(newSettings.darkTheme);
         applyAnimations(newSettings.animations);
-        
+
         if (newSettings.language && newSettings.language !== language) {
             setLanguage(newSettings.language);
         }
@@ -83,19 +83,19 @@ function SettingsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="settings-container custom-scrollbar">
-                    
+
                     <div className="settings-section">
                         <h3 className="section-title">{t('appearance')}</h3>
-                        
+
                         <div className="setting-item">
                             <div className="setting-info">
                                 <p className="setting-label">{t('darkTheme')}</p>
                                 <p className="setting-desc">{t('darkThemeDesc')}</p>
                             </div>
                             <label className="toggle-switch">
-                                <input 
-                                    type="checkbox" 
-                                    checked={settings.darkTheme} 
+                                <input
+                                    type="checkbox"
+                                    checked={settings.darkTheme}
                                     onChange={() => handleToggle('darkTheme')}
                                 />
                                 <span className="toggle-slider"></span>
@@ -108,9 +108,9 @@ function SettingsModal({ isOpen, onClose }) {
                                 <p className="setting-desc">{t('animationsDesc')}</p>
                             </div>
                             <label className="toggle-switch">
-                                <input 
-                                    type="checkbox" 
-                                    checked={settings.animations} 
+                                <input
+                                    type="checkbox"
+                                    checked={settings.animations}
                                     onChange={() => handleToggle('animations')}
                                 />
                                 <span className="toggle-slider"></span>
@@ -120,16 +120,16 @@ function SettingsModal({ isOpen, onClose }) {
 
                     <div className="settings-section">
                         <h3 className="section-title">{t('notificationsSection')}</h3>
-                        
+
                         <div className="setting-item">
                             <div className="setting-info">
                                 <p className="setting-label">{t('notifications')}</p>
                                 <p className="setting-desc">{t('notificationsDesc')}</p>
                             </div>
                             <label className="toggle-switch">
-                                <input 
-                                    type="checkbox" 
-                                    checked={settings.notifications} 
+                                <input
+                                    type="checkbox"
+                                    checked={settings.notifications}
                                     onChange={() => handleToggle('notifications')}
                                 />
                                 <span className="toggle-slider"></span>
@@ -146,15 +146,16 @@ function SettingsModal({ isOpen, onClose }) {
                                 <p className="setting-label">{t('language')}</p>
                                 <p className="setting-desc">{t('languageDesc')}</p>
                             </div>
-                            <select 
-                                className="settings-select" 
-                                value={settings.language || language} 
+                            <select
+                                className="settings-select"
+                                value={settings.language || language}
                                 onChange={(e) => handleLanguageChange(e.target.value)}
                             >
                                 <option value="ru">Русский</option>
                                 <option value="en">English</option>
                                 <option value="tt">Татарча</option>
                                 <option value="tr">Türkçe</option>
+                                <option value="tk">Türkmençe</option>
                             </select>
                         </div>
                     </div>
@@ -162,7 +163,7 @@ function SettingsModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="modal-buttons settings-buttons">
-                    <button className="btn-cancel" onClick={onClose} 
+                    <button className="btn-cancel" onClick={onClose}
                     style=
                     {{ borderColor: 'rgba(255, 255, 255, 0.3)' , width: '50%', margin: '0 auto'}}>
                         <span className="btn-text">{t('cancel')}</span>

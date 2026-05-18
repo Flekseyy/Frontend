@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
+import { useTranslation } from '../../../i18n/LanguageContext'
 
 function ChangePasswordModal({ isOpen, onClose }) {
+    const { t } = useTranslation()
     const [oldPass, setOldPass] = useState('')
     const [newPass, setNewPass] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
@@ -15,26 +17,26 @@ function ChangePasswordModal({ isOpen, onClose }) {
         setError('')
 
         if (newPass.length < 6) {
-            setError('Новый пароль должен быть не менее 6 символов')
+            setError(t('newPasswordMinLength'))
             return
         }
 
         if (newPass !== confirmPass) {
-            setError('Новые пароли не совпадают')
+            setError(t('newPasswordsDoNotMatch'))
             return
         }
 
         console.log('Смена пароля:', { oldPass, newPass })
-        alert('Пароль успешно изменен!')
+        alert(t('passwordChanged'))
         onClose()
     }
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content glass-panel" onClick={(e) => e.stopPropagation()} style={{ width: '400px' }}>
-                
+
                 <div className="modal-header">
-                    <header>Смена пароля</header>
+                    <header>{t('changePasswordTitle')}</header>
                     <button className="common-close-btn" onClick={onClose}>
                         <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close"/>
                     </button>
@@ -51,7 +53,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                         <input
                             type="password"
                             className="password-input"
-                            placeholder="Введите старый пароль"
+                            placeholder={t('enterOldPassword')}
                             value={oldPass}
                             onChange={(e) => setOldPass(e.target.value)}
                             required
@@ -62,7 +64,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                         <input
                             type="password"
                             className="password-input"
-                            placeholder="Введите новый пароль"
+                            placeholder={t('enterNewPassword')}
                             value={newPass}
                             onChange={(e) => setNewPass(e.target.value)}
                             required
@@ -73,7 +75,7 @@ function ChangePasswordModal({ isOpen, onClose }) {
                         <input
                             type="password"
                             className="password-input"
-                            placeholder="Повторите новый пароль"
+                            placeholder={t('repeatNewPassword')}
                             value={confirmPass}
                             onChange={(e) => setConfirmPass(e.target.value)}
                             required
@@ -81,23 +83,23 @@ function ChangePasswordModal({ isOpen, onClose }) {
                     </div>
 
                     <div className="modal-buttons" style={{ marginTop: '10px' }}>
-                        <button 
-                            type="button" 
-                            className="btn-cancel" 
+                        <button
+                            type="button"
+                            className="btn-cancel"
                             onClick={onClose}
-                            style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} 
+                            style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
                         >
-                            <span className="btn-text">Отмена</span>
+                            <span className="btn-text">{t('cancel')}</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="btn-save"
                             style={{ borderColor: 'rgb(9, 135, 101)' }}
                         >
-                            <span className="btn-text">Сменить</span>
+                            <span className="btn-text">{t('changePasswordBtn')}</span>
                             <img src="https://img.icons8.com/?size=96&id=UZxwz5MMFO8j&format=png" alt="Check" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>

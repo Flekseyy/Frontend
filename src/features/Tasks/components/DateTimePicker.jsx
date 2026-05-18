@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import '../styles.css';
+import { useTranslation } from '../../../i18n/LanguageContext';
 
 const DateTimePicker = ({ selectedDate, onDateChange, selectedTime, onTimeChange }) => {
+  const { t } = useTranslation();
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  
+
   const months = [
-    "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    t('january'), t('february'), t('march'), t('april'), t('may'), t('june'),
+    t('july'), t('august'), t('september'), t('october'), t('november'), t('december')
   ];
 
-  const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+  const daysOfWeek = [t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat'), t('sun')];
 
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const days = new Date(year, month + 1, 0).getDate();
-    const firstDay = new Date(year, month, 1).getDay(); 
+    const firstDay = new Date(year, month, 1).getDay();
     // getDay(): 0 = Вс, 1 = Пн. Нам нужно чтобы Пн был 0-м индексом для массива дней
     const startOffset = firstDay === 0 ? 6 : firstDay - 1;
-    
+
     return { days, startOffset };
   };
 
@@ -62,14 +64,14 @@ const DateTimePicker = ({ selectedDate, onDateChange, selectedTime, onTimeChange
     for (let day = 1; day <= days; day++) {
       const isSelected = selectedDate && isSameDay(selectedDate, new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day));
       const isCurrentDay = isToday(day);
-      
+
       let className = "calendar-day";
       if (isSelected) className += " selected";
       if (isCurrentDay) className += " today";
 
       calendarCells.push(
-        <div 
-          key={day} 
+        <div
+          key={day}
           className={className}
           onClick={() => handleDayClick(day)}
         >
@@ -91,21 +93,21 @@ const DateTimePicker = ({ selectedDate, onDateChange, selectedTime, onTimeChange
           </span>
           <button type="button" className="nav-btn next" onClick={handleNextMonth}></button>
         </div>
-        
+
         <div className="weekdays">
           {daysOfWeek.map(day => <div key={day} className="weekday">{day}</div>)}
         </div>
-        
+
         <div className="days-grid">
           {renderCalendarDays()}
         </div>
       </div>
 
       <div className="time-input-container">
-        <label>Время</label>
-        <input 
-          type="time" 
-          value={selectedTime} 
+        <label>{t('time')}</label>
+        <input
+          type="time"
+          value={selectedTime}
           onChange={(e) => onTimeChange(e.target.value)}
           className="time-input"
         />

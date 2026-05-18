@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import '../styles.css'
 import '../../../styles/common-ui.css'
 import { getUserById } from '../../../services/api'
+import { useTranslation } from '../../../i18n/LanguageContext'
 
 export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existingMemberIds = [], onMemberAdded }) {
+    const { t } = useTranslation()
     const [inputValue, setInputValue] = useState('')
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
@@ -46,13 +48,13 @@ export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existin
         setStatusCode(null)
         const userId = parseInt(inputValue.trim(), 10)
         if (isNaN(userId)) {
-            setError('ID должен быть числом')
+            setError(t('userIdMustBeNumber'))
             setStatusCode('error')
             return
         }
         const existingIds = (existingMemberIds || []).map(id => Number(id))
         if (existingIds.includes(userId)) {
-            setWarning('Пользователь уже состоит в команде')
+            setWarning(t('userAlreadyInTeam'))
             setStatusCode('warning')
             return
         }
@@ -60,7 +62,7 @@ export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existin
         try {
             const user = await getUserById(userId)
             if (!user || !user.id) {
-                setError('Пользователь не найден')
+                setError(t('userNotFound'))
                 setStatusCode('error')
                 setIsLoading(false)
                 return
@@ -68,7 +70,7 @@ export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existin
             await onAdd(teamId, user.id)
             setInputValue('')
             setIsLoading(false)
-            setSuccess('Пользователь успешно добавлен!')
+            setSuccess(t('memberAddedSuccess'))
             setStatusCode('success')
             setNeedsRefresh(true)
 
@@ -121,14 +123,14 @@ export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existin
                     <img src="https://img.icons8.com/?size=96&id=X3PpUHcCmmeD&format=png" alt="Close" />
                 </button>
 
-                <header>Добавить участника</header>
+                <header>{t('addMemberTitle')}</header>
 
                 <form onSubmit={(e) => e.preventDefault()}>
                     <input
                         ref={inputRef}
                         type="text"
                         className={`add-member-input ${statusCode === 'error' ? 'input-error' : ''} ${statusCode === 'success' ? 'input-success' : ''} ${statusCode === 'warning' ? 'input-warning' : ''}`}
-                        placeholder="Введите ID пользователя"
+                        placeholder={t('enterUserId')}
                         value={inputValue}
                         onChange={handleInputChange}
                         onFocus={handleInputFocus}
@@ -167,13 +169,13 @@ export default function AddMemberModal({ isOpen, onClose, onAdd, teamId, existin
                             onClick={handleSubmit}
                             disabled={isLoading}
                         >
-                            <span className="btn-text">{isLoading ? '...' : 'Добавить'}</span>
+                            <span className="btn-text">{isLoading ? '...' : t('addUserBtn')}</span>
                             <img src="https://img.icons8.com/?size=96&id=isUGx8n5CHFi&format=png" alt="Add" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>
 
                         <button className="btn-cancel" onClick={handleClose} type="button" style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} disabled={isLoading}>
-                            <span className="btn-text">Отмена</span>
+                            <span className="btn-text">{t('cancel')}</span>
                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon" />
                             <div className="btn-bg-slide"></div>
                         </button>

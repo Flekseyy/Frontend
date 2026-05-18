@@ -207,31 +207,31 @@ function AdminPanel({ isOpen, onClose }) {
                             className={`admin-sidebar-btn ${activeSection === 'dashboard' ? 'active' : ''}`}
                             onClick={() => setActiveSection('dashboard')}
                         >
-                            📊 Дашборд
+                            📊 {t('dashboard')}
                         </button>
                         <button
                             className={`admin-sidebar-btn ${activeSection === 'users' ? 'active' : ''}`}
                             onClick={() => setActiveSection('users')}
                         >
-                            👥 Пользователи
+                            👥 {t('users')}
                         </button>
                         <button
                             className={`admin-sidebar-btn ${activeSection === 'roles' ? 'active' : ''}`}
                             onClick={() => setActiveSection('roles')}
                         >
-                            🏷️ Роли
+                            🏷️ {t('roles')}
                         </button>
                         <button
                             className={`admin-sidebar-btn ${activeSection === 'assignments' ? 'active' : ''}`}
                             onClick={() => setActiveSection('assignments')}
                         >
-                            📝 Задачи
+                            📝 {t('assignments')}
                         </button>
                         <button
                             className={`admin-sidebar-btn ${activeSection === 'teams' ? 'active' : ''}`}
                             onClick={() => setActiveSection('teams')}
                         >
-                            🎯 Команды
+                            🎯 {t('teams')}
                         </button>
                     </div>
 
@@ -239,23 +239,23 @@ function AdminPanel({ isOpen, onClose }) {
                         {/* Dashboard Section */}
                         <div className={`admin-section ${activeSection === 'dashboard' ? 'active' : ''}`}>
                             {loading ? (
-                                <p>Загрузка...</p>
+                                <p>{t('loading')}</p>
                             ) : stats ? (
                                 <div className="admin-stats-grid">
                                     <div className="admin-stat-card">
-                                        <h3>Пользователи</h3>
+                                        <h3>{t('users')}</h3>
                                         <div className="stat-value">{stats.usersCount}</div>
                                     </div>
                                     <div className="admin-stat-card">
-                                        <h3>Роли</h3>
+                                        <h3>{t('roles')}</h3>
                                         <div className="stat-value">{stats.rolesCount}</div>
                                     </div>
                                     <div className="admin-stat-card">
-                                        <h3>Задачи</h3>
+                                        <h3>{t('assignments')}</h3>
                                         <div className="stat-value">{stats.assignmentsCount}</div>
                                     </div>
                                     <div className="admin-stat-card">
-                                        <h3>Команды</h3>
+                                        <h3>{t('teams')}</h3>
                                         <div className="stat-value">{stats.teamsCount}</div>
                                     </div>
                                 </div>
@@ -265,12 +265,12 @@ function AdminPanel({ isOpen, onClose }) {
                         {/* Users Section */}
                         <div className={`admin-section ${activeSection === 'users' ? 'active' : ''}`}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h3>Управление пользователями</h3>
+                                <h3>{t('manageUsers')}</h3>
                                 <button
                                     className="btn-save"
                                     onClick={() => { setShowUserForm(true); setEditingUser(null); setUserForm({ username: '', email: '', password: '', roleId: 2 }) }}
                                 >
-                                    <span className="btn-text">Добавить</span>
+                                    <span className="btn-text">{t('add')}</span>
                                     <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Add" className="btn-icon"/>
                                     <div className="btn-bg-slide"></div>
                                 </button>
@@ -278,9 +278,9 @@ function AdminPanel({ isOpen, onClose }) {
 
                             {showUserForm && (
                                 <div className="admin-form">
-                                    <h3>{editingUser ? 'Редактировать пользователя' : 'Новый пользователь'}</h3>
+                                    <h3>{editingUser ? t('editUser') : t('newUser')}</h3>
                                     <div className="admin-form-group">
-                                        <label>Имя пользователя</label>
+                                        <label>{t('userName')}</label>
                                         <input
                                             value={userForm.username}
                                             onChange={(e) => setUserForm({...userForm, username: e.target.value})}
@@ -296,7 +296,7 @@ function AdminPanel({ isOpen, onClose }) {
                                     </div>
                                     {!editingUser && (
                                         <div className="admin-form-group">
-                                            <label>Пароль</label>
+                                            <label>{t('password')}</label>
                                             <input
                                                 type="password"
                                                 value={userForm.password}
@@ -305,7 +305,7 @@ function AdminPanel({ isOpen, onClose }) {
                                         </div>
                                     )}
                                     <div className="admin-form-group">
-                                        <label>Роль</label>
+                                        <label>{t('roles')}</label>
                                         <select
                                             value={userForm.roleId}
                                             onChange={(e) => setUserForm({...userForm, roleId: parseInt(e.target.value)})}
@@ -317,12 +317,12 @@ function AdminPanel({ isOpen, onClose }) {
                                     </div>
                                     <div className="admin-form-buttons">
                                         <button className="btn-cancel" onClick={() => { setShowUserForm(false); setEditingUser(null); }}>
-                                            <span className="btn-text">Отмена</span>
+                                            <span className="btn-text">{t('cancel')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
                                         <button className="btn-save" onClick={handleSaveUser}>
-                                            <span className="btn-text">Сохранить</span>
+                                            <span className="btn-text">{t('save')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=9419591&format=png" alt="Save" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
@@ -335,10 +335,10 @@ function AdminPanel({ isOpen, onClose }) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Имя</th>
+                                            <th>{t('userName')}</th>
                                             <th>Email</th>
-                                            <th>Роль</th>
-                                            <th>Действия</th>
+                                            <th>{t('roles')}</th>
+                                            <th>{t('actions')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -382,12 +382,12 @@ function AdminPanel({ isOpen, onClose }) {
                         {/* Roles Section */}
                         <div className={`admin-section ${activeSection === 'roles' ? 'active' : ''}`}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h3>Управление ролями</h3>
+                                <h3>{t('manageRoles')}</h3>
                                 <button
                                     className="btn-save"
                                     onClick={() => { setShowRoleForm(true); setEditingRole(null); setRoleForm({ name: '', description: '' }) }}
                                 >
-                                    <span className="btn-text">Добавить</span>
+                                    <span className="btn-text">{t('add')}</span>
                                     <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Add" className="btn-icon"/>
                                     <div className="btn-bg-slide"></div>
                                 </button>
@@ -395,16 +395,16 @@ function AdminPanel({ isOpen, onClose }) {
 
                             {showRoleForm && (
                                 <div className="admin-form">
-                                    <h3>{editingRole ? 'Редактировать роль' : 'Новая роль'}</h3>
+                                    <h3>{editingRole ? t('editRole') : t('newRole')}</h3>
                                     <div className="admin-form-group">
-                                        <label>Название</label>
+                                        <label>{t('roleName')}</label>
                                         <input
                                             value={roleForm.name}
                                             onChange={(e) => setRoleForm({...roleForm, name: e.target.value})}
                                         />
                                     </div>
                                     <div className="admin-form-group">
-                                        <label>Описание</label>
+                                        <label>{t('roleDescription')}</label>
                                         <textarea
                                             value={roleForm.description}
                                             onChange={(e) => setRoleForm({...roleForm, description: e.target.value})}
@@ -412,12 +412,12 @@ function AdminPanel({ isOpen, onClose }) {
                                     </div>
                                     <div className="admin-form-buttons">
                                         <button className="btn-cancel" onClick={() => { setShowRoleForm(false); setEditingRole(null); }}>
-                                            <span className="btn-text">Отмена</span>
+                                            <span className="btn-text">{t('cancel')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
                                         <button className="btn-save" onClick={handleSaveRole}>
-                                            <span className="btn-text">Сохранить</span>
+                                            <span className="btn-text">{t('save')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=9419591&format=png" alt="Save" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
@@ -430,9 +430,9 @@ function AdminPanel({ isOpen, onClose }) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Название</th>
-                                            <th>Описание</th>
-                                            <th>Действия</th>
+                                            <th>{t('roleName')}</th>
+                                            <th>{t('roleDescription')}</th>
+                                            <th>{t('actions')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -465,12 +465,12 @@ function AdminPanel({ isOpen, onClose }) {
                         {/* Assignments Section */}
                         <div className={`admin-section ${activeSection === 'assignments' ? 'active' : ''}`}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h3>Управление задачами</h3>
+                                <h3>{t('manageTasks')}</h3>
                                 <button
                                     className="btn-save"
                                     onClick={() => { setShowAssignmentForm(true); setEditingAssignment(null); setAssignmentForm({ title: '', description: '', priority: 'medium', deadline: '' }) }}
                                 >
-                                    <span className="btn-text">Добавить</span>
+                                    <span className="btn-text">{t('add')}</span>
                                     <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Add" className="btn-icon"/>
                                     <div className="btn-bg-slide"></div>
                                 </button>
@@ -478,34 +478,34 @@ function AdminPanel({ isOpen, onClose }) {
 
                             {showAssignmentForm && (
                                 <div className="admin-form">
-                                    <h3>{editingAssignment ? 'Редактировать задачу' : 'Новая задача'}</h3>
+                                    <h3>{editingAssignment ? t('editTaskAdmin') : t('newTask')}</h3>
                                     <div className="admin-form-group">
-                                        <label>Название</label>
+                                        <label>{t('taskName')}</label>
                                         <input
                                             value={assignmentForm.title}
                                             onChange={(e) => setAssignmentForm({...assignmentForm, title: e.target.value})}
                                         />
                                     </div>
                                     <div className="admin-form-group">
-                                        <label>Описание</label>
+                                        <label>{t('roleDescription')}</label>
                                         <textarea
                                             value={assignmentForm.description}
                                             onChange={(e) => setAssignmentForm({...assignmentForm, description: e.target.value})}
                                         />
                                     </div>
                                     <div className="admin-form-group">
-                                        <label>Приоритет</label>
+                                        <label>{t('priority')}</label>
                                         <select
                                             value={assignmentForm.priority}
                                             onChange={(e) => setAssignmentForm({...assignmentForm, priority: e.target.value})}
                                         >
-                                            <option value="low">Низкий</option>
-                                            <option value="medium">Средний</option>
-                                            <option value="high">Высокий</option>
+                                            <option value="low">{t('lowPriority')}</option>
+                                            <option value="medium">{t('mediumPriority')}</option>
+                                            <option value="high">{t('highPriority')}</option>
                                         </select>
                                     </div>
                                     <div className="admin-form-group">
-                                        <label>Дедлайн</label>
+                                        <label>{t('deadline')}</label>
                                         <input
                                             type="datetime-local"
                                             value={assignmentForm.deadline}
@@ -514,12 +514,12 @@ function AdminPanel({ isOpen, onClose }) {
                                     </div>
                                     <div className="admin-form-buttons">
                                         <button className="btn-cancel" onClick={() => { setShowAssignmentForm(false); setEditingAssignment(null); }}>
-                                            <span className="btn-text">Отмена</span>
+                                            <span className="btn-text">{t('cancel')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
                                         <button className="btn-save" onClick={handleSaveAssignment}>
-                                            <span className="btn-text">Сохранить</span>
+                                            <span className="btn-text">{t('save')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=9419591&format=png" alt="Save" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
@@ -532,10 +532,10 @@ function AdminPanel({ isOpen, onClose }) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Название</th>
-                                            <th>Приоритет</th>
-                                            <th>Статус</th>
-                                            <th>Действия</th>
+                                            <th>{t('taskName')}</th>
+                                            <th>{t('priority')}</th>
+                                            <th>{t('status')}</th>
+                                            <th>{t('actions')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -569,12 +569,12 @@ function AdminPanel({ isOpen, onClose }) {
                         {/* Teams Section */}
                         <div className={`admin-section ${activeSection === 'teams' ? 'active' : ''}`}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                                <h3>Управление командами</h3>
+                                <h3>{t('manageTeams')}</h3>
                                 <button
                                     className="btn-save"
                                     onClick={() => { setShowTeamForm(true); setEditingTeam(null); setTeamForm({ name: '', description: '' }) }}
                                 >
-                                    <span className="btn-text">Добавить</span>
+                                    <span className="btn-text">{t('add')}</span>
                                     <img src="https://img.icons8.com/?size=96&id=1OvPrBUWbMke&format=png" alt="Add" className="btn-icon"/>
                                     <div className="btn-bg-slide"></div>
                                 </button>
@@ -582,16 +582,16 @@ function AdminPanel({ isOpen, onClose }) {
 
                             {showTeamForm && (
                                 <div className="admin-form">
-                                    <h3>{editingTeam ? 'Редактировать команду' : 'Новая команда'}</h3>
+                                    <h3>{editingTeam ? t('editTeam') : t('newTeam')}</h3>
                                     <div className="admin-form-group">
-                                        <label>Название</label>
+                                        <label>{t('teamName')}</label>
                                         <input
                                             value={teamForm.name}
                                             onChange={(e) => setTeamForm({...teamForm, name: e.target.value})}
                                         />
                                     </div>
                                     <div className="admin-form-group">
-                                        <label>Описание</label>
+                                        <label>{t('roleDescription')}</label>
                                         <textarea
                                             value={teamForm.description}
                                             onChange={(e) => setTeamForm({...teamForm, description: e.target.value})}
@@ -599,12 +599,12 @@ function AdminPanel({ isOpen, onClose }) {
                                     </div>
                                     <div className="admin-form-buttons">
                                         <button className="btn-cancel" onClick={() => { setShowTeamForm(false); setEditingTeam(null); }}>
-                                            <span className="btn-text">Отмена</span>
+                                            <span className="btn-text">{t('cancel')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=DXECg4JU1n2x&format=png" alt="Cancel" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
                                         <button className="btn-save" onClick={handleSaveTeam}>
-                                            <span className="btn-text">Сохранить</span>
+                                            <span className="btn-text">{t('save')}</span>
                                             <img src="https://img.icons8.com/?size=96&id=9419591&format=png" alt="Save" className="btn-icon"/>
                                             <div className="btn-bg-slide"></div>
                                         </button>
@@ -617,9 +617,9 @@ function AdminPanel({ isOpen, onClose }) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Название</th>
-                                            <th>Описание</th>
-                                            <th>Действия</th>
+                                            <th>{t('teamName')}</th>
+                                            <th>{t('roleDescription')}</th>
+                                            <th>{t('actions')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
